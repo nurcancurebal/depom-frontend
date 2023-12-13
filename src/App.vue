@@ -10,7 +10,7 @@
         <TheSidebar />
       </v-col>
       <v-col cols="10">
-        <TheContent />
+        <router-view />
       </v-col>
     </v-row>
   </div>
@@ -19,13 +19,11 @@
 <script>
 import TheNavbar from "./components/TheNavbar.vue";
 import TheSidebar from "./components/TheSidebar.vue";
-import TheContent from "./components/TheContent.vue";
 
 export default {
   components: {
     TheNavbar,
     TheSidebar,
-    TheContent,
   },
 };
 </script>

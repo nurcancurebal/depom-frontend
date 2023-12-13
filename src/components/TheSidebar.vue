@@ -8,19 +8,23 @@
       >
         <v-list density="compact" nav style="font-size: 1.4rem">
           <v-list-item
-            prepend-icon="mdi-truck"
-            title="Depo -Stok"
+            prepend-icon="mdi-warehouse"
+            title="Depo - Stok"
             value="depostok"
           />
-          <v-list-item prepend-icon="mdi-notebook" title="Cari" value="cari" />
           <v-list-item
-            prepend-icon="mdi-account"
-            title="Personel"
-            value="personel"
+            prepend-icon="mdi-archive-plus"
+            title="Stok Giriş"
+            value="stokgiris"
+          />
+          <v-list-item
+            prepend-icon="mdi-archive-minus"
+            title="Stok Çıkış"
+            value="stokcikis"
           />
         </v-list>
       </v-navigation-drawer>
-      <v-main style="height: 175px" />
+      <v-main style="height: 155px" />
     </v-layout>
   </v-card>
 </template>
