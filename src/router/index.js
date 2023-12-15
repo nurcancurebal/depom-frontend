@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import DepoStok from "@/views/DepoStok"
 import StokGiris from "@/views/StokGiris"
 import StokCikis from "@/views/StokCikis"
+import Cari from "@/views/Cari"
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: '/stokcikis',
     name: 'StokCikis',
     component: StokCikis
+  },
+  {
+    path: '/cari',
+    name: 'Cari',
+    component: Cari
   },
 ]
 
