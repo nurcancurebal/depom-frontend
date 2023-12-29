@@ -35,14 +35,25 @@
         <v-text-field
           variant="outlined"
           @click="datePickers = !datePickers"
+          v-model="dateFormat"
           v-show="!datePickers"
         />
 
         <v-date-picker
           show-adjacent-months
-          @click="datePickers = !datePickers"
+          v-model="date"
           v-show="datePickers"
         />
+
+        <v-btn
+          :disabled="loading"
+          style="margin: 0 24px; width: 316px; min-width: 316px"
+          plain
+          @click="dateClose"
+          v-show="datePickers"
+        >
+          Kapat
+        </v-btn>
       </v-col>
     </v-row>
 
@@ -136,8 +147,22 @@
 export default {
   data() {
     return {
+      date: null,
+      dateFormat: null,
       datePickers: false,
     };
+  },
+  watch: {
+    date: function (date) {
+      this.dateFormat = `${date.getDate()}.${
+        date.getMonth() + 1
+      }.${date.getFullYear()}`;
+    },
+  },
+  methods: {
+    dateClose() {
+      this.datePickers = !this.datePickers;
+    },
   },
 };
 </script>
