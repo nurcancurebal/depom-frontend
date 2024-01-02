@@ -65,6 +65,18 @@
       </v-col>
 
       <v-col cols="10" style="padding: 0">
+        <v-select clearable :items="items" variant="outlined" />
+      </v-col>
+    </v-row>
+
+    <v-row style="margin: 10px" align="center">
+      <v-col cols="2" style="padding: 0">
+        <v-list-subheader style="padding-inline-end: 0">
+          Alt Kategori:
+        </v-list-subheader>
+      </v-col>
+
+      <v-col cols="10" style="padding: 0">
         <v-text-field variant="outlined" />
       </v-col>
     </v-row>
@@ -85,18 +97,6 @@
       <v-col cols="2" style="padding: 0">
         <v-list-subheader style="padding-inline-end: 0">
           Marka:
-        </v-list-subheader>
-      </v-col>
-
-      <v-col cols="10" style="padding: 0">
-        <v-text-field variant="outlined" />
-      </v-col>
-    </v-row>
-
-    <v-row style="margin: 10px" align="center">
-      <v-col cols="2" style="padding: 0">
-        <v-list-subheader style="padding-inline-end: 0">
-          Model:
         </v-list-subheader>
       </v-col>
 
@@ -150,6 +150,26 @@ export default {
       date: null,
       dateFormat: null,
       datePickers: false,
+      items: [
+        "Meyve & Sebze",
+        "Et & Balık",
+        "Kahvaltılık & Süt Ürünleri",
+        "Temel Gıda",
+        "Hazır Yemek & Donuk",
+        "İçecek",
+        "Dondurma",
+        "Atıştırmalık",
+        "Fırın & Pastane",
+        "Deterjan & Temizlik",
+        "Kağıt Ürünleri",
+        "Kişisel Bakım &  Sağlık",
+        "Bebek",
+        "Ev & Yaşam",
+        "Kırtasiye & Oyuncak",
+        "Çiçek",
+        "Pet Shop",
+        "Elektronik",
+      ],
     };
   },
   watch: {
