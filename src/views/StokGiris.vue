@@ -65,7 +65,12 @@
       </v-col>
 
       <v-col cols="10" style="padding: 0">
-        <v-select clearable :items="items" variant="outlined" />
+        <v-select
+          clearable
+          :items="items"
+          variant="outlined"
+          v-model="selectKategori"
+        />
       </v-col>
     </v-row>
 
@@ -77,7 +82,7 @@
       </v-col>
 
       <v-col cols="10" style="padding: 0">
-        <v-text-field variant="outlined" />
+        <v-select clearable :items="items" variant="outlined" />
       </v-col>
     </v-row>
 
@@ -150,26 +155,127 @@ export default {
       date: null,
       dateFormat: null,
       datePickers: false,
-      items: [
-        "Meyve & Sebze",
-        "Et & Balık",
-        "Kahvaltılık & Süt Ürünleri",
-        "Temel Gıda",
-        "Hazır Yemek & Donuk",
-        "İçecek",
-        "Dondurma",
-        "Atıştırmalık",
-        "Fırın & Pastane",
-        "Deterjan & Temizlik",
-        "Kağıt Ürünleri",
-        "Kişisel Bakım &  Sağlık",
-        "Bebek",
-        "Ev & Yaşam",
-        "Kırtasiye & Oyuncak",
-        "Çiçek",
-        "Pet Shop",
-        "Elektronik",
-      ],
+      selectKategori: "",
+      items: {
+        "Meyve & Sebze": ["Meyve", "Sebze", "Yetiştirme Kiti"],
+        "Et, Tavuk & Balık": [
+          "Kırmızı Et",
+          "Beyaz Et",
+          "Balık ve Deniz Mahsülleri",
+          "Et Şarküteri",
+        ],
+        "Kahvaltılık & Süt Ürünleri": [
+          "Süt",
+          "Peynir",
+          "Yoğurt",
+          "Tereyağı",
+          "Margarin",
+          "Yumurta",
+          "Zeytin",
+          "Sütlü Tatlı ve Krema",
+          "Kahvaltılıklar",
+        ],
+        "Temel Gıda": [
+          "Sıvı Yağ",
+          "Tuz, Baharat ve Harç",
+          "Bulyon",
+          "Konserve",
+          "Sos",
+          "Un",
+          "Şeker",
+          "Sağlıklı Yaşam Ürünleri ",
+        ],
+        "Meze, Hazır Yemek & Donuk": [
+          "Meze",
+          "Paketli Sandviç",
+          "Pratik Yemek",
+          "Dondurulmuş Gıda ",
+        ],
+        İçecek: [
+          "Gazlı İçecek",
+          "Gazsız İçecek",
+          "Çay",
+          "Kahve",
+          "Su",
+          "Maden Suyu",
+        ],
+        Dondurma: ["Kap Dondurma", "Tek Dondurma", "Buz"],
+        Atıştırmalık: [
+          "Kuru Meyve",
+          "Kuru Yemiş",
+          "Cips",
+          "Çikolata",
+          "Gofret",
+          "Bar ve Kaplamalılar",
+          "Bisküvi",
+        ],
+        "Fırın & Pastane": [
+          "Ekmek",
+          "Sabah Sıcakları",
+          "Hamur ve Pasta Malzemeleri",
+          "Yufka, Erişte ve Mantı",
+          "Kuru Pasta",
+          "Pasta",
+          "Galeta, Grissini ve Gevrek",
+        ],
+        "Deterjan & Temizlik": [
+          "Çamaşır Yıkama",
+          "Bulaşık Yıkama",
+          "Genel Temizlik",
+          "Temizlik Malzemeleri",
+          "Banyo Gereçleri",
+          "Çamaşır Gereçleri",
+          "Çöp Poşeti",
+        ],
+        "Kağıt ve Islak Mendil": [
+          "Islak Mendil",
+          "Tuvalet Kağıdı",
+          "Kağıt Havlu",
+          "Peçete",
+          "Kağıt Mendil",
+        ],
+        "Kişisel Bakım, Kozmetik &  Sağlık": [
+          "Güneş Bakım",
+          "Hijyenik Ped",
+          "Ağız Bakım Ürünleri",
+          "Saç Bakım Ürünleri",
+          "Duş, Banyo ve Sabun",
+          "Tıraş Malzemeleri",
+          "Ağda ve Epilasyon",
+        ],
+        Bebek: [
+          "Bebek Bezi",
+          "Bebek Bakım",
+          "Bebek Beslenme",
+          "Bebek Banyo",
+          "Bebek Deterjanı ve Yumuşatıcı",
+          "Bebek Tekstil",
+        ],
+        "Ev & Yaşam": [
+          "Mutfak Eşyaları",
+          "Mobilya ve Dekorayon",
+          "Bahçe ve Piknik Malzemeleri",
+          "Spor ve Outdoor",
+          "Ev Tekstili",
+          "Giyim",
+        ],
+        "Kitap, Kırtasiye & Oyuncak": [
+          "Kitap, Dergi ve Gazete",
+          "Kırtasiye",
+          "Oyuncak",
+        ],
+        Çiçek: ["Canlı Bitki", "Yapay Çiçek"],
+        "Pet Shop": ["Köpek", "Kedi", "Kuş", "Pet Aksesuarları"],
+        Elektronik: [
+          "Telefon ve Aksesuarları",
+          "Bilgisayar ve Aksesuarları",
+          "Beyaz Eşya",
+          "Elektrikli Ev Aletleri",
+          "Oyun Konsolları",
+          "Görüntü ve Ses Sistemleri",
+          "Hobi ve Eğlence",
+        ],
+      },
     };
   },
   watch: {
