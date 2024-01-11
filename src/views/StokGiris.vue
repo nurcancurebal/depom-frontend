@@ -46,10 +46,9 @@
         />
 
         <v-btn
-          :disabled="loading"
           style="margin: 0 24px; width: 316px; min-width: 316px"
           plain
-          @click="dateClose"
+          @click="datePickers = !datePickers"
           v-show="datePickers"
         >
           Kapat
@@ -67,10 +66,15 @@
       <v-col cols="10" style="padding: 0">
         <v-select
           clearable
-          :items="Object.keys(items)"
+          :items="getCategories"
           variant="outlined"
-          v-model="selectItemKey"
-          @click="itemValuesFunction"
+          @click="
+            () => {
+              selectedSubCategory = '';
+              selectedBrand = '';
+            }
+          "
+          v-model="selectedCategory"
         />
       </v-col>
     </v-row>
@@ -86,9 +90,9 @@
         <v-select
           clearable
           variant="outlined"
-          @click="itemValuesFunction"
-          :items="itemValues"
-          v-model="selectItemValue"
+          @click="selectedBrand = ''"
+          :items="getSubCategories"
+          v-model="selectedSubCategory"
         />
       </v-col>
     </v-row>
@@ -113,7 +117,12 @@
       </v-col>
 
       <v-col cols="10" style="padding: 0">
-        <v-text-field variant="outlined" />
+        <v-select
+          clearable
+          variant="outlined"
+          :items="getSubCategoriesWithBrand"
+          v-model="selectedBrand"
+        />
       </v-col>
     </v-row>
 
@@ -162,7 +171,7 @@ export default {
       date: null,
       dateFormat: null,
       datePickers: false,
-      items: {
+      categories: {
         "Meyve & Sebze": {
           Meyve: [
             "Reyondan",
@@ -2614,9 +2623,11 @@ export default {
           ],
         },
       },
-      selectItemKey: "",
-      itemValues: "",
-      selectItemValue: "",
+      selectedCategory: "",
+      subCategories: [],
+      selectedSubCategory: "",
+      selectedBrand: "",
+      brands: [],
     };
   },
   watch: {
@@ -2626,17 +2637,21 @@ export default {
       }.${date.getFullYear()}`;
     },
   },
-  methods: {
-    dateClose() {
-      this.datePickers = !this.datePickers;
+  computed: {
+    getCategories() {
+      return Object.keys(this.categories);
     },
-    itemValuesFunction() {
-      this.selectItemValue = "";
-      for (const iterator of Object.entries(this.items)) {
-        if (iterator[0] == this.selectItemKey) {
-          return (this.itemValues = iterator[1]);
-        }
-      }
+    getSubCategories() {
+      return this.categories?.[this.selectedCategory]
+        ? Object.keys(this.categories?.[this.selectedCategory])
+        : [];
+    },
+    getSubCategoriesWithBrand() {
+      return this.categories?.[this.selectedCategory]?.[
+        this.selectedSubCategory
+      ]
+        ? this.categories?.[this.selectedCategory]?.[this.selectedSubCategory]
+        : [];
     },
   },
 };
