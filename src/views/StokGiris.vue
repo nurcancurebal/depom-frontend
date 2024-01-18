@@ -129,19 +129,44 @@
     <v-row style="margin: 10px" align="center">
       <v-col cols="2" style="padding: 0">
         <v-list-subheader style="padding-inline-end: 0">
-          Miktar:
+          Birim:
         </v-list-subheader>
       </v-col>
 
       <v-col cols="10" style="padding: 0">
-        <v-text-field variant="outlined" />
+        <v-select
+          clearable
+          variant="outlined"
+          :items="[
+            'adet',
+            'bağ',
+            'boy',
+            'cm',
+            'çuval',
+            'gr',
+            'grup',
+            'kg',
+            'koli',
+            'kutu',
+            'lt',
+            'm²',
+            'm³',
+            'm',
+            'mm',
+            'ml',
+            'paket',
+            'saat',
+            'ton',
+            'top',
+          ]"
+        />
       </v-col>
     </v-row>
 
     <v-row style="margin: 10px" align="center">
       <v-col cols="2" style="padding: 0">
         <v-list-subheader style="padding-inline-end: 0">
-          Birim:
+          Miktar:
         </v-list-subheader>
       </v-col>
 
@@ -2624,10 +2649,8 @@ export default {
         },
       },
       selectedCategory: "",
-      subCategories: [],
       selectedSubCategory: "",
       selectedBrand: "",
-      brands: [],
     };
   },
   watch: {
