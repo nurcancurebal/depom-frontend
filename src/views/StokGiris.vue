@@ -8,7 +8,7 @@
       </v-col>
 
       <v-col cols="10" style="padding: 0">
-        <v-text-field variant="outlined" />
+        <v-text-field variant="outlined" v-model="barcode" />
       </v-col>
     </v-row>
 
@@ -20,7 +20,7 @@
       </v-col>
 
       <v-col cols="10" style="padding: 0">
-        <v-text-field variant="outlined" />
+        <v-text-field variant="outlined" v-model="productname" />
       </v-col>
     </v-row>
 
@@ -105,7 +105,7 @@
       </v-col>
 
       <v-col cols="10" style="padding: 0">
-        <v-text-field variant="outlined" />
+        <v-text-field variant="outlined" v-model="supplier" />
       </v-col>
     </v-row>
 
@@ -137,6 +137,7 @@
         <v-select
           clearable
           variant="outlined"
+          v-model="unit"
           :items="[
             'adet',
             'bağ',
@@ -171,7 +172,7 @@
       </v-col>
 
       <v-col cols="10" style="padding: 0">
-        <v-text-field variant="outlined" />
+        <v-text-field variant="outlined" v-model="quantity" />
       </v-col>
     </v-row>
 
@@ -183,7 +184,7 @@
       </v-col>
 
       <v-col cols="10" style="padding: 0">
-        <v-text-field variant="outlined" />
+        <v-text-field variant="outlined" v-model="unitprice" />
       </v-col>
     </v-row>
   </v-card>
@@ -193,10 +194,19 @@
 export default {
   data() {
     return {
+      barcode: "",
+      productname: "",
       date: null,
       dateFormat: null,
       datePickers: false,
-      categories: {
+      selectedCategory: "",
+      selectedSubCategory: "",
+      selectedBrand: "",
+      supplier: "",
+      unit: "",
+      quantity: "",
+      unitprice: "",
+      inventories: {
         "Meyve & Sebze": {
           Meyve: [
             "Reyondan",
@@ -2648,9 +2658,6 @@ export default {
           ],
         },
       },
-      selectedCategory: "",
-      selectedSubCategory: "",
-      selectedBrand: "",
     };
   },
   watch: {
@@ -2662,18 +2669,18 @@ export default {
   },
   computed: {
     getCategories() {
-      return Object.keys(this.categories);
+      return Object.keys(this.inventories);
     },
     getSubCategories() {
-      return this.categories?.[this.selectedCategory]
-        ? Object.keys(this.categories?.[this.selectedCategory])
+      return this.inventories?.[this.selectedCategory]
+        ? Object.keys(this.inventories?.[this.selectedCategory])
         : [];
     },
     getSubCategoriesWithBrand() {
-      return this.categories?.[this.selectedCategory]?.[
+      return this.inventories?.[this.selectedCategory]?.[
         this.selectedSubCategory
       ]
-        ? this.categories?.[this.selectedCategory]?.[this.selectedSubCategory]
+        ? this.inventories?.[this.selectedCategory]?.[this.selectedSubCategory]
         : [];
     },
   },
