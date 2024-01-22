@@ -187,6 +187,33 @@
         <v-text-field variant="outlined" v-model="unitprice" />
       </v-col>
     </v-row>
+
+    <v-row style="margin: 10px" align="center">
+      <v-col cols="2" offset="10" style="padding: 0">
+        <v-btn
+          variant="text"
+          style="color: rgb(89 86 86); font-family: auto; width: 100%"
+          @click="
+            () => {
+              console.log(
+                barcode,
+                productname,
+                formatDate(date),
+                selectedCategory,
+                selectedSubCategory,
+                selectedBrand,
+                supplier,
+                unit,
+                quantity,
+                unitprice
+              );
+            }
+          "
+        >
+          Ekle
+        </v-btn>
+      </v-col>
+    </v-row>
   </v-card>
 </template>
 
@@ -2682,6 +2709,19 @@ export default {
       ]
         ? this.inventories?.[this.selectedCategory]?.[this.selectedSubCategory]
         : [];
+    },
+  },
+  methods: {
+    formatDate(date) {
+      let d = new Date(date);
+      let day = d.getDate();
+      let month = d.getMonth() + 1;
+      let year = d.getFullYear();
+
+      if (day < 10) day = "0" + day;
+      if (month < 10) month = "0" + month;
+
+      return `${day}.${month}.${year}`;
     },
   },
 };
