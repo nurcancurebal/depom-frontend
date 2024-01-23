@@ -194,20 +194,18 @@
           variant="text"
           style="color: rgb(89 86 86); font-family: auto; width: 100%"
           @click="
-            () => {
-              console.log(
-                barcode,
-                productname,
-                formatDate(date),
-                selectedCategory,
-                selectedSubCategory,
-                selectedBrand,
-                supplier,
-                unit,
-                quantity,
-                unitprice
-              );
-            }
+            createInventory({
+              barcode,
+              productname,
+              date,
+              selectedCategory,
+              selectedSubCategory,
+              selectedBrand,
+              supplier,
+              unit,
+              quantity,
+              unitprice,
+            })
           "
         >
           Ekle
@@ -218,6 +216,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   data() {
     return {
@@ -2712,17 +2712,7 @@ export default {
     },
   },
   methods: {
-    formatDate(date) {
-      let d = new Date(date);
-      let day = d.getDate();
-      let month = d.getMonth() + 1;
-      let year = d.getFullYear();
-
-      if (day < 10) day = "0" + day;
-      if (month < 10) month = "0" + month;
-
-      return `${year}-${month}-${day}`;
-    },
+    ...mapActions(["createInventory"]),
   },
 };
 </script>
