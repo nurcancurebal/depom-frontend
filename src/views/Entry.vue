@@ -188,7 +188,7 @@
       </v-col>
     </v-row>
 
-    <v-row style="margin: 10px" align="center">
+    <v-row style="margin: 10px">
       <v-col cols="2" offset="10" style="padding: 0">
         <v-btn
           variant="text"
@@ -2688,9 +2688,11 @@ export default {
     };
   },
   watch: {
-    date: function (date) {
-      this.dateFormat = `${date.getDate()}.${
-        date.getMonth() + 1
+    date(date) {
+      const d = date.getDate();
+      const m = date.getMonth() + 1;
+      this.dateFormat = `${d < 10 ? "0" + d : d}.${
+        m < 10 ? "0" + m : m
       }.${date.getFullYear()}`;
     },
   },

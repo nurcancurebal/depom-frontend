@@ -7,10 +7,7 @@
         style="position: absolute; width: 100%; background-color: #ededed"
       >
         <v-list density="compact" nav style="font-size: 1.4rem">
-          <router-link
-            to="/depostok"
-            style="text-decoration: none; color: black"
-          >
+          <router-link to="/stock" style="text-decoration: none; color: black">
             <v-list-item
               prepend-icon="mdi-warehouse"
               title="Depo - Stok"
@@ -19,10 +16,7 @@
             />
           </router-link>
 
-          <router-link
-            to="/stokgiris"
-            style="text-decoration: none; color: black"
-          >
+          <router-link to="/entry" style="text-decoration: none; color: black">
             <v-list-item
               prepend-icon="mdi-archive-plus"
               title="Stok Giriş"
@@ -32,7 +26,7 @@
           </router-link>
 
           <router-link
-            to="/stokcikis"
+            to="/checkout"
             style="text-decoration: none; color: black"
           >
             <v-list-item
@@ -43,7 +37,10 @@
             />
           </router-link>
 
-          <router-link to="/cari" style="text-decoration: none; color: black">
+          <router-link
+            to="/current"
+            style="text-decoration: none; color: black"
+          >
             <v-list-item
               prepend-icon="mdi-calculator-variant"
               title="Cari"

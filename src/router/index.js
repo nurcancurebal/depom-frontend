@@ -1,29 +1,29 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import DepoStok from "@/views/DepoStok"
-import StokGiris from "@/views/StokGiris"
-import StokCikis from "@/views/StokCikis"
-import Cari from "@/views/Cari"
+import Stock from "@/views/Stock"
+import Entry from "@/views/Entry"
+import Checkout from "@/views/Checkout"
+import Current from "@/views/Current"
 
 const routes = [
   {
-    path: '/depostok',
-    name: 'DepoStok',
-    component: DepoStok
+    path: '/stock',
+    name: 'Stock',
+    component: Stock
   },
   {
-    path: '/stokgiris',
-    name: 'StokGiris',
-    component: StokGiris
+    path: '/entry',
+    name: 'Entry',
+    component: Entry
   },
   {
-    path: '/stokcikis',
-    name: 'StokCikis',
-    component: StokCikis
+    path: '/checkout',
+    name: 'Checkout',
+    component: Checkout
   },
   {
-    path: '/cari',
-    name: 'Cari',
-    component: Cari
+    path: '/Current',
+    name: 'Current',
+    component: Current
   },
 ]
 
