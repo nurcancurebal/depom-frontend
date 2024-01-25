@@ -17,7 +17,11 @@
         <v-btn
           variant="text"
           style="color: rgb(89 86 86); font-family: auto; width: 100%"
-          @click="showUpdateInventory = !showUpdateInventory"
+          @click="
+            getOneInventory({ barcode }).then(() => {
+              showUpdateInventory = !showUpdateInventory;
+            })
+          "
         >
           Ürünü Bul
         </v-btn>
@@ -30,7 +34,7 @@
 
 <script>
 import UpdateInventory from "@/components/UpdateInventory.vue";
-import { mapGetters } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   components: {
@@ -44,8 +48,8 @@ export default {
     };
   },
 
-  computed: {
-    ...mapGetters(["inventory"]),
+  methods: {
+    ...mapActions(["getOneInventory"]),
   },
 };
 </script>

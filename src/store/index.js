@@ -26,13 +26,31 @@ export default createStore({
 
         console.log("getInventory", result.data);
 
+        return result;
+
+      } catch (error) {
+
+        console.error("getInventory", error);
+
+      };
+    },
+
+    async getOneInventory(context, payload) {
+
+      try {
+
+        const result = await axios
+          .get(`http://localhost:3000/inventory/${payload.barcode}`);
+
+        console.log("getOneInventory", result.data);
+
         context.commit("INVENTORY", result.data);
 
         return result;
 
       } catch (error) {
 
-        console.error("getInventory", error);
+        console.error("getOneInventory", error);
 
       };
     },
