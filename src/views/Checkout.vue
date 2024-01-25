@@ -30,6 +30,7 @@
 
 <script>
 import UpdateInventory from "@/components/UpdateInventory.vue";
+import { mapGetters } from "vuex";
 
 export default {
   components: {
@@ -41,6 +42,10 @@ export default {
       showUpdateInventory: false,
       barcode: "",
     };
+  },
+
+  computed: {
+    ...mapGetters(["inventory"]),
   },
 };
 </script>

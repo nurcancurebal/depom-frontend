@@ -41,8 +41,6 @@ export default createStore({
 
       try {
 
-        console.log(payload)
-
         const result = await axios.post("http://localhost:3000/Inventory", {
           "barcode": payload.barcode,
           "productname": payload.productname,
