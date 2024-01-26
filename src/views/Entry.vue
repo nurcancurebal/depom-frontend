@@ -201,7 +201,12 @@
           variant="outlined"
           v-model="quantity"
           required
-          :rules="[() => !!quantity || 'Bu alan boş bırakılamaz.']"
+          :rules="[
+            () => !!quantity || 'Bu alan boş bırakılamaz.',
+            () =>
+              /^\d+$/.test(quantity) ||
+              'Lütfen yalnızca sayısal bir değer giriniz.',
+          ]"
         />
       </v-col>
     </v-row>
@@ -218,7 +223,12 @@
           variant="outlined"
           v-model="unitprice"
           required
-          :rules="[() => !!unitprice || 'Bu alan boş bırakılamaz.']"
+          :rules="[
+            () => !!unitprice || 'Bu alan boş bırakılamaz.',
+            () =>
+              /^\d+$/.test(unitprice) ||
+              'Lütfen yalnızca sayısal bir değer giriniz.',
+          ]"
         />
       </v-col>
     </v-row>
@@ -2759,7 +2769,9 @@ export default {
         this.supplier !== "" &&
         this.unit !== "" &&
         this.quantity !== "" &&
-        this.unitprice !== ""
+        /^\d+$/.test(this.quantity) !== false &&
+        this.unitprice !== "" &&
+        /^\d+$/.test(this.unitprice) !== false
       );
     },
   },
