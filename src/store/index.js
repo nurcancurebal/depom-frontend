@@ -4,16 +4,24 @@ import axios from "axios";
 export default createStore({
   state: {
     inventory: [],
+    inventoryOne: {}
   },
   getters: {
     inventory(state) {
 
       return state.inventory;
     },
+    inventoryOne(state) {
+
+      return state.inventoryOne;
+    },
   },
   mutations: {
     INVENTORY(state, context) {
       state.inventory = context;
+    },
+    INVENTORY_ONE(state, context) {
+      state.inventoryOne = context;
     }
   },
   actions: {
@@ -25,6 +33,8 @@ export default createStore({
           .get("http://localhost:3000/inventory");
 
         console.log("getInventory", result.data);
+
+        context.commit("INVENTORY", result.data);
 
         return result;
 
@@ -44,7 +54,7 @@ export default createStore({
 
         console.log("getOneInventory", result.data);
 
-        context.commit("INVENTORY", result.data);
+        context.commit("INVENTORY_ONE", result.data);
 
         return result;
 

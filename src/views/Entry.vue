@@ -48,7 +48,7 @@
           v-model="dateFormat"
           v-show="!datePickers"
           required
-          :rules="[() => !!dateFormat || 'Bu alan boş bırakılamaz.']"
+          :rules="[() => dateFormat != null || 'Bu alan boş bırakılamaz.']"
         />
 
         <v-date-picker
@@ -251,6 +251,19 @@
               unit,
               quantity,
               unitprice,
+            }).then(() => {
+              barcode = '';
+              productname = '';
+              date = null;
+              dateFormat = null;
+              datePickers = false;
+              selectedCategory = '';
+              selectedSubCategory = '';
+              selectedBrand = '';
+              supplier = '';
+              unit = '';
+              quantity = '';
+              unitprice = '';
             })
           "
         >
@@ -636,6 +649,39 @@ export default {
           ],
         },
         "Temel Gıda": {
+          Makarna: [
+            "Barilla",
+            "Pastavilla",
+            "indomie",
+            "Mutlu Makarna",
+            "Arbella",
+            "Filiz",
+            "Nudo",
+            "Veronelli",
+            "Nuh'un Ankara",
+            "Dudomi",
+            "Knorr",
+            "Gurmezade",
+            "Arrighi",
+            "Un Do Tre",
+            "Forcella",
+            "Ekin",
+          ],
+          Bakliyat: [
+            "Yayla",
+            "Reis",
+            "Tat",
+            "Hasata",
+            "Duru Bulgur",
+            "M Life",
+            "Doyum",
+            "Anadolu Lezzetleri",
+            "S.S. Tire Organik Gıda Kooperatifi",
+            "Filiz",
+            "Torku",
+            "İstiklal Yolu",
+            "Yayla Türk",
+          ],
           "Sıvı Yağ": [
             "Komili",
             "Yudum",
@@ -2735,11 +2781,13 @@ export default {
   },
   watch: {
     date(date) {
-      const d = date.getDate();
-      const m = date.getMonth() + 1;
-      this.dateFormat = `${d < 10 ? "0" + d : d}.${
-        m < 10 ? "0" + m : m
-      }.${date.getFullYear()}`;
+      if (date) {
+        const d = date.getDate();
+        const m = date.getMonth() + 1;
+        this.dateFormat = `${d < 10 ? "0" + d : d}.${
+          m < 10 ? "0" + m : m
+        }.${date.getFullYear()}`;
+      }
     },
   },
   computed: {
