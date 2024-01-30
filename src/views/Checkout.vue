@@ -2792,7 +2792,7 @@ export default {
           this.showUpdateInventory = !this.showUpdateInventory;
           this.errorMessages = "";
           this.productname = result.data.productname;
-          this.date = result.data.date;
+          this.date = new Date(result.data.date);
           this.selectedCategory = result.data.category;
           this.selectedSubCategory = result.data.subcategory;
           this.selectedBrand = result.data.brand;

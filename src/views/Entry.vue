@@ -2781,13 +2781,11 @@ export default {
   },
   watch: {
     date(date) {
-      if (date) {
-        const d = date.getDate();
-        const m = date.getMonth() + 1;
-        this.dateFormat = `${d < 10 ? "0" + d : d}.${
-          m < 10 ? "0" + m : m
-        }.${date.getFullYear()}`;
-      }
+      const d = date.getDate();
+      const m = date.getMonth() + 1;
+      this.dateFormat = `${d < 10 ? "0" + d : d}.${
+        m < 10 ? "0" + m : m
+      }.${date.getFullYear()}`;
     },
   },
   computed: {
