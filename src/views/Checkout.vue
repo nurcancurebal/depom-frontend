@@ -2852,10 +2852,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.v-picker__header,
-.v-picker-title {
-  display: none !important;
-}
-</style>

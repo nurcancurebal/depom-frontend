@@ -4,24 +4,24 @@ import axios from "axios";
 export default createStore({
   state: {
     inventory: [],
-    inventoryOne: {}
+    listBarcode: []
   },
   getters: {
     inventory(state) {
 
       return state.inventory;
     },
-    inventoryOne(state) {
+    listBarcode(state) {
 
-      return state.inventoryOne;
+      return state.listBarcode;
     },
   },
   mutations: {
     INVENTORY(state, context) {
       state.inventory = context;
     },
-    INVENTORY_ONE(state, context) {
-      state.inventoryOne = context;
+    LİST_BARCODE(state, context) {
+      state.listBarcode = context;
     }
   },
   actions: {
@@ -45,44 +45,45 @@ export default createStore({
       };
     },
 
-    async getOneInventory(context, payload) {
+    async getListBarcode(context, payload) {
 
       try {
 
         const result = await axios
           .get(`http://localhost:3000/inventory/${payload.barcode}`);
 
-        console.log("getOneInventory", result.data);
+        console.log("getListBarcode", result.data);
 
-        context.commit("INVENTORY_ONE", result.data);
+        context.commit("LİST_BARCODE", result.data);
 
         return result;
 
       } catch (error) {
 
-        console.error("getOneInventory", error);
+        console.error("getListBarcode", error);
 
       };
     },
 
-    async createInventory(context, payload) {
+    async entryOne(context, payload) {
 
       try {
 
         const result = await axios.post("http://localhost:3000/Inventory", {
           "barcode": payload.barcode,
           "productname": payload.productname,
-          "date": payload.date,
           "category": payload.selectedCategory,
           "subcategory": payload.selectedSubCategory,
           "supplier": payload.supplier,
           "brand": payload.selectedBrand,
           "unit": payload.unit,
           "quantity": payload.quantity,
-          "unitprice": payload.unitprice
+          "unitprice": payload.unitprice,
+          "date": new Date(),
+          "process": "entry"
         });
 
-        console.log("createInventory", result.data);
+        console.log("entryOne", result.data);
 
         context.dispatch("getInventory");
 
@@ -90,7 +91,38 @@ export default createStore({
 
       } catch (error) {
 
-        console.error("createInventory", error);
+        console.error("entryOne", error);
+
+      };
+    },
+
+    async checkoutOne(context, payload) {
+
+      try {
+
+        const result = await axios.post(`http://localhost:3000/inventory/${payload.barcode}`, {
+          "barcode": payload.barcode,
+          "productname": payload.productname,
+          "category": payload.selectedCategory,
+          "subcategory": payload.selectedSubCategory,
+          "supplier": payload.supplier,
+          "brand": payload.selectedBrand,
+          "unit": payload.unit,
+          "quantity": payload.quantity,
+          "unitprice": payload.unitprice,
+          "date": new Date(),
+          "process": "checkout"
+        });
+
+        console.log("entryOne", result.data);
+
+        context.dispatch("getInventory");
+
+        return result;
+
+      } catch (error) {
+
+        console.error("entryOne", error);
 
       };
     },

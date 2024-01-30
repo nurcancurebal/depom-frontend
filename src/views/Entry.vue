@@ -1,4 +1,37 @@
 <template>
+  <v-card style="margin: 40px; padding: 40px" v-show="!showUpdateInventory">
+    <v-row align="center">
+      <v-col cols="2" style="padding: 0 0 25px 0">
+        <v-list-subheader style="padding-inline-end: 0">
+          Stok Kodu/Barkod:
+        </v-list-subheader>
+      </v-col>
+
+      <v-col cols="10" style="padding: 0">
+        <v-text-field
+          variant="outlined"
+          v-model="barcode"
+          required
+          :rules="[() => !!barcode || 'Bu alan boş bırakılamaz.']"
+          :error-messages="errorMessages"
+        />
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="3" offset="9" style="padding: 0">
+        <v-btn
+          variant="text"
+          style="color: rgb(89 86 86); font-family: auto; width: 100%"
+          @click="findProduct"
+          :disabled="!disabled"
+        >
+          Ürünü Bul
+        </v-btn>
+      </v-col>
+    </v-row>
+  </v-card>
+
   <v-card style="margin: 40px; padding: 40px">
     <v-row align="center">
       <v-col cols="2" style="padding: 0 0 25px 0">
@@ -31,40 +64,6 @@
           required
           :rules="[() => !!productname || 'Bu alan boş bırakılamaz.']"
         />
-      </v-col>
-    </v-row>
-
-    <v-row align="center">
-      <v-col cols="2" style="padding: 0 0 25px 0">
-        <v-list-subheader style="padding-inline-end: 0">
-          Tarih:
-        </v-list-subheader>
-      </v-col>
-
-      <v-col cols="10" style="padding: 0">
-        <v-text-field
-          variant="outlined"
-          @click="datePickers = !datePickers"
-          v-model="dateFormat"
-          v-show="!datePickers"
-          required
-          :rules="[() => dateFormat != null || 'Bu alan boş bırakılamaz.']"
-        />
-
-        <v-date-picker
-          show-adjacent-months
-          v-model="date"
-          v-show="datePickers"
-        />
-
-        <v-btn
-          style="margin: 0 24px; width: 316px; min-width: 316px"
-          plain
-          @click="datePickers = !datePickers"
-          v-show="datePickers"
-        >
-          Kapat
-        </v-btn>
       </v-col>
     </v-row>
 
@@ -240,23 +239,19 @@
           variant="text"
           style="color: rgb(89 86 86); font-family: auto; width: 100%"
           @click="
-            createInventory({
+            entryOne({
               barcode,
               productname,
-              date,
               selectedCategory,
               selectedSubCategory,
-              selectedBrand,
               supplier,
+              selectedBrand,
               unit,
               quantity,
               unitprice,
             }).then(() => {
               barcode = '';
               productname = '';
-              date = null;
-              dateFormat = null;
-              datePickers = false;
               selectedCategory = '';
               selectedSubCategory = '';
               selectedBrand = '';
@@ -282,9 +277,6 @@ export default {
     return {
       barcode: "",
       productname: "",
-      date: null,
-      dateFormat: null,
-      datePickers: false,
       selectedCategory: "",
       selectedSubCategory: "",
       selectedBrand: "",
@@ -2779,15 +2771,6 @@ export default {
       },
     };
   },
-  watch: {
-    date(date) {
-      const d = date.getDate();
-      const m = date.getMonth() + 1;
-      this.dateFormat = `${d < 10 ? "0" + d : d}.${
-        m < 10 ? "0" + m : m
-      }.${date.getFullYear()}`;
-    },
-  },
   computed: {
     getCategories() {
       return Object.keys(this.inventories);
@@ -2808,7 +2791,6 @@ export default {
       return (
         this.barcode !== "" &&
         this.productname !== "" &&
-        this.date !== null &&
         this.selectedCategory !== "" &&
         this.selectedSubCategory !== "" &&
         this.selectedBrand !== "" &&
@@ -2822,15 +2804,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(["createInventory"]),
+    ...mapActions(["entryOne"]),
   },
 };
 </script>
-
-
-<style>
-.v-picker__header,
-.v-picker-title {
-  display: none !important;
-}
-</style>
