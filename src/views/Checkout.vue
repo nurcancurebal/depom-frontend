@@ -2829,9 +2829,13 @@ export default {
           this.selectedSubCategory = result.data[0].subcategory;
           this.selectedBrand = result.data[0].brand;
           this.supplier = result.data[0].supplier;
-          this.unitItems = result.data.map((element) => {
-            return element.unit;
-          });
+          this.unitItems = [
+            ...new Set(
+              result.data.map((element) => {
+                return element.unit;
+              })
+            ),
+          ];
         }
 
         function selectedUnit() {
