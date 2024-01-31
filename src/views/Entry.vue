@@ -57,6 +57,7 @@
           v-model="productname"
           required
           :rules="[() => !!productname || 'Bu alan boş bırakılamaz.']"
+          :disabled="allDisabled"
         />
       </v-col>
     </v-row>
@@ -82,6 +83,7 @@
           v-model="selectedCategory"
           required
           :rules="[() => !!selectedCategory || 'Bu alan boş bırakılamaz.']"
+          :disabled="allDisabled"
         />
       </v-col>
     </v-row>
@@ -102,6 +104,7 @@
           v-model="selectedSubCategory"
           required
           :rules="[() => !!selectedSubCategory || 'Bu alan boş bırakılamaz.']"
+          :disabled="allDisabled"
         />
       </v-col>
     </v-row>
@@ -119,6 +122,7 @@
           v-model="supplier"
           required
           :rules="[() => !!supplier || 'Bu alan boş bırakılamaz.']"
+          :disabled="allDisabled"
         />
       </v-col>
     </v-row>
@@ -138,6 +142,7 @@
           v-model="selectedBrand"
           required
           :rules="[() => !!selectedBrand || 'Bu alan boş bırakılamaz.']"
+          :disabled="allDisabled"
         />
       </v-col>
     </v-row>
@@ -272,6 +277,7 @@ export default {
     return {
       showEntryInventory: false,
       disabled: false,
+      allDisabled: false,
       barcode: "",
       productname: "",
       selectedCategory: "",
@@ -2813,6 +2819,7 @@ export default {
     findProduct() {
       this.getListBarcode({ barcode: this.barcode }).then((result) => {
         if (result.data.length > 0) {
+          this.allDisabled = true;
           this.showEntryInventory = !this.showEntryInventory;
           this.productname = result.data[0].productname;
           this.selectedCategory = result.data[0].category;

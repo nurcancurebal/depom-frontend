@@ -58,6 +58,7 @@
           v-model="productname"
           required
           :rules="[() => !!productname || 'Bu alan boş bırakılamaz.']"
+          :disabled="allDisabled"
         />
       </v-col>
     </v-row>
@@ -83,6 +84,7 @@
           v-model="selectedCategory"
           required
           :rules="[() => !!selectedCategory || 'Bu alan boş bırakılamaz.']"
+          :disabled="allDisabled"
         />
       </v-col>
     </v-row>
@@ -103,6 +105,7 @@
           v-model="selectedSubCategory"
           required
           :rules="[() => !!selectedSubCategory || 'Bu alan boş bırakılamaz.']"
+          :disabled="allDisabled"
         />
       </v-col>
     </v-row>
@@ -120,6 +123,7 @@
           v-model="supplier"
           required
           :rules="[() => !!supplier || 'Bu alan boş bırakılamaz.']"
+          :disabled="allDisabled"
         />
       </v-col>
     </v-row>
@@ -139,6 +143,7 @@
           v-model="selectedBrand"
           required
           :rules="[() => !!selectedBrand || 'Bu alan boş bırakılamaz.']"
+          :disabled="allDisabled"
         />
       </v-col>
     </v-row>
@@ -155,28 +160,7 @@
           clearable
           variant="outlined"
           v-model="unit"
-          :items="[
-            'adet',
-            'bağ',
-            'boy',
-            'cm',
-            'çuval',
-            'gr',
-            'grup',
-            'kg',
-            'koli',
-            'kutu',
-            'lt',
-            'm²',
-            'm³',
-            'm',
-            'mm',
-            'ml',
-            'paket',
-            'saat',
-            'ton',
-            'top',
-          ]"
+          :items="unitItems"
           required
           :rules="[() => !!unit || 'Bu alan boş bırakılamaz.']"
         />
@@ -245,6 +229,7 @@
               quantity,
               unitprice,
             }).then(() => {
+              showEntryInventory = false;
               barcode = '';
               productname = '';
               selectedCategory = '';
@@ -272,6 +257,7 @@ export default {
     return {
       showCheckoutInventory: false,
       disabled: false,
+      allDisabled: false,
       errorMessages: "",
       barcode: "",
       productname: "",
@@ -282,6 +268,28 @@ export default {
       unit: "",
       quantity: "",
       unitprice: "",
+      unitItems: [
+        "adet",
+        "bağ",
+        "boy",
+        "cm",
+        "çuval",
+        "gr",
+        "grup",
+        "kg",
+        "koli",
+        "kutu",
+        "lt",
+        "m²",
+        "m³",
+        "m",
+        "mm",
+        "ml",
+        "paket",
+        "saat",
+        "ton",
+        "top",
+      ],
       inventories: {
         "Meyve & Sebze": {
           Meyve: [
@@ -2813,18 +2821,52 @@ export default {
     findProduct() {
       this.getListBarcode({ barcode: this.barcode }).then((result) => {
         if (result.data) {
+          this.allDisabled = true;
           this.showCheckoutInventory = !this.showCheckoutInventory;
           this.errorMessages = "";
-          this.productname = result.data.productname;
-          this.selectedCategory = result.data.category;
-          this.selectedSubCategory = result.data.subcategory;
-          this.selectedBrand = result.data.brand;
-          this.supplier = result.data.supplier;
-          this.unit = result.data.unit;
-          this.quantity = result.data.quantity;
-          this.unitprice = result.data.unitprice;
+          this.productname = result.data[0].productname;
+          this.selectedCategory = result.data[0].category;
+          this.selectedSubCategory = result.data[0].subcategory;
+          this.selectedBrand = result.data[0].brand;
+          this.supplier = result.data[0].supplier;
+          this.unitItems = result.data.map((element) => {
+            return element.unit;
+          });
         }
+
+        function selectedUnit() {
+          if (result.data && this.unit) {
+            console.log("jjfhejfı");
+            const unitFilter = result.data.filter(function (currentValue) {
+              return currentValue.unit === this.unit;
+            });
+
+            if (unitFilter.quantity.length > 1) {
+              const quantity = [];
+              unitFilter.forEach((element) => {
+                element.quantity.push(quantity);
+              });
+              this.quantity = quantity.reduce((a, b) => a + b);
+            } else {
+              this.quantity = unitFilter[0].quantity;
+            }
+
+            if (unitFilter.unitprice.length > 1) {
+              const unitprice = [];
+              unitFilter.forEach((element) => {
+                element.unitprice.push(unitprice);
+              });
+              this.unitprice = unitprice.reduce((a, b) => a + b);
+            } else {
+              this.unitprice = unitFilter[0].unitprice;
+            }
+
+            return;
+          }
+        }
+
         this.errorMessages = `Bu barkoda ait ürün bulunamadı.`;
+        return;
       });
     },
   },
