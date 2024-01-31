@@ -79,8 +79,6 @@ export default createStore({
           "unit": payload.unit,
           "quantity": payload.quantity,
           "unitprice": payload.unitprice,
-          "date": new Date(),
-          "process": "entry"
         });
 
         console.log("entryOne", result.data);
@@ -110,11 +108,9 @@ export default createStore({
           "unit": payload.unit,
           "quantity": payload.quantity,
           "unitprice": payload.unitprice,
-          "date": new Date(),
-          "process": "checkout"
         });
 
-        console.log("entryOne", result.data);
+        console.log("checkoutOne", result.data);
 
         context.dispatch("getInventory");
 
@@ -122,7 +118,7 @@ export default createStore({
 
       } catch (error) {
 
-        console.error("entryOne", error);
+        console.error("checkoutOne", error);
 
       };
     },

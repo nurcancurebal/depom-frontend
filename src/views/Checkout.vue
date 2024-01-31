@@ -1,5 +1,5 @@
 <template>
-  <v-card style="margin: 40px; padding: 40px" v-show="!showUpdateInventory">
+  <v-card style="margin: 40px; padding: 40px" v-show="!showCheckoutInventory">
     <v-row align="center">
       <v-col cols="2" style="padding: 0 0 25px 0">
         <v-list-subheader style="padding-inline-end: 0">
@@ -32,7 +32,7 @@
     </v-row>
   </v-card>
 
-  <v-card style="margin: 40px; padding: 40px" v-show="showUpdateInventory">
+  <v-card style="margin: 40px; padding: 40px" v-show="showCheckoutInventory">
     <v-row align="center">
       <v-col cols="2" style="padding: 0 0 25px 0">
         <v-list-subheader style="padding-inline-end: 0">
@@ -59,40 +59,6 @@
           required
           :rules="[() => !!productname || 'Bu alan boş bırakılamaz.']"
         />
-      </v-col>
-    </v-row>
-
-    <v-row align="center">
-      <v-col cols="2" style="padding: 0 0 25px 0">
-        <v-list-subheader style="padding-inline-end: 0">
-          Tarih:
-        </v-list-subheader>
-      </v-col>
-
-      <v-col cols="10" style="padding: 0">
-        <v-text-field
-          variant="outlined"
-          @click="datePickers = !datePickers"
-          v-model="dateFormat"
-          v-show="!datePickers"
-          required
-          :rules="[() => !!dateFormat || 'Bu alan boş bırakılamaz.']"
-        />
-
-        <v-date-picker
-          show-adjacent-months
-          v-model="date"
-          v-show="datePickers"
-        />
-
-        <v-btn
-          style="margin: 0 24px; width: 316px; min-width: 316px"
-          plain
-          @click="datePickers = !datePickers"
-          v-show="datePickers"
-        >
-          Kapat
-        </v-btn>
       </v-col>
     </v-row>
 
@@ -267,6 +233,29 @@
           :disabled="!allTrue"
           variant="text"
           style="color: rgb(89 86 86); font-family: auto; width: 100%"
+          @click="
+            checkoutOne({
+              barcode,
+              productname,
+              selectedCategory,
+              selectedSubCategory,
+              supplier,
+              selectedBrand,
+              unit,
+              quantity,
+              unitprice,
+            }).then(() => {
+              barcode = '';
+              productname = '';
+              selectedCategory = '';
+              selectedSubCategory = '';
+              selectedBrand = '';
+              supplier = '';
+              unit = '';
+              quantity = '';
+              unitprice = '';
+            })
+          "
         >
           Çıkış Yap
         </v-btn>
@@ -281,14 +270,11 @@ import { mapActions } from "vuex";
 export default {
   data() {
     return {
-      showUpdateInventory: false,
-      barcode: "",
+      showCheckoutInventory: false,
       disabled: false,
       errorMessages: "",
+      barcode: "",
       productname: "",
-      date: null,
-      dateFormat: null,
-      datePickers: false,
       selectedCategory: "",
       selectedSubCategory: "",
       selectedBrand: "",
@@ -2784,40 +2770,6 @@ export default {
     };
   },
 
-  methods: {
-    ...mapActions(["getOneInventory"]),
-    findProduct() {
-      this.getOneInventory({ barcode: this.barcode }).then((result) => {
-        if (result.data) {
-          this.showUpdateInventory = !this.showUpdateInventory;
-          this.errorMessages = "";
-          this.productname = result.data.productname;
-          this.date = new Date(result.data.date);
-          this.selectedCategory = result.data.category;
-          this.selectedSubCategory = result.data.subcategory;
-          this.selectedBrand = result.data.brand;
-          this.supplier = result.data.supplier;
-          this.unit = result.data.unit;
-          this.quantity = result.data.quantity;
-          this.unitprice = result.data.unitprice;
-        }
-        this.errorMessages = `Bu barkoda ait ürün bulunamadı.`;
-      });
-    },
-  },
-
-  watch: {
-    barcode(value) {
-      this.disabled = !!value;
-    },
-    date(date) {
-      const d = date.getDate();
-      const m = date.getMonth() + 1;
-      this.dateFormat = `${d < 10 ? "0" + d : d}.${
-        m < 10 ? "0" + m : m
-      }.${date.getFullYear()}`;
-    },
-  },
   computed: {
     getCategories() {
       return Object.keys(this.inventories);
@@ -2837,7 +2789,6 @@ export default {
     allTrue() {
       return (
         this.productname !== "" &&
-        this.date !== null &&
         this.selectedCategory !== "" &&
         this.selectedSubCategory !== "" &&
         this.selectedBrand !== "" &&
@@ -2848,6 +2799,33 @@ export default {
         this.unitprice !== "" &&
         /^\d+$/.test(this.unitprice) !== false
       );
+    },
+  },
+
+  watch: {
+    barcode(value) {
+      this.disabled = !!value;
+    },
+  },
+
+  methods: {
+    ...mapActions(["getListBarcode", "checkoutOne"]),
+    findProduct() {
+      this.getListBarcode({ barcode: this.barcode }).then((result) => {
+        if (result.data) {
+          this.showCheckoutInventory = !this.showCheckoutInventory;
+          this.errorMessages = "";
+          this.productname = result.data.productname;
+          this.selectedCategory = result.data.category;
+          this.selectedSubCategory = result.data.subcategory;
+          this.selectedBrand = result.data.brand;
+          this.supplier = result.data.supplier;
+          this.unit = result.data.unit;
+          this.quantity = result.data.quantity;
+          this.unitprice = result.data.unitprice;
+        }
+        this.errorMessages = `Bu barkoda ait ürün bulunamadı.`;
+      });
     },
   },
 };

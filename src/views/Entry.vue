@@ -1,5 +1,5 @@
 <template>
-  <v-card style="margin: 40px; padding: 40px" v-show="!showUpdateInventory">
+  <v-card style="margin: 40px; padding: 40px" v-show="!showEntryInventory">
     <v-row align="center">
       <v-col cols="2" style="padding: 0 0 25px 0">
         <v-list-subheader style="padding-inline-end: 0">
@@ -13,7 +13,6 @@
           v-model="barcode"
           required
           :rules="[() => !!barcode || 'Bu alan boş bırakılamaz.']"
-          :error-messages="errorMessages"
         />
       </v-col>
     </v-row>
@@ -32,7 +31,7 @@
     </v-row>
   </v-card>
 
-  <v-card style="margin: 40px; padding: 40px">
+  <v-card style="margin: 40px; padding: 40px" v-show="showEntryInventory">
     <v-row align="center">
       <v-col cols="2" style="padding: 0 0 25px 0">
         <v-list-subheader style="padding-inline-end: 0">
@@ -41,12 +40,7 @@
       </v-col>
 
       <v-col cols="10" style="padding: 0">
-        <v-text-field
-          variant="outlined"
-          v-model="barcode"
-          required
-          :rules="[() => !!barcode || 'Bu alan boş bırakılamaz.']"
-        />
+        <v-text-field variant="outlined" v-model="barcode" disabled />
       </v-col>
     </v-row>
 
@@ -250,6 +244,7 @@
               quantity,
               unitprice,
             }).then(() => {
+              showEntryInventory = false;
               barcode = '';
               productname = '';
               selectedCategory = '';
@@ -275,6 +270,8 @@ import { mapActions } from "vuex";
 export default {
   data() {
     return {
+      showEntryInventory: false,
+      disabled: false,
       barcode: "",
       productname: "",
       selectedCategory: "",
@@ -2771,6 +2768,7 @@ export default {
       },
     };
   },
+
   computed: {
     getCategories() {
       return Object.keys(this.inventories);
@@ -2803,8 +2801,30 @@ export default {
       );
     },
   },
+
+  watch: {
+    barcode(value) {
+      this.disabled = !!value;
+    },
+  },
+
   methods: {
-    ...mapActions(["entryOne"]),
+    ...mapActions(["entryOne", "getListBarcode"]),
+    findProduct() {
+      this.getListBarcode({ barcode: this.barcode }).then((result) => {
+        if (result.data.length > 0) {
+          this.showEntryInventory = !this.showEntryInventory;
+          this.productname = result.data[0].productname;
+          this.selectedCategory = result.data[0].category;
+          this.selectedSubCategory = result.data[0].subcategory;
+          this.selectedBrand = result.data[0].brand;
+          this.supplier = result.data[0].supplier;
+          return;
+        }
+        this.showEntryInventory = !this.showEntryInventory;
+        return;
+      });
+    },
   },
 };
 </script>
