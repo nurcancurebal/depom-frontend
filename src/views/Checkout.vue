@@ -171,7 +171,7 @@
     <v-row align="center">
       <v-col cols="2" style="padding: 0 0 25px 0">
         <v-list-subheader style="padding-inline-end: 0">
-          Miktar:
+          Toplam Miktar:
         </v-list-subheader>
       </v-col>
 
@@ -194,7 +194,7 @@
     <v-row align="center">
       <v-col cols="2" style="padding: 0 0 25px 0">
         <v-list-subheader style="padding-inline-end: 0">
-          Birim Fiyat:
+          Toplam Birim Fiyat:
         </v-list-subheader>
       </v-col>
 
