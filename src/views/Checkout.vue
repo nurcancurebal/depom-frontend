@@ -163,6 +163,7 @@
           :items="unitItems"
           required
           :rules="[() => !!unit || 'Bu alan boş bırakılamaz.']"
+          :disabled="unitDisabled"
         />
       </v-col>
     </v-row>
@@ -185,6 +186,7 @@
               /^\d+$/.test(quantity) ||
               'Lütfen yalnızca sayısal bir değer giriniz.',
           ]"
+          :disabled="quantityDisabled"
         />
       </v-col>
     </v-row>
@@ -207,6 +209,7 @@
               /^\d+$/.test(unitprice) ||
               'Lütfen yalnızca sayısal bir değer giriniz.',
           ]"
+          :disabled="unitpriceDisabled"
         />
       </v-col>
     </v-row>
@@ -217,30 +220,6 @@
           :disabled="!allTrue"
           variant="text"
           style="color: rgb(89 86 86); font-family: auto; width: 100%"
-          @click="
-            checkoutOne({
-              barcode,
-              productname,
-              selectedCategory,
-              selectedSubCategory,
-              supplier,
-              selectedBrand,
-              unit,
-              quantity,
-              unitprice,
-            }).then(() => {
-              showEntryInventory = false;
-              barcode = '';
-              productname = '';
-              selectedCategory = '';
-              selectedSubCategory = '';
-              selectedBrand = '';
-              supplier = '';
-              unit = '';
-              quantity = '';
-              unitprice = '';
-            })
-          "
         >
           Çıkış Yap
         </v-btn>
@@ -258,6 +237,9 @@ export default {
       showCheckoutInventory: false,
       disabled: false,
       allDisabled: false,
+      unitDisabled: false,
+      quantityDisabled: false,
+      unitpriceDisabled: false,
       errorMessages: "",
       barcode: "",
       productname: "",
@@ -2814,13 +2796,46 @@ export default {
     barcode(value) {
       this.disabled = !!value;
     },
+    unit(value) {
+      this.unitDisabled = !this.unitDisabled;
+      this.getListBarcode({ barcode: this.barcode }).then((result) => {
+        const unitFilter = result.data.filter(function (currentValue) {
+          return currentValue.unit === value;
+        });
+
+        if (unitFilter.length > 1) {
+          const quantity = [];
+          unitFilter.forEach((element) => {
+            quantity.push(element.quantity);
+          });
+          this.quantity = quantity.reduce((a, b) => a + b);
+          this.quantityDisabled = !this.quantityDisabled;
+        } else {
+          this.quantity = unitFilter[0].quantity;
+          this.quantityDisabled = !this.quantityDisabled;
+        }
+
+        if (unitFilter.length > 1) {
+          const unitprice = [];
+          unitFilter.forEach((element) => {
+            unitprice.push(element.unitprice);
+          });
+          const reduceUnitprice = unitprice.reduce((a, b) => a + b);
+          this.unitprice = reduceUnitprice / unitprice.length;
+          this.unitpriceDisabled = !this.unitpriceDisabled;
+        } else {
+          this.unitprice = unitFilter[0].unitprice;
+          this.unitpriceDisabled = !this.unitpriceDisabled;
+        }
+      });
+    },
   },
 
   methods: {
-    ...mapActions(["getListBarcode", "checkoutOne"]),
+    ...mapActions(["getListBarcode"]),
     findProduct() {
       this.getListBarcode({ barcode: this.barcode }).then((result) => {
-        if (result.data) {
+        if (result.data.length > 0) {
           this.allDisabled = true;
           this.showCheckoutInventory = !this.showCheckoutInventory;
           this.errorMessages = "";
@@ -2837,38 +2852,6 @@ export default {
             ),
           ];
         }
-
-        function selectedUnit() {
-          if (result.data && this.unit) {
-            console.log("jjfhejfı");
-            const unitFilter = result.data.filter(function (currentValue) {
-              return currentValue.unit === this.unit;
-            });
-
-            if (unitFilter.quantity.length > 1) {
-              const quantity = [];
-              unitFilter.forEach((element) => {
-                element.quantity.push(quantity);
-              });
-              this.quantity = quantity.reduce((a, b) => a + b);
-            } else {
-              this.quantity = unitFilter[0].quantity;
-            }
-
-            if (unitFilter.unitprice.length > 1) {
-              const unitprice = [];
-              unitFilter.forEach((element) => {
-                element.unitprice.push(unitprice);
-              });
-              this.unitprice = unitprice.reduce((a, b) => a + b);
-            } else {
-              this.unitprice = unitFilter[0].unitprice;
-            }
-
-            return;
-          }
-        }
-
         this.errorMessages = `Bu barkoda ait ürün bulunamadı.`;
         return;
       });
