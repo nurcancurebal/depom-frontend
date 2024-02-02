@@ -2838,8 +2838,8 @@ export default {
 </script>
 <style>
 .v-list-subheader__text {
-  overflow: visible;
-  text-overflow: unset;
-  white-space: normal;
+  overflow: visible!important;
+  text-overflow: unset!important;
+  white-space: normal!important;
 }
 </style>

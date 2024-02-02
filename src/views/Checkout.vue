@@ -217,15 +217,75 @@
     <v-row>
       <v-col cols="3" offset="9" style="padding: 0 0 25px 0">
         <v-btn
-          :disabled="!allTrue"
+          :disabled="!allTrueDisabled"
           variant="text"
           style="color: rgb(89 86 86); font-family: auto; width: 100%"
+          @click="overlay = !overlay"
         >
           Çıkış Yap
         </v-btn>
       </v-col>
     </v-row>
   </v-card>
+  <v-overlay v-model="overlay" class="align-center justify-center">
+    <v-card style="margin: 40px; padding: 40px; width: 450px">
+      <v-row align="center">
+        <v-col cols="2" style="padding: 0 0 25px 0">
+          <v-list-subheader style="padding-inline-end: 0">
+            Çıkış Yapılan Miktar:
+          </v-list-subheader>
+        </v-col>
+
+        <v-col cols="10" style="padding: 0">
+          <v-text-field
+            variant="outlined"
+            v-model="checkoutQuantity"
+            required
+            :rules="[
+              () => !!checkoutQuantity || 'Bu alan boş bırakılamaz.',
+              () =>
+                /^\d+(\.\d+)?$/.test(checkoutQuantity) ||
+                'Lütfen yalnızca sayısal bir değer giriniz.',
+            ]"
+          />
+        </v-col>
+      </v-row>
+
+      <v-row align="center">
+        <v-col cols="2" style="padding: 0 0 25px 0">
+          <v-list-subheader style="padding-inline-end: 0">
+            Çıkış Yapılan Birim Fiyat:
+          </v-list-subheader>
+        </v-col>
+
+        <v-col cols="10" style="padding: 0">
+          <v-text-field
+            variant="outlined"
+            v-model="checkoutUnitprice"
+            required
+            :rules="[
+              () => !!checkoutUnitprice || 'Bu alan boş bırakılamaz.',
+              () =>
+                /^\d+(\.\d+)?$/.test(checkoutUnitprice) ||
+                'Lütfen yalnızca sayısal bir değer giriniz.',
+            ]"
+          />
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col cols="3" offset="9" style="padding: 0">
+          <v-btn
+            :disabled="!checkoutAllDisabled"
+            variant="text"
+            style="color: rgb(89 86 86); font-family: auto; width: 100%"
+          >
+            Çıkış Yap
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-card>
+  </v-overlay>
 </template>
 
 <script>
@@ -234,6 +294,9 @@ import { mapActions } from "vuex";
 export default {
   data() {
     return {
+      overlay: false,
+      checkoutQuantity: "",
+      checkoutUnitprice: "",
       showCheckoutInventory: false,
       disabled: false,
       allDisabled: false,
@@ -2776,7 +2839,7 @@ export default {
         ? this.inventories?.[this.selectedCategory]?.[this.selectedSubCategory]
         : [];
     },
-    allTrue() {
+    allTrueDisabled() {
       return (
         this.productname !== "" &&
         this.selectedCategory !== "" &&
@@ -2788,6 +2851,14 @@ export default {
         /^\d+(\.\d+)?$/.test(this.quantity) !== false &&
         this.unitprice !== "" &&
         /^\d+(\.\d+)?$/.test(this.unitprice) !== false
+      );
+    },
+    checkoutAllDisabled() {
+      return (
+        this.checkoutQuantity !== "" &&
+        /^\d+(\.\d+)?$/.test(this.checkoutQuantity) !== false &&
+        this.checkoutUnitprice !== "" &&
+        /^\d+(\.\d+)?$/.test(this.checkoutUnitprice) !== false
       );
     },
   },
@@ -2828,6 +2899,9 @@ export default {
           this.unitpriceDisabled = !this.unitpriceDisabled;
         }
       });
+    },
+    overlay(val) {
+      this.overlay = val;
     },
   },
 
