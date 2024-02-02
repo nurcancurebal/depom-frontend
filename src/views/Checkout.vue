@@ -3,7 +3,7 @@
     <v-row align="center">
       <v-col cols="2" style="padding: 0 0 25px 0">
         <v-list-subheader style="padding-inline-end: 0">
-          Stok Kodu/Barkod:
+          Stok Kodu / Barkod:
         </v-list-subheader>
       </v-col>
 
@@ -36,7 +36,7 @@
     <v-row align="center">
       <v-col cols="2" style="padding: 0 0 25px 0">
         <v-list-subheader style="padding-inline-end: 0">
-          Stok Kodu/Barkod:
+          Stok Kodu / Barkod:
         </v-list-subheader>
       </v-col>
 
@@ -183,7 +183,7 @@
           :rules="[
             () => !!quantity || 'Bu alan boş bırakılamaz.',
             () =>
-              /^\d+$/.test(quantity) ||
+              /^\d+(\.\d+)?$/.test(quantity) ||
               'Lütfen yalnızca sayısal bir değer giriniz.',
           ]"
           :disabled="quantityDisabled"
@@ -206,7 +206,7 @@
           :rules="[
             () => !!unitprice || 'Bu alan boş bırakılamaz.',
             () =>
-              /^\d+$/.test(unitprice) ||
+              /^\d+(\.\d+)?$/.test(unitprice) ||
               'Lütfen yalnızca sayısal bir değer giriniz.',
           ]"
           :disabled="unitpriceDisabled"
@@ -273,7 +273,7 @@ export default {
         "top",
       ],
       inventories: {
-        "Meyve & Sebze": {
+        "Meyve ve Sebze": {
           Meyve: [
             "Reyondan",
             "Verita",
@@ -302,7 +302,7 @@ export default {
           ],
           "Yetiştirme Kiti": ["Osmanlı Bahçesi", "Reyondan", "Eden Zirai"],
         },
-        "Et, Tavuk & Balık": {
+        "Et, Tavuk ve Balık": {
           "Kırmızı Et": [
             "Reyondan",
             "Uzman Kasap",
@@ -374,7 +374,7 @@ export default {
             "Seçme",
           ],
         },
-        "Kahvaltılık & Süt Ürünleri": {
+        "Kahvaltılık ve Süt Ürünleri": {
           Süt: [
             "İçim",
             "Pınar",
@@ -827,7 +827,7 @@ export default {
             "Calve",
           ],
         },
-        "Meze, Hazır Yemek & Donuk": {
+        "Meze, Hazır Yemek ve Donuk": {
           Meze: [
             "Reyondan",
             "Gurumen",
@@ -1262,7 +1262,7 @@ export default {
             "Probis",
           ],
         },
-        "Fırın & Pastane": {
+        "Fırın ve Pastane": {
           Ekmek: [
             "Reyondan",
             "Uno",
@@ -1342,7 +1342,7 @@ export default {
             "Kral",
           ],
         },
-        "Deterjan & Temizlik": {
+        "Deterjan ve Temizlik": {
           "Çamaşır Yıkama": [
             "Bingo",
             "Omo",
@@ -1552,7 +1552,7 @@ export default {
             "Viva",
           ],
         },
-        "Kişisel Bakım, Kozmetik &  Sağlık": {
+        "Kişisel Bakım, Kozmetik ve  Sağlık": {
           "Güneş Bakım": [
             "Cireaseptine",
             "Nivea",
@@ -1910,7 +1910,7 @@ export default {
           "Bebek Tekstil": ["Kardelen"],
           "Anne Ürünleri": ["Lactamil", "Doğadan"],
         },
-        "Ev & Yaşam": {
+        "Ev ve Yaşam": {
           "Mutfak Eşyaları": [
             "Paşabahçe",
             "Lav",
@@ -2291,7 +2291,7 @@ export default {
             "İstanbul Kart",
           ],
         },
-        "Kitap, Kırtasiye & Oyuncak": {
+        "Kitap, Kırtasiye ve Oyuncak": {
           "Kitap, Dergi ve Gazete": [
             "Eksik Parça Yayınevi",
             "Reyondan",
@@ -2785,9 +2785,9 @@ export default {
         this.supplier !== "" &&
         this.unit !== "" &&
         this.quantity !== "" &&
-        /^\d+$/.test(this.quantity) !== false &&
+        /^\d+(\.\d+)?$/.test(this.quantity) !== false &&
         this.unitprice !== "" &&
-        /^\d+$/.test(this.unitprice) !== false
+        /^\d+(\.\d+)?$/.test(this.unitprice) !== false
       );
     },
   },
