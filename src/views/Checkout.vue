@@ -2878,26 +2878,36 @@ export default {
         });
 
         if (unitFilter.length > 1) {
-          const quantity = [];
-          unitFilter.forEach((element) => {
-            quantity.push(element.quantity);
-          });
-          this.quantity = quantity.reduce((a, b) => a + b);
+          const entryFilterReduce = unitFilter
+            .filter(function (currentValue) {
+              return currentValue.process == "entry";
+            })
+            .map(function (mapQuantity) {
+              return mapQuantity.quantity;
+            })
+            .reduce((a, b) => a + b);
+
+          const unitpriceFilter = unitFilter
+            .filter(({ process }) => process === "entry")
+            .map(({ unitprice }) => unitprice);
+          const reduce = unitpriceFilter.reduce((a, b) => a + b);
+          this.unitprice = reduce / unitpriceFilter.length;
+          this.unitpriceDisabled = !this.unitpriceDisabled;
+
+          const checkoutFilterReduce = unitFilter
+            .filter(function (currentValue) {
+              return currentValue.process == "checkout";
+            })
+            .map(function (mapQuantity) {
+              return mapQuantity.quantity;
+            })
+            .reduce((a, b) => a + b);
+
+          this.quantity = entryFilterReduce - checkoutFilterReduce;
           this.quantityDisabled = !this.quantityDisabled;
         } else {
           this.quantity = unitFilter[0].quantity;
           this.quantityDisabled = !this.quantityDisabled;
-        }
-
-        if (unitFilter.length > 1) {
-          const unitprice = [];
-          unitFilter.forEach((element) => {
-            unitprice.push(element.unitprice);
-          });
-          const reduceUnitprice = unitprice.reduce((a, b) => a + b);
-          this.unitprice = reduceUnitprice / unitprice.length;
-          this.unitpriceDisabled = !this.unitpriceDisabled;
-        } else {
           this.unitprice = unitFilter[0].unitprice;
           this.unitpriceDisabled = !this.unitpriceDisabled;
         }
