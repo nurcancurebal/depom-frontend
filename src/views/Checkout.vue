@@ -2871,47 +2871,51 @@ export default {
       this.disabled = !!value;
     },
     unit(value) {
-      this.unitDisabled = !this.unitDisabled;
-      this.getListBarcode({ barcode: this.barcode }).then((result) => {
-        const unitFilter = result.data.filter(function (currentValue) {
-          return currentValue.unit === value;
+      if (value !== "") {
+        this.unitDisabled = !this.unitDisabled;
+        this.getListBarcode({ barcode: this.barcode }).then((result) => {
+          const unitFilter = result.data.filter(
+            (currentValue) => currentValue.unit === value
+          );
+
+          if (unitFilter.length > 1) {
+            const entryFilterReduce = unitFilter
+              .filter(({ process }) => process === "entry")
+              .reduce((a, { quantity }) => a + quantity, 0);
+
+            const unitpriceFilter = unitFilter
+              .filter(({ process }) => process === "entry")
+              .map(({ unitprice }) => unitprice);
+            const reduce = unitpriceFilter.reduce((a, b) => a + b);
+            this.unitprice = reduce / unitpriceFilter.length;
+            this.unitpriceDisabled = !this.unitpriceDisabled;
+
+            const checkoutFilterReduce = unitFilter
+              .filter(({ process }) => process == "checkout")
+              .reduce((a, { quantity }) => a + quantity, 0);
+
+            this.quantity = entryFilterReduce - checkoutFilterReduce;
+            this.quantityDisabled = !this.quantityDisabled;
+          } else {
+            this.quantity = unitFilter[0].quantity;
+            this.quantityDisabled = !this.quantityDisabled;
+            this.unitprice = unitFilter[0].unitprice;
+            this.unitpriceDisabled = !this.unitpriceDisabled;
+          }
         });
-
-        if (unitFilter.length > 1) {
-          const entryFilterReduce = unitFilter
-            .filter(function (currentValue) {
-              return currentValue.process == "entry";
-            })
-            .map(function (mapQuantity) {
-              return mapQuantity.quantity;
-            })
-            .reduce((a, b) => a + b);
-
-          const unitpriceFilter = unitFilter
-            .filter(({ process }) => process === "entry")
-            .map(({ unitprice }) => unitprice);
-          const reduce = unitpriceFilter.reduce((a, b) => a + b);
-          this.unitprice = reduce / unitpriceFilter.length;
-          this.unitpriceDisabled = !this.unitpriceDisabled;
-
-          const checkoutFilterReduce = unitFilter
-            .filter(function (currentValue) {
-              return currentValue.process == "checkout";
-            })
-            .map(function (mapQuantity) {
-              return mapQuantity.quantity;
-            })
-            .reduce((a, b) => a + b);
-
-          this.quantity = entryFilterReduce - checkoutFilterReduce;
-          this.quantityDisabled = !this.quantityDisabled;
-        } else {
-          this.quantity = unitFilter[0].quantity;
-          this.quantityDisabled = !this.quantityDisabled;
-          this.unitprice = unitFilter[0].unitprice;
-          this.unitpriceDisabled = !this.unitpriceDisabled;
-        }
-      });
+      }
+      return;
+    },
+    checkoutQuantity(value) {
+      if (
+        (value !== "" && value <= 0) ||
+        (value !== "" && value > this.quantity)
+      ) {
+        return (this.errorMessagesCheckout =
+          "Lütfen geçerli bir miktar giriniz.");
+      } else {
+        return (this.errorMessagesCheckout = "");
+      }
     },
     overlay(val) {
       this.overlay = val;
@@ -2944,7 +2948,7 @@ export default {
       });
     },
     checkout() {
-      if (0 < this.checkoutQuantity <= this.quantity) {
+      if (this.checkoutQuantity > 0 && this.checkoutQuantity <= this.quantity) {
         this.errorMessagesCheckout = "";
         this.checkoutOne({
           barcode: this.barcode,
@@ -2958,6 +2962,8 @@ export default {
           unitprice: this.checkoutUnitprice,
         }).then(() => {
           this.errorMessagesCheckout = "";
+          this.showCheckoutInventory = false;
+          this.overlay = false;
           this.barcode = "";
           this.productname = "";
           this.selectedCategory = "";
@@ -2967,8 +2973,6 @@ export default {
           this.unit = "";
           this.checkoutQuantity = "";
           this.checkoutUnitprice = "";
-          this.overlay = false;
-          this.showCheckoutInventory = false;
           this.disabled = false;
           this.allDisabled = false;
           this.unitDisabled = false;
@@ -3000,7 +3004,8 @@ export default {
             "top",
           ];
         });
-        this.errorMessagesCheckout = "Stokta yeterli ürün bulunmamakta.";
+      } else {
+        this.errorMessagesCheckout = "Lütfen geçerli bir miktar giriniz.";
       }
     },
   },
