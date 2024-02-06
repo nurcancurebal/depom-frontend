@@ -13,7 +13,7 @@
           v-model="barcode"
           required
           :rules="[() => !!barcode || 'Bu alan boş bırakılamaz.']"
-          :error-messages="errorMessages"
+          :error-messages="errorMessagesBarcode"
         />
       </v-col>
     </v-row>
@@ -247,6 +247,7 @@
                 /^\d+(\.\d+)?$/.test(checkoutQuantity) ||
                 'Lütfen yalnızca sayısal bir değer giriniz.',
             ]"
+            :error-messages="errorMessagesCheckout"
           />
         </v-col>
       </v-row>
@@ -276,9 +277,10 @@
       <v-row>
         <v-col cols="3" offset="9" style="padding: 0">
           <v-btn
-            :disabled="!checkoutAllDisabled"
+            :disabled="!checkoutClickDisabled"
             variant="text"
             style="color: rgb(89 86 86); font-family: auto; width: 100%"
+            @click="checkout"
           >
             Çıkış Yap
           </v-btn>
@@ -303,7 +305,7 @@ export default {
       unitDisabled: false,
       quantityDisabled: false,
       unitpriceDisabled: false,
-      errorMessages: "",
+      errorMessagesBarcode: "",
       barcode: "",
       productname: "",
       selectedCategory: "",
@@ -335,6 +337,7 @@ export default {
         "ton",
         "top",
       ],
+      errorMessagesCheckout: "",
       inventories: {
         "Meyve ve Sebze": {
           Meyve: [
@@ -2853,7 +2856,7 @@ export default {
         /^\d+(\.\d+)?$/.test(this.unitprice) !== false
       );
     },
-    checkoutAllDisabled() {
+    checkoutClickDisabled() {
       return (
         this.checkoutQuantity !== "" &&
         /^\d+(\.\d+)?$/.test(this.checkoutQuantity) !== false &&
@@ -2906,13 +2909,13 @@ export default {
   },
 
   methods: {
-    ...mapActions(["getListBarcode"]),
+    ...mapActions(["getListBarcode", "checkoutOne"]),
     findProduct() {
       this.getListBarcode({ barcode: this.barcode }).then((result) => {
         if (result.data.length > 0) {
           this.allDisabled = true;
           this.showCheckoutInventory = !this.showCheckoutInventory;
-          this.errorMessages = "";
+          this.errorMessagesBarcode = "";
           this.productname = result.data[0].productname;
           this.selectedCategory = result.data[0].category;
           this.selectedSubCategory = result.data[0].subcategory;
@@ -2926,9 +2929,69 @@ export default {
             ),
           ];
         }
-        this.errorMessages = `Bu barkoda ait ürün bulunamadı.`;
+        this.errorMessagesBarcode = `Bu barkoda ait ürün bulunamadı.`;
         return;
       });
+    },
+    checkout() {
+      if (0 < this.checkoutQuantity <= this.quantity) {
+        this.errorMessagesCheckout = "";
+        this.checkoutOne({
+          barcode: this.barcode,
+          productname: this.productname,
+          selectedCategory: this.selectedCategory,
+          selectedSubCategory: this.selectedSubCategory,
+          supplier: this.supplier,
+          selectedBrand: this.selectedBrand,
+          unit: this.unit,
+          quantity: this.checkoutQuantity,
+          unitprice: this.checkoutUnitprice,
+        }).then(() => {
+          this.errorMessagesCheckout = "";
+          this.barcode = "";
+          this.productname = "";
+          this.selectedCategory = "";
+          this.selectedSubCategory = "";
+          this.supplier = "";
+          this.selectedBrand = "";
+          this.unit = "";
+          this.checkoutQuantity = "";
+          this.checkoutUnitprice = "";
+          this.overlay = false;
+          this.showCheckoutInventory = false;
+          this.disabled = false;
+          this.allDisabled = false;
+          this.unitDisabled = false;
+          this.quantityDisabled = false;
+          this.unitpriceDisabled = false;
+          this.errorMessagesBarcode = "";
+          this.quantity = "";
+          this.unitprice = "";
+          this.unitItems = [
+            "adet",
+            "bağ",
+            "boy",
+            "cm",
+            "çuval",
+            "gr",
+            "grup",
+            "kg",
+            "koli",
+            "kutu",
+            "lt",
+            "m²",
+            "m³",
+            "m",
+            "mm",
+            "ml",
+            "paket",
+            "saat",
+            "ton",
+            "top",
+          ];
+        });
+        this.errorMessagesCheckout = "Stokta yeterli ürün bulunmamakta.";
+      }
     },
   },
 };
