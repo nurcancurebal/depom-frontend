@@ -4,24 +4,17 @@ import axios from "axios";
 export default createStore({
   state: {
     inventory: [],
-    listBarcode: []
   },
   getters: {
     inventory(state) {
 
       return state.inventory;
-    },
-    listBarcode(state) {
-
-      return state.listBarcode;
-    },
+    }
   },
   mutations: {
     INVENTORY(state, context) {
+
       state.inventory = context;
-    },
-    LİST_BARCODE(state, context) {
-      state.listBarcode = context;
     }
   },
   actions: {
@@ -53,8 +46,6 @@ export default createStore({
           .get(`http://localhost:3000/inventory/${payload.barcode}`);
 
         console.log("getListBarcode", result.data);
-
-        context.commit("LİST_BARCODE", result.data);
 
         return result;
 
