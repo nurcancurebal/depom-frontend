@@ -18,18 +18,23 @@ export default createStore({
     }
   },
   actions: {
-    async getInventory(context) {
+
+    async getInventory(context, payload) {
 
       try {
 
         const result = await axios
-          .get("http://localhost:3000/inventory");
+          .get("http://localhost:3000/inventory", {
+            params: {
+              page: payload.page,
+              limit: payload.limit,
+              sort: payload.sort
+            }
+          });
 
-        console.log("getInventory", result.data);
+        console.log("getInventory", result);
 
-        context.commit("INVENTORY", result.data);
-
-        return result;
+        context.commit('INVENTORY', result.data);
 
       } catch (error) {
 
