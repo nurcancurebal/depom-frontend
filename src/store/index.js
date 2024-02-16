@@ -36,6 +36,8 @@ export default createStore({
 
         context.commit('INVENTORY', result.data);
 
+        return result;
+
       } catch (error) {
 
         console.error("getInventory", error);
