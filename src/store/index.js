@@ -45,6 +45,24 @@ export default createStore({
       };
     },
 
+    async getInventoryCount(context, payload) {
+
+      try {
+
+        const result = await axios
+          .get("http://localhost:3000/inventory/count");
+
+        console.log("getInventoryCount", result.data.count);
+
+        return result.data.count;
+
+      } catch (error) {
+
+        console.error("getInventoryCount", error);
+
+      };
+    },
+
     async getListBarcode(context, payload) {
 
       try {
