@@ -96,6 +96,8 @@ export default {
     updateOptions(options) {
       console.log("options", options);
       this.currentPage = options.page;
+      this.itemsPerPage = options.itemsPerPage
+
       let sort =
         options.sortBy && options.sortBy.length > 0
           ? options.sortBy[0]
@@ -104,6 +106,7 @@ export default {
         options.sortDesc && options.sortDesc.length > 0
           ? options.sortDesc[0]
           : false;
+
       this.getInventory({
         page: this.currentPage,
         sort: desc ? "-" + sort : sort,

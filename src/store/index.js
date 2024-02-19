@@ -99,8 +99,6 @@ export default createStore({
 
         console.log("entryOne", result.data);
 
-        context.dispatch("getInventory");
-
         return result;
 
       } catch (error) {
@@ -127,8 +125,6 @@ export default createStore({
         });
 
         console.log("checkoutOne", result.data);
-
-        context.dispatch("getInventory");
 
         return result;
 
