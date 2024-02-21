@@ -10,6 +10,9 @@
     item-value="_id"
     @update:options="updateOptions"
     must-sort
+    fixed-header
+    height="399px"
+    style="font-size: 14px"
   />
 </template>
 
@@ -35,11 +38,13 @@ export default {
           title: "Ürün Adı",
           value: "productname",
           sortable: true,
+          width: "250px",
         },
         {
           title: "Kategori",
           value: "category",
           sortable: true,
+          width: "200px",
         },
         {
           title: "Alt Kategori",
