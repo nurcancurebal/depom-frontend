@@ -7,11 +7,6 @@ import Current from "@/views/Current"
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Stock
-  },
-  {
-    path: '/stock',
     name: 'Stock',
     component: Stock
   },
