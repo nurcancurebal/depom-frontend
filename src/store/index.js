@@ -24,15 +24,9 @@ export default createStore({
       try {
 
         const result = await axios
-          .get("http://localhost:3000/inventory", {
-            params: {
-              page: payload.page,
-              limit: payload.limit,
-              sort: payload.sort
-            }
-          });
+          .get(`http://localhost:3000/inventory?page=${payload.page}&limit=${payload.limit}&sort=${payload.sort}`);
 
-        console.log("getInventory", result);
+        console.log("getInventory", result.data);
 
         context.commit('INVENTORY', result.data);
 

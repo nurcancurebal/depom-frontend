@@ -9,6 +9,7 @@
     :loading="loading"
     item-value="_id"
     @update:options="updateOptions"
+    must-sort
   />
 </template>
 
@@ -22,6 +23,8 @@ export default {
       loading: false,
       inventoryCount: 0,
       currentPage: 1,
+      sort: "barcode",
+      desc: "",
       headers: [
         {
           title: "Stok Kodu / Barkod",
@@ -94,22 +97,21 @@ export default {
   methods: {
     ...mapActions(["getInventory", "getInventoryCount"]),
     updateOptions(options) {
-      console.log("options", options);
       this.currentPage = options.page;
-      this.itemsPerPage = options.itemsPerPage
+      this.itemsPerPage = options.itemsPerPage;
 
-      let sort =
-        options.sortBy && options.sortBy.length > 0
-          ? options.sortBy[0]
-          : "barcode";
-      let desc =
-        options.sortDesc && options.sortDesc.length > 0
-          ? options.sortDesc[0]
-          : false;
+      if (options.sortBy && options.sortBy.length > 0) {
+        this.sort = options.sortBy[0].key;
+        this.desc = options.sortBy[0].order === "desc" ? "-" : "";
+      }
+
+      if (options.sortBy && options.sortBy.length > 0) {
+        this.sort = options.sortBy[0].key;
+      }
 
       this.getInventory({
         page: this.currentPage,
-        sort: desc ? "-" + sort : sort,
+        sort: this.desc + this.sort,
         limit: this.itemsPerPage,
       }).then(() => {
         this.loading = false;

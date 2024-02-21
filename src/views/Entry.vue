@@ -240,10 +240,10 @@
           @click="
             entryOne({
               barcode,
-              productname,
+              productname: capitalizeWords(productname),
               selectedCategory,
               selectedSubCategory,
-              supplier,
+              supplier: capitalizeWords(supplier),
               selectedBrand,
               unit,
               quantity,
@@ -2832,6 +2832,12 @@ export default {
         this.showEntryInventory = !this.showEntryInventory;
         return;
       });
+    },
+    capitalizeWords(str) {
+      return str
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
     },
   },
 };
