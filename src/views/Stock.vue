@@ -5,7 +5,7 @@
     v-model:items-per-page="itemsPerPage"
     :headers="headers"
     :items-length="inventoryCount"
-    :items="inventory"
+    :items="formattedInventory"
     :loading="loading"
     item-value="_id"
     @update:options="updateOptions"
@@ -91,6 +91,15 @@ export default {
   },
   computed: {
     ...mapGetters(["inventory"]),
+    formattedInventory() {
+      return this.inventory.map((item) => {
+        const date = new Date(item.date);
+        const day = date.getDate().toString().padStart(2, "0");
+        const month = (date.getMonth() + 1).toString().padStart(2, "0");
+        const year = date.getFullYear();
+        return { ...item, date: `${day}.${month}.${year}` };
+      });
+    },
   },
   created() {
     this.loading = true;
