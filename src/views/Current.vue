@@ -5,7 +5,7 @@
     v-model:items-per-page="itemsPerPage"
     :headers="headers"
     :items-length="inventoryCount"
-    :items="formattedInventory"
+    :items="uniqueInventory"
     :loading="loading"
     item-value="_id"
     @update:options="updateOptions"
@@ -28,6 +28,10 @@ export default {
       currentPage: 1,
       sort: "barcode",
       desc: "",
+      stockquantity: "",
+      totalunitprice: "",
+      profit: "",
+      loss: "",
       headers: [
         {
           title: "Stok Kodu / Barkod",
@@ -67,23 +71,24 @@ export default {
           sortable: true,
         },
         {
-          title: "Miktar",
-          value: "quantity",
+          title: "Stok Miktarı",
+          value: "stockquantity",
           sortable: true,
         },
         {
-          title: "Birim Fiyat",
-          value: "unitprice",
+          title: "Toplam Birim Fiyat",
+          value: "totalunitprice",
+          sortable: true,
+          width: "120px",
+        },
+        {
+          title: "Kar",
+          value: "profit",
           sortable: true,
         },
         {
-          title: "İşlem",
-          value: "process",
-          sortable: true,
-        },
-        {
-          title: "Tarih",
-          value: "date",
+          title: "Zarar",
+          value: "loss",
           sortable: true,
         },
       ],
@@ -91,14 +96,18 @@ export default {
   },
   computed: {
     ...mapGetters(["inventory"]),
-    formattedInventory() {
-      return this.inventory.map((item) => {
-        const date = new Date(item.date);
-        const day = date.getDate().toString().padStart(2, "0");
-        const month = (date.getMonth() + 1).toString().padStart(2, "0");
-        const year = date.getFullYear();
-        return { ...item, date: `${day}.${month}.${year}` };
-      });
+    uniqueInventory() {
+      return this.inventory.reduce((acc, current) => {
+        const x = acc.find(
+          (item) =>
+            item.barcode === current.barcode && item.unit === current.unit
+        );
+        if (!x) {
+          return acc.concat([current]);
+        } else {
+          return acc;
+        }
+      }, []);
     },
   },
   created() {
