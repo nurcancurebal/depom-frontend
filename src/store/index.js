@@ -75,6 +75,24 @@ export default createStore({
       };
     },
 
+    async getCurrent(context, payload) {
+
+      try {
+
+        const result = await axios
+          .get("http://localhost:3000/inventory/current");
+
+        console.log("getCurrent", result.data);
+
+        return result.data;
+
+      } catch (error) {
+
+        console.error("getCurrent", error);
+
+      };
+    },
+
     async entryOne(context, payload) {
 
       try {

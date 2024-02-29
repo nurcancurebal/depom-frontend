@@ -4,34 +4,27 @@
     density="compact"
     v-model:items-per-page="itemsPerPage"
     :headers="headers"
-    :items-length="inventoryCount"
-    :items="uniqueInventory"
+    :items-length="current.length"
+    :items="formattedCurrent"
     :loading="loading"
     item-value="_id"
-    @update:options="updateOptions"
     must-sort
     fixed-header
     height="399px"
     style="font-size: 14px"
+    @update:options="updateOptions"
   />
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   data() {
     return {
       itemsPerPage: 10,
+      current: [],
       loading: false,
-      inventoryCount: 0,
-      currentPage: 1,
-      sort: "barcode",
-      desc: "",
-      stockquantity: "",
-      totalunitprice: "",
-      profit: "",
-      loss: "",
       headers: [
         {
           title: "Stok Kodu / Barkod",
@@ -72,73 +65,52 @@ export default {
         },
         {
           title: "Stok Miktarı",
-          value: "stockquantity",
+          value: "stockQuantity",
           sortable: true,
         },
         {
           title: "Toplam Birim Fiyat",
-          value: "totalunitprice",
+          value: "totalUnitPrice",
           sortable: true,
           width: "120px",
         },
         {
-          title: "Kar",
-          value: "profit",
+          title: "Kar / Zarar",
+          value: "profitLoss",
           sortable: true,
         },
         {
-          title: "Zarar",
-          value: "loss",
+          title: "Son İşlem Tarihi",
+          value: "date",
           sortable: true,
+          width: "120px",
         },
       ],
     };
   },
   computed: {
-    ...mapGetters(["inventory"]),
-    uniqueInventory() {
-      return this.inventory.reduce((acc, current) => {
-        const x = acc.find(
-          (item) =>
-            item.barcode === current.barcode && item.unit === current.unit
-        );
-        if (!x) {
-          return acc.concat([current]);
-        } else {
-          return acc;
-        }
-      }, []);
+    formattedCurrent() {
+      return this.current.map((item) => {
+        const date = new Date(item.date);
+        const day = date.getDate().toString().padStart(2, "0");
+        const month = (date.getMonth() + 1).toString().padStart(2, "0");
+        const year = date.getFullYear();
+        return { ...item, date: `${day}.${month}.${year}` };
+      });
     },
   },
   created() {
     this.loading = true;
-    this.getInventoryCount().then((count) => {
-      this.inventoryCount = count;
+    this.getCurrent().then((result) => {
+      this.current = result;
+      this.loading = false;
     });
   },
 
   methods: {
-    ...mapActions(["getInventory", "getInventoryCount"]),
+    ...mapActions(["getCurrent"]),
     updateOptions(options) {
-      this.currentPage = options.page;
-      this.itemsPerPage = options.itemsPerPage;
-
-      if (options.sortBy && options.sortBy.length > 0) {
-        this.sort = options.sortBy[0].key;
-        this.desc = options.sortBy[0].order === "desc" ? "-" : "";
-      }
-
-      if (options.sortBy && options.sortBy.length > 0) {
-        this.sort = options.sortBy[0].key;
-      }
-
-      this.getInventory({
-        page: this.currentPage,
-        sort: this.desc + this.sort,
-        limit: this.itemsPerPage,
-      }).then(() => {
-        this.loading = false;
-      });
+      console.log(options);
     },
   },
 };
