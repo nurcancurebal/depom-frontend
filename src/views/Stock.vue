@@ -119,10 +119,6 @@ export default {
         this.desc = options.sortBy[0].order === "desc" ? "-" : "";
       }
 
-      if (options.sortBy && options.sortBy.length > 0) {
-        this.sort = options.sortBy[0].key;
-      }
-
       this.getInventory({
         page: this.currentPage,
         sort: this.desc + this.sort,

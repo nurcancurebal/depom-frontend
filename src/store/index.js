@@ -4,17 +4,27 @@ import axios from "axios";
 export default createStore({
   state: {
     inventory: [],
+    current: []
   },
   getters: {
     inventory(state) {
 
       return state.inventory;
+    },
+    current(state) {
+
+      return state.current;
     }
   },
   mutations: {
     INVENTORY(state, context) {
 
       state.inventory = context;
+    },
+
+    CURRENT(state, context) {
+
+      state.current = context;
     }
   },
   actions: {
@@ -44,7 +54,7 @@ export default createStore({
       try {
 
         const result = await axios
-          .get("http://localhost:3000/inventory/count");
+          .get("http://localhost:3000/inventory/list/count");
 
         console.log("getInventoryCount", result.data.count);
 
@@ -53,6 +63,24 @@ export default createStore({
       } catch (error) {
 
         console.error("getInventoryCount", error);
+
+      };
+    },
+
+    async getCurrentCount(context, payload) {
+
+      try {
+
+        const result = await axios
+          .get("http://localhost:3000/inventory/current/count");
+
+        console.log("getCurrentCount", result.data.count);
+
+        return result.data.count;
+
+      } catch (error) {
+
+        console.error("getCurrentCount", error);
 
       };
     },
@@ -80,9 +108,11 @@ export default createStore({
       try {
 
         const result = await axios
-          .get("http://localhost:3000/inventory/current");
+          .get(`http://localhost:3000/inventory/current?page=${payload.page}&limit=${payload.limit}&sort=${payload.sort}`);
 
         console.log("getCurrent", result.data);
+
+        context.commit('CURRENT', result.data);
 
         return result.data;
 
