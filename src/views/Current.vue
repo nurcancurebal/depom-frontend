@@ -91,6 +91,7 @@ export default {
       ],
     };
   },
+
   computed: {
     ...mapGetters(["current"]),
     formattedCurrent() {
@@ -103,6 +104,7 @@ export default {
       });
     },
   },
+
   created() {
     this.loading = true;
     this.getCurrentCount().then((count) => {

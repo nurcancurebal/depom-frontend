@@ -89,6 +89,7 @@ export default {
       ],
     };
   },
+
   computed: {
     ...mapGetters(["inventory"]),
     formattedInventory() {
@@ -101,6 +102,7 @@ export default {
       });
     },
   },
+
   created() {
     this.loading = true;
     this.getInventoryCount().then((count) => {
