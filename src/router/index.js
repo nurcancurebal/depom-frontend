@@ -3,10 +3,16 @@ import Stock from "@/views/Stock"
 import Entry from "@/views/Entry"
 import Checkout from "@/views/Checkout"
 import Current from "@/views/Current"
+import Home from "@/views/Home"
 
 const routes = [
   {
     path: '/',
+    name: 'Home',
+    component: Home
+  },
+  {
+    path: '/stock',
     name: 'Stock',
     component: Stock
   },

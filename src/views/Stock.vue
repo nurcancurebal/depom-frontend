@@ -1,25 +1,37 @@
 <template>
-  <v-data-table-server
-    class="ma-5"
-    density="compact"
-    v-model:items-per-page="itemsPerPage"
-    :headers="headers"
-    :items-length="inventoryCount"
-    :items="formattedInventory"
-    :loading="loading"
-    item-value="_id"
-    @update:options="updateOptions"
-    must-sort
-    fixed-header
-    height="399px"
-    style="font-size: 14px"
-  />
+  <v-row no-gutters>
+    <v-col cols="2">
+      <TheSidebar />
+    </v-col>
+    <v-col cols="10">
+      <v-data-table-server
+        class="ma-5"
+        density="compact"
+        v-model:items-per-page="itemsPerPage"
+        :headers="headers"
+        :items-length="inventoryCount"
+        :items="formattedInventory"
+        :loading="loading"
+        item-value="_id"
+        @update:options="updateOptions"
+        must-sort
+        fixed-header
+        height="399px"
+        style="font-size: 14px"
+      />
+    </v-col>
+  </v-row>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import TheSidebar from "../components/TheSidebar.vue";
 
 export default {
+  components: {
+    TheSidebar,
+  },
+
   data() {
     return {
       itemsPerPage: 10,
@@ -33,58 +45,70 @@ export default {
           title: "Stok Kodu / Barkod",
           value: "barcode",
           sortable: true,
+          width: "130px",
+          align: "center",
         },
         {
           title: "Ürün Adı",
           value: "productname",
           sortable: true,
           width: "250px",
+          align: "center",
         },
         {
           title: "Kategori",
           value: "category",
           sortable: true,
           width: "200px",
+          align: "center",
         },
         {
           title: "Alt Kategori",
           value: "subcategory",
           sortable: true,
+          align: "center",
         },
         {
           title: "Tedarikçi",
           value: "supplier",
           sortable: true,
+          align: "center",
         },
         {
           title: "Marka",
           value: "brand",
           sortable: true,
+          align: "center",
         },
         {
           title: "Birim",
           value: "unit",
           sortable: true,
+          align: "center",
         },
         {
           title: "Miktar",
           value: "quantity",
           sortable: true,
+          align: "center",
         },
         {
           title: "Birim Fiyat",
           value: "unitprice",
           sortable: true,
+          align: "center",
         },
         {
           title: "İşlem",
           value: "process",
           sortable: true,
+          align: "center",
         },
         {
           title: "Tarih",
           value: "date",
           sortable: true,
+          align: "center",
         },
       ],
     };

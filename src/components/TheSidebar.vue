@@ -7,7 +7,7 @@
         style="position: absolute; width: 100%; background-color: #ededed"
       >
         <v-list density="compact" nav style="font-size: 1.4rem">
-          <router-link to="/" style="text-decoration: none; color: black">
+          <router-link to="/stock" style="text-decoration: none; color: black">
             <v-list-item
               prepend-icon="mdi-warehouse"
               title="Depo - Stok"
