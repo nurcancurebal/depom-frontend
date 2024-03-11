@@ -1,35 +1,44 @@
 <template>
-  <v-row no-gutters>
-    <v-col cols="2">
-      <TheSidebar />
-    </v-col>
-    <v-col cols="10">
-      <v-data-table-server
-        class="ma-5"
-        density="compact"
-        v-model:items-per-page="itemsPerPage"
-        :headers="headers"
-        :items-length="inventoryCount"
-        :items="formattedInventory"
-        :loading="loading"
-        item-value="_id"
-        @update:options="updateOptions"
-        must-sort
-        fixed-header
-        height="399px"
-        style="font-size: 14px"
-      />
-    </v-col>
-  </v-row>
+  <div>
+    <v-row no-gutters>
+      <v-col cols="12">
+        <TheNavbar />
+      </v-col>
+    </v-row>
+    <v-row no-gutters>
+      <v-col cols="2">
+        <TheSidebar />
+      </v-col>
+      <v-col cols="10">
+        <v-data-table-server
+          class="ma-5"
+          density="compact"
+          v-model:items-per-page="itemsPerPage"
+          :headers="headers"
+          :items-length="inventoryCount"
+          :items="formattedInventory"
+          :loading="loading"
+          item-value="_id"
+          @update:options="updateOptions"
+          must-sort
+          fixed-header
+          height="399px"
+          style="font-size: 14px"
+        />
+      </v-col>
+    </v-row>
+  </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
 import TheSidebar from "../components/TheSidebar.vue";
+import TheNavbar from "../components/TheNavbar.vue";
 
 export default {
   components: {
     TheSidebar,
+    TheNavbar,
   },
 
   data() {
