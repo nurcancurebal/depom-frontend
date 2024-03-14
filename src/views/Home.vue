@@ -10,20 +10,18 @@
         :elevation="13"
         :height="signInUp ? '590' : '400'"
         style="border-radius: 25px 0px 0px 25px; background-color: #208ec6"
-        class=" d-flex align-center justify-center flex-column"
+        class="d-flex align-center justify-center flex-column px-2"
       >
         <h2 class="text-h3 font-weight-bold" style="color: #ededed">Depom</h2>
         <p class="my-4 text-body-1 text-center" style="color: #ededed">
           Stok takip ve yönetim uygulaması
         </p>
-        <div style="text-align: left; display: inline-block">
-          <ul style="list-style-type: disc; color: #ededed">
-            <li>Depo - Stok</li>
-            <li>Stok Giriş</li>
-            <li>Stok Çıkış</li>
-            <li>Cari</li>
-          </ul>
-        </div>
+        <ul style="list-style-type: disc; color: #ededed">
+          <li>Depo - Stok</li>
+          <li>Stok Giriş</li>
+          <li>Stok Çıkış</li>
+          <li>Cari</li>
+        </ul>
       </v-sheet>
     </v-col>
     <v-col cols="5" style="padding: 0">
@@ -103,12 +101,13 @@
             placeholder="Kullanıcı Adı"
           />
           <v-text-field
-            prepend-inner-icon="mdi-account"
+            prepend-inner-icon="mdi-calendar"
             variant="solo"
             rounded="xl"
             style="width: 100%"
             placeholder="Doğum Tarihi"
           />
+
           <v-text-field
             prepend-inner-icon="mdi-lock"
             variant="solo"
