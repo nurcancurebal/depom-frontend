@@ -100,13 +100,31 @@
             style="width: 100%"
             placeholder="Kullanıcı Adı"
           />
-          <v-text-field
-            prepend-inner-icon="mdi-calendar"
-            variant="solo"
-            rounded="xl"
-            style="width: 100%"
-            placeholder="Doğum Tarihi"
-          />
+
+          <v-menu
+            v-model="menu"
+            :close-on-content-click="false"
+            transition="scale-transition"
+            min-width="auto"
+          >
+            <template v-slot:activator="{ attrs }">
+              <v-text-field
+                v-model="formatDate"
+                readonly
+                v-bind="attrs"
+                @click="menu = !menu"
+                prepend-inner-icon="mdi-calendar"
+                variant="solo"
+                rounded="xl"
+                style="width: 100%"
+                placeholder="Doğum Tarihi"
+              />
+            </template>
+            <v-date-picker v-model="date" no-title scrollable>
+              <v-btn text color="#208ec6" @click="menu = false"> Cancel </v-btn>
+              <v-btn text color="#208ec6" @click="formatDateClick"> OK </v-btn>
+            </v-date-picker>
+          </v-menu>
 
           <v-text-field
             prepend-inner-icon="mdi-lock"
@@ -148,12 +166,28 @@ export default {
     return {
       signInUp: false,
       visible: false,
+      date: null,
+      menu: false,
+      formatDate: null,
     };
+  },
+  methods: {
+    formatDateClick() {
+      this.menu = false;
+      const d = new Date(this.date);
+      const day = ("0" + d.getDate()).slice(-2);
+      const month = ("0" + (d.getMonth() + 1)).slice(-2);
+      const year = d.getFullYear();
+      this.formatDate = day + "." + month + "." + year;
+    },
   },
 };
 </script>
 <style>
 .v-field__input {
   color: gray !important;
+}
+.v-picker-title {
+  display: none;
 }
 </style>
