@@ -1,19 +1,51 @@
 import { createStore } from 'vuex'
 import axios from "axios";
+import router from "../router";
+
+axios.interceptors.request.use(config => {
+
+  const authToken = localStorage.getItem('token');
+
+  if (authToken) {
+
+    config.headers.Authorization = `Bearer ${authToken}`;
+  };
+  return config;
+});
+
+axios.interceptors.response.use(function (response) {
+
+  return response;
+
+}, function (error) {
+
+  if (error?.response?.status == 401) {
+
+    localStorage.removeItem("token");
+    router.push("/");
+  };
+  return Promise.reject(error);
+});
 
 export default createStore({
   state: {
     inventory: [],
-    current: []
+    current: [],
+    user: [],
   },
   getters: {
     inventory(state) {
 
       return state.inventory;
     },
+
     current(state) {
 
       return state.current;
+    },
+
+    user(state) {
+      return state.user
     }
   },
   mutations: {
@@ -25,8 +57,13 @@ export default createStore({
     CURRENT(state, context) {
 
       state.current = context;
+    },
+
+    USER(state, context) {
+      state.user = context
     }
   },
+
   actions: {
 
     async getInventory(context, payload) {
@@ -173,6 +210,70 @@ export default createStore({
       } catch (error) {
 
         console.error("checkoutOne", error);
+
+      };
+    },
+
+    async signUp(context, payload) {
+
+      try {
+        console.log(payload);
+
+        return await axios.post("http://localhost:3000/auth/signup", payload);
+
+      } catch (error) {
+
+        console.error("signUp", error);
+
+      };
+    },
+
+    async signIn(context, payload) {
+      console.log(payload)
+      try {
+
+        return await axios.post("http://localhost:3000/auth/signin", payload);
+
+      } catch (error) {
+
+        console.error(error);
+
+      };
+    },
+
+    async updateUser(context, payload) {
+
+      try {
+
+        const result = await axios.put(`http://localhost:3000/user`, { firstname: payload.firstname, lastname: payload.lastname, username: payload.username, birthdate: payload.birthdate, password: payload.password });
+
+        console.log("updateUser", result.data);
+
+        return result;
+
+      } catch (error) {
+
+        console.error("updateUser", error);
+
+      };
+    },
+
+    async getUser(context) {
+
+      try {
+
+        const result = await axios
+          .get("http://localhost:3000/user");
+
+        console.log("getUser", result.data);
+
+        context.commit("USER", result.data);
+
+        return result;
+
+      } catch (error) {
+
+        console.error("getUser", error);
 
       };
     },

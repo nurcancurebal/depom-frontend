@@ -39,6 +39,8 @@
             rounded="xl"
             style="width: 100%"
             placeholder="Kullanıcı Adı"
+            :error-messages="usernameError"
+            v-model="username"
           />
           <v-text-field
             prepend-inner-icon="mdi-lock"
@@ -49,11 +51,36 @@
             :type="visible ? 'text' : 'password'"
             @click:append-inner="visible = !visible"
             :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+            :error-messages="passwordError"
+            v-model="password"
           />
           <v-btn
-            type="submit"
             style="width: 100%; background-color: #208ec6; color: #ededed"
             rounded="xl"
+            @click="
+              if (
+                !usernameError &&
+                !passwordError &&
+                !!username &&
+                !!password
+              ) {
+                signIn({ username, password })
+                  .then((response) => {
+                    if (response && response.data && response.data.token) {
+                      localStorage.setItem('token', response.data.token);
+                      this.$router.push('/stock');
+                    } else {
+                      console.error(
+                        'Response or response.data or response.data.token is undefined'
+                      );
+                    }
+                  })
+                  .catch((error) => {
+                    this.userError = true;
+                    console.error('error', error);
+                  });
+              }
+            "
           >
             Giriş Yap
           </v-btn>
@@ -63,7 +90,7 @@
           <v-btn
             variant="plain"
             style="color: #208ec6"
-            @click="signInUp = !signInUp"
+            @click="changeSignInUp"
             class="mr-5"
           >
             Kayıt Ol!
@@ -85,6 +112,8 @@
             rounded="xl"
             style="width: 100%"
             placeholder="Ad"
+            v-model="firstname"
+            :error-messages="firstnameError"
           />
           <v-text-field
             prepend-inner-icon="mdi-account"
@@ -92,6 +121,8 @@
             rounded="xl"
             style="width: 100%"
             placeholder="Soyad"
+            v-model="lastname"
+            :error-messages="lastnameError"
           />
           <v-text-field
             prepend-inner-icon="mdi-account"
@@ -99,6 +130,8 @@
             rounded="xl"
             style="width: 100%"
             placeholder="Kullanıcı Adı"
+            v-model="signupusername"
+            :error-messages="signupusernameError"
           />
 
           <v-menu
@@ -118,6 +151,7 @@
                 rounded="xl"
                 style="width: 100%"
                 placeholder="Doğum Tarihi"
+                :error-messages="birthdateError"
               />
             </template>
             <v-date-picker v-model="date" no-title scrollable>
@@ -135,11 +169,44 @@
             :type="visible ? 'text' : 'password'"
             @click:append-inner="visible = !visible"
             :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+            v-model="signuppassword"
+            :error-messages="signuppasswordError"
           />
+
           <v-btn
-            type="submit"
             style="width: 100%; background-color: #208ec6; color: #ededed"
             rounded="xl"
+            @click="
+              if (
+                !firstnameError &&
+                !lastnameError &&
+                !signupusernameError &&
+                !birthdateError &&
+                !signuppasswordError &&
+                !!firstname &&
+                !!lastname &&
+                !!signupusername &&
+                !!date &&
+                !!signuppassword
+              ) {
+                signUp({
+                  firstname,
+                  lastname,
+                  username: signupusername,
+                  birthdate: date,
+                  password: signuppassword,
+                }).then(() => {
+                  firstname = '';
+                  lastname = '';
+                  signupusername = '';
+                  date = null;
+                  signuppassword = '';
+                  formatDate = null;
+                  menu = false;
+                  signInUp = !signInUp;
+                });
+              }
+            "
           >
             Kayıt Ol
           </v-btn>
@@ -149,7 +216,7 @@
           <v-btn
             variant="plain"
             style="color: #208ec6"
-            @click="signInUp = !signInUp"
+            @click="changeSignUpIn"
             class="mr-5"
           >
             Giriş Yap!
@@ -161,6 +228,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   data() {
     return {
@@ -169,9 +238,75 @@ export default {
       date: null,
       menu: false,
       formatDate: null,
+      username: "",
+      password: "",
+      firstname: "",
+      lastname: "",
+      signuppassword: "",
+      signupusername: "",
+      usernameError: "",
+      passwordError: "",
+      firstnameError: "",
+      lastnameError: "",
+      signupusernameError: "",
+      birthdateError: "",
+      signuppasswordError: "",
     };
   },
+  watch: {
+    username(value) {
+      if (!value) {
+        this.usernameError = "Kullanıcı adı boş bırakılamaz!";
+      } else {
+        this.usernameError = "";
+      }
+    },
+    password(value) {
+      if (!value) {
+        this.passwordError = "Şifre boş bırakılamaz!";
+      } else {
+        this.passwordError = "";
+      }
+    },
+    firstname(value) {
+      if (!value) {
+        this.firstnameError = "Ad boş bırakılamaz!";
+      } else {
+        this.firstnameError = "";
+      }
+    },
+    lastname(value) {
+      if (!value) {
+        this.lastnameError = "Soyad boş bırakılamaz!";
+      } else {
+        this.lastnameError = "";
+      }
+    },
+    signupusername(value) {
+      if (!value) {
+        this.signupusernameError = "Kullanıcı adı boş bırakılamaz!";
+      } else {
+        this.signupusernameError = "";
+      }
+    },
+    date(value) {
+      if (!value) {
+        this.birthdateError = "Doğum tarihi boş bırakılamaz!";
+      } else {
+        this.birthdateError = "";
+      }
+    },
+    signuppassword(value) {
+      if (!value) {
+        this.signuppasswordError = "Şifre boş bırakılamaz!";
+      } else {
+        this.signuppasswordError = "";
+      }
+    },
+  },
   methods: {
+    ...mapActions(["signUp", "signIn"]),
+
     formatDateClick() {
       this.menu = false;
       const d = new Date(this.date);
@@ -179,6 +314,21 @@ export default {
       const month = ("0" + (d.getMonth() + 1)).slice(-2);
       const year = d.getFullYear();
       this.formatDate = day + "." + month + "." + year;
+    },
+    changeSignInUp() {
+      this.username = "";
+      this.password = "";
+      this.signInUp = !this.signInUp;
+    },
+    changeSignUpIn() {
+      this.firstname = "";
+      this.lastname = "";
+      this.signupusername = "";
+      this.date = null;
+      this.signuppassword = "";
+      this.formatDate = null;
+      this.menu = false;
+      this.signInUp = !this.signInUp;
     },
   },
 };
@@ -189,5 +339,9 @@ export default {
 }
 .v-picker-title {
   display: none;
+}
+.v-overlay__content {
+  right: 100px;
+  top: 100px;
 }
 </style>

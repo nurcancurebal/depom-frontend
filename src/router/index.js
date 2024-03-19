@@ -38,4 +38,17 @@ const router = createRouter({
   routes
 })
 
+const token = localStorage.getItem("token");
+const navPathName = location.pathname;
+
+const WHITE_NONTOKEN_PATH_NAMES = "/";
+
+if (!WHITE_NONTOKEN_PATH_NAMES.includes(navPathName) && !token) {
+  router.push("/");
+};
+
+if (WHITE_NONTOKEN_PATH_NAMES.includes(navPathName) && token) {
+  localStorage.removeItem("token");
+};
+
 export default router
