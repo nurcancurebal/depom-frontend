@@ -122,36 +122,39 @@
             :error-messages="signupusernameError"
           />
 
-          <v-menu
-            v-model="menu"
-            :close-on-content-click="false"
-            transition="scale-transition"
-            min-width="auto"
+          <v-text-field
+            v-model="formatDate"
+            readonly
+            @click="menu = !menu"
+            prepend-inner-icon="mdi-calendar"
+            variant="solo"
+            rounded="xl"
+            style="width: 100%"
+            placeholder="Doğum Tarihi"
+            :error-messages="birthdateError"
           >
-            <template v-slot:activator="{ attrs }">
-              <v-text-field
-                v-model="formatDate"
-                readonly
-                v-bind="attrs"
-                @click="menu = !menu"
-                prepend-inner-icon="mdi-calendar"
-                variant="solo"
-                rounded="xl"
-                style="width: 100%"
-                placeholder="Doğum Tarihi"
-                :error-messages="birthdateError"
-              />
-            </template>
-            <v-date-picker
-              v-model="date"
-              no-title
-              scrollable
-              style="height: 476px; margin-top: auto"
+            <v-menu
+              activator="parent"
+              v-model="menu"
+              :close-on-content-click="false"
+              transition="scale-transition"
+              min-width="auto"
             >
-              <v-btn text color="#208ec6" @click="menu = false"> Cancel </v-btn>
-              <v-btn text color="#208ec6" @click="formatDateClick"> OK </v-btn>
-            </v-date-picker>
-          </v-menu>
+              <v-date-picker
+                v-model="date"
+                no-title
+                scrollable
+                style="height: 476px; margin-top: auto"
+              >
+                <v-btn text color="#208ec6" @click="menu = false">
+                  Cancel
+                </v-btn>
+                <v-btn text color="#208ec6" @click="formatDateClick">
+                  OK
+                </v-btn>
+              </v-date-picker>
+            </v-menu>
+          </v-text-field>
 
           <v-text-field
             prepend-inner-icon="mdi-lock"
@@ -236,7 +239,7 @@
         rounded="pill"
         height="48px"
       >
-        Lütfen doğru bir şekilde tüm alanları doldurunuz!
+        Lütfen tüm alanları doldurunuz!
       </v-snackbar>
     </v-col>
   </v-row>
@@ -248,6 +251,7 @@ import { mapActions } from "vuex";
 export default {
   data() {
     return {
+      passwordUsernameError: false,
       showSnackbarError: false,
       showSnackbar: false,
       signInUp: false,
@@ -300,10 +304,39 @@ export default {
       }
     },
     signupusername(value) {
+      const pattern = /[ğĞçÇüÜöÖıİşŞ]/g;
+
+      const matchesusername = value.match(pattern);
+
       if (!value) {
         this.signupusernameError = "Kullanıcı adı boş bırakılamaz!";
+      } else if (
+        matchesusername != null ||
+        value.length < 6 ||
+        value.length > 18
+      ) {
+        this.signupusernameError =
+          " Kullanıcı adında türkçe karakter kullanılamaz ve 6 ile 18 karakter arasında olmak zorundadır. ";
       } else {
         this.signupusernameError = "";
+      }
+    },
+    signuppassword(value) {
+      const pattern = /[ğĞçÇüÜöÖıİşŞ]/g;
+
+      const matchespassword = value.match(pattern);
+
+      if (!value) {
+        this.signuppasswordError = "Şifre boş bırakılamaz!";
+      } else if (
+        matchespassword != null ||
+        value.length < 6 ||
+        value.length > 18
+      ) {
+        this.signuppasswordError =
+          "Şifre de türkçe karakter kullanılamaz ve 6 ile 18 karakter arasında olmak zorundadır.";
+      } else {
+        this.signuppasswordError = "";
       }
     },
     date(value) {
@@ -311,13 +344,6 @@ export default {
         this.birthdateError = "Doğum tarihi boş bırakılamaz!";
       } else {
         this.birthdateError = "";
-      }
-    },
-    signuppassword(value) {
-      if (!value) {
-        this.signuppasswordError = "Şifre boş bırakılamaz!";
-      } else {
-        this.signuppasswordError = "";
       }
     },
   },

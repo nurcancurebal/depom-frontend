@@ -4,11 +4,42 @@
       <v-toolbar-title class="text-h4"> Depom </v-toolbar-title>
 
       <v-btn icon>
-        <v-icon>mdi-dots-vertical</v-icon>
+        <v-icon>mdi-account</v-icon>
+        <v-menu activator="parent">
+          <v-list>
+            <v-list-item>
+              <v-list-item-title>
+                <router-link
+                  style="
+                    text-decoration: none;
+                    color: #208ec6;
+                    font-family: 'Material Design Icons';
+                  "
+                  to="/updateaccount"
+                >
+                  Hesabımı Düzenle
+                </router-link>
+              </v-list-item-title>
+              <v-list-item-title>
+                <router-link
+                  style="
+                    text-decoration: none;
+                    color: #208ec6;
+                    font-family: 'Material Design Icons';
+                  "
+                  to="/"
+                >
+                  Çıkış
+                </router-link>
+              </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
       </v-btn>
     </v-toolbar>
   </v-sheet>
 </template>
+
 <style>
 .v-toolbar-title__placeholder {
   overflow: visible !important;
