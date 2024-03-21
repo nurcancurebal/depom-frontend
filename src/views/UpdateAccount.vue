@@ -59,7 +59,7 @@
                 min-width="auto"
               >
                 <v-date-picker
-                  v-model="date"
+                  v-model="birthdate"
                   no-title
                   scrollable
                   style="height: 476px; margin-top: auto"
@@ -67,7 +67,7 @@
                   <v-btn text color="#208ec6" @click="menu = false">
                     Cancel
                   </v-btn>
-                  <v-btn text color="#208ec6" @click="formatDateClick">
+                  <v-btn text color="#208ec6" @click="this.menu = false">
                     OK
                   </v-btn>
                 </v-date-picker>
@@ -90,6 +90,7 @@
             <v-btn
               style="width: 100%; background-color: #208ec6; color: #ededed"
               rounded="xl"
+              @click="patternCheck"
             >
               Düzenle
             </v-btn>
@@ -121,6 +122,7 @@
 <script>
 import TheSidebar from "../components/TheSidebar.vue";
 import TheNavbar from "../components/TheNavbar.vue";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   components: {
@@ -137,7 +139,7 @@ export default {
     usernameError: "",
     menu: false,
     formatDate: null,
-    date: null,
+    birthdate: null,
     birthdateError: "",
     visible: false,
     password: "",
@@ -146,14 +148,121 @@ export default {
     snackbarError: false,
   }),
 
+  computed: {
+    ...mapGetters(["user"]),
+  },
+
+  watch: {
+    firstname(value) {
+      if (!value) {
+        this.firstnameError = "Ad boş bırakılamaz!";
+      } else {
+        this.firstnameError = "";
+      }
+    },
+    lastname(value) {
+      if (!value) {
+        this.lastnameError = "Soyad boş bırakılamaz!";
+      } else {
+        this.lastnameError = "";
+      }
+    },
+    username(value) {
+      const pattern = /[ğĞçÇüÜöÖıİşŞ]/g;
+
+      const matchesusername = value.match(pattern);
+
+      if (!value) {
+        this.usernameError = "Kullanıcı adı boş bırakılamaz!";
+      } else if (
+        matchesusername != null ||
+        value.length < 6 ||
+        value.length > 18
+      ) {
+        this.usernameError =
+          " Kullanıcı adında türkçe karakter kullanılamaz ve 6 ile 18 karakter arasında olmak zorundadır. ";
+      } else {
+        this.usernameError = "";
+      }
+    },
+    password(value) {
+      const pattern = /[ğĞçÇüÜöÖıİşŞ]/g;
+
+      const matchespassword = value.match(pattern);
+
+      if (!value) {
+        this.passwordError = "Şifre boş bırakılamaz!";
+      } else if (
+        matchespassword != null ||
+        value.length < 6 ||
+        value.length > 18
+      ) {
+        this.passwordError =
+          "Şifre de türkçe karakter kullanılamaz ve 6 ile 18 karakter arasında olmak zorundadır.";
+      } else {
+        this.passwordError = "";
+      }
+    },
+    birthdate(value) {
+      if (!value) {
+        this.birthdateError = "Doğum tarihi boş bırakılamaz!";
+      } else {
+        const d = new Date(value);
+        const day = ("0" + d.getDate()).slice(-2);
+        const month = ("0" + (d.getMonth() + 1)).slice(-2);
+        const year = d.getFullYear();
+        this.formatDate = day + "." + month + "." + year;
+      }
+    },
+    formatDate(value) {
+      if (!value) {
+        this.birthdateError = "Doğum tarihi boş bırakılamaz!";
+      } else {
+        this.birthdateError = "";
+      }
+    },
+  },
+
+  created() {
+    this.getUser().then((response) => {
+      this.firstname = response.data.firstname;
+      this.lastname = response.data.lastname;
+      this.username = response.data.username;
+      this.birthdate = new Date(response.data.birthdate);
+    });
+  },
+
   methods: {
-    formatDateClick() {
-      this.menu = false;
-      const d = new Date(this.date);
-      const day = ("0" + d.getDate()).slice(-2);
-      const month = ("0" + (d.getMonth() + 1)).slice(-2);
-      const year = d.getFullYear();
-      this.formatDate = day + "." + month + "." + year;
+    ...mapActions(["updateUser", "getUser"]),
+
+    patternCheck() {
+      if (
+        this.firstnameError === "" &&
+        this.lastnameError === "" &&
+        this.usernameError === "" &&
+        this.birthdateError === "" &&
+        this.passwordError === "" &&
+        this.firstname &&
+        this.lastname &&
+        this.username &&
+        this.birthdate &&
+        this.password
+      ) {
+        this.updateUser({
+          firstname: this.firstname,
+          lastname: this.lastname,
+          username: this.username,
+          birthdate: this.birthdate,
+          password: this.password,
+        }).then(() => {
+          this.successSnackbar = true;
+          setTimeout(() => {
+            this.$router.push("/stock");
+          }, 2000);
+        });
+      } else {
+        this.snackbarError = true;
+      }
     },
   },
 };

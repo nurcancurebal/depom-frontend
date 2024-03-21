@@ -339,7 +339,7 @@ export default {
         this.signuppasswordError = "";
       }
     },
-    date(value) {
+    formatDate(value) {
       if (!value) {
         this.birthdateError = "Doğum tarihi boş bırakılamaz!";
       } else {

@@ -229,7 +229,9 @@ export default createStore({
     },
 
     async signIn(context, payload) {
-      console.log(payload)
+
+      console.log(payload);
+
       try {
 
         return await axios.post("http://localhost:3000/auth/signin", payload);
@@ -244,8 +246,9 @@ export default createStore({
     async updateUser(context, payload) {
 
       try {
+        console.log(payload);
 
-        const result = await axios.put(`http://localhost:3000/user`, { firstname: payload.firstname, lastname: payload.lastname, username: payload.username, birthdate: payload.birthdate, password: payload.password });
+        const result = await axios.put(`http://localhost:3000/user`, payload);
 
         console.log("updateUser", result.data);
 
