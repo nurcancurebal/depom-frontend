@@ -64,21 +64,9 @@
                 !!username &&
                 !!password
               ) {
-                signIn({ username, password })
-                  .then((response) => {
-                    if (response && response.data && response.data.token) {
-                      localStorage.setItem('token', response.data.token);
-                      this.$router.push('/stock');
-                    } else {
-                      console.error(
-                        'Response or response.data or response.data.token is undefined'
-                      );
-                    }
-                  })
-                  .catch((error) => {
-                    this.userError = true;
-                    console.error('error', error);
-                  });
+                logIn();
+              } else {
+                showSnackbarError = true;
               }
             "
           >
@@ -154,7 +142,12 @@
                 :error-messages="birthdateError"
               />
             </template>
-            <v-date-picker v-model="date" no-title scrollable>
+            <v-date-picker
+              v-model="date"
+              no-title
+              scrollable
+              style="height: 476px; margin-top: auto"
+            >
               <v-btn text color="#208ec6" @click="menu = false"> Cancel </v-btn>
               <v-btn text color="#208ec6" @click="formatDateClick"> OK </v-btn>
             </v-date-picker>
@@ -199,18 +192,22 @@
                   firstname = '';
                   lastname = '';
                   signupusername = '';
-                  date = null;
+                  date = new Date();
                   signuppassword = '';
                   formatDate = null;
                   menu = false;
                   signInUp = !signInUp;
+                  showSnackbar = true;
                 });
+              } else {
+                showSnackbarError = true;
               }
             "
           >
             Kayıt Ol
           </v-btn>
         </form>
+
         <v-divider class="ma-5" />
         <div class="text-end">
           <v-btn
@@ -223,6 +220,24 @@
           </v-btn>
         </div>
       </v-sheet>
+      <v-snackbar
+        v-model="showSnackbar"
+        :timeout="2000"
+        color="#208ec6"
+        rounded="pill"
+        height="48px"
+      >
+        Tebrikler kayıt oldunuz!
+      </v-snackbar>
+      <v-snackbar
+        v-model="showSnackbarError"
+        :timeout="2000"
+        color="#208ec6"
+        rounded="pill"
+        height="48px"
+      >
+        Lütfen doğru bir şekilde tüm alanları doldurunuz!
+      </v-snackbar>
     </v-col>
   </v-row>
 </template>
@@ -233,6 +248,8 @@ import { mapActions } from "vuex";
 export default {
   data() {
     return {
+      showSnackbarError: false,
+      showSnackbar: false,
       signInUp: false,
       visible: false,
       date: null,
@@ -330,9 +347,26 @@ export default {
       this.menu = false;
       this.signInUp = !this.signInUp;
     },
+    logIn() {
+      const username = this.username;
+      const password = this.password;
+
+      this.signIn({ username, password })
+        .then((response) => {
+          localStorage.setItem("token", response.data.token);
+        })
+        .then(() => {
+          this.$router.push("/stock");
+        })
+        .catch((error) => {
+          this.showSnackbarError = true;
+          console.error("error", error);
+        });
+    },
   },
 };
 </script>
+
 <style>
 .v-field__input {
   color: gray !important;
@@ -340,8 +374,7 @@ export default {
 .v-picker-title {
   display: none;
 }
-.v-overlay__content {
-  right: 100px;
-  top: 100px;
+.v-snackbar__content {
+  text-align: center !important;
 }
 </style>
