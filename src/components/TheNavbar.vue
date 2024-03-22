@@ -2,7 +2,9 @@
   <v-sheet>
     <v-toolbar style="color: white; background-color: #208ec6">
       <v-toolbar-title class="text-h4"> Depom </v-toolbar-title>
-
+      <v-toolbar-items style="align-items: center">
+        {{ user.firstname }} {{ user.lastname }}
+      </v-toolbar-items>
       <v-btn icon>
         <v-icon>mdi-account</v-icon>
         <v-menu activator="parent">
@@ -39,6 +41,23 @@
     </v-toolbar>
   </v-sheet>
 </template>
+
+<script>
+import { mapGetters, mapActions } from "vuex";
+
+export default {
+  computed: {
+    ...mapGetters(["user"]),
+  },
+  methods: {
+    ...mapActions(["getUser"]),
+  },
+  created() {
+    this.getUser();
+  },
+};
+</script>
+
 
 <style>
 .v-toolbar-title__placeholder {

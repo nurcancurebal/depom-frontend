@@ -18,8 +18,8 @@
               rounded="xl"
               style="width: 100%"
               placeholder="Ad"
-              v-model="firstname"
-              :error-messages="firstnameError"
+              v-model="cacheUser.firstname"
+              :error-messages="errors.firstname"
             />
             <v-text-field
               prepend-inner-icon="mdi-account"
@@ -27,8 +27,8 @@
               rounded="xl"
               style="width: 100%"
               placeholder="Soyad"
-              v-model="lastname"
-              :error-messages="lastnameError"
+              v-model="cacheUser.lastname"
+              :error-messages="errors.lastname"
             />
             <v-text-field
               prepend-inner-icon="mdi-account"
@@ -36,8 +36,8 @@
               rounded="xl"
               style="width: 100%"
               placeholder="Kullanıcı Adı"
-              v-model="username"
-              :error-messages="usernameError"
+              v-model="cacheUser.username"
+              :error-messages="errors.username"
             />
 
             <v-text-field
@@ -49,7 +49,7 @@
               rounded="xl"
               style="width: 100%"
               placeholder="Doğum Tarihi"
-              :error-messages="birthdateError"
+              :error-messages="errors.birthdate"
             >
               <v-menu
                 activator="parent"
@@ -59,7 +59,7 @@
                 min-width="auto"
               >
                 <v-date-picker
-                  v-model="birthdate"
+                  v-model="cacheUser.birthdate"
                   no-title
                   scrollable
                   style="height: 476px; margin-top: auto"
@@ -67,25 +67,10 @@
                   <v-btn text color="#208ec6" @click="menu = false">
                     Cancel
                   </v-btn>
-                  <v-btn text color="#208ec6" @click="this.menu = false">
-                    OK
-                  </v-btn>
+                  <v-btn text color="#208ec6" @click="menu = false"> OK </v-btn>
                 </v-date-picker>
               </v-menu>
             </v-text-field>
-
-            <v-text-field
-              prepend-inner-icon="mdi-lock"
-              variant="solo"
-              style="width: 100%"
-              rounded="xl"
-              placeholder="Şifre"
-              :type="visible ? 'text' : 'password'"
-              @click:append-inner="visible = !visible"
-              :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
-              v-model="password"
-              :error-messages="passwordError"
-            />
 
             <v-btn
               style="width: 100%; background-color: #208ec6; color: #ededed"
@@ -97,7 +82,7 @@
           </form>
         </v-sheet>
         <v-snackbar
-          v-model="successSnackbar"
+          v-model="errors.successSnackbar"
           :timeout="2000"
           color="#208ec6"
           rounded="pill"
@@ -106,7 +91,7 @@
           Tebrikler kullanıcı bilgileri değiştirildi!
         </v-snackbar>
         <v-snackbar
-          v-model="snackbarError"
+          v-model="errors.snackbarError"
           :timeout="2000"
           color="#208ec6"
           rounded="pill"
@@ -131,21 +116,17 @@ export default {
   },
 
   data: () => ({
-    firstname: "",
-    firstnameError: "",
-    lastname: "",
-    lastnameError: "",
-    username: "",
-    usernameError: "",
     menu: false,
     formatDate: null,
-    birthdate: null,
-    birthdateError: "",
-    visible: false,
-    password: "",
-    passwordError: "",
-    successSnackbar: false,
-    snackbarError: false,
+    cacheUser: {},
+    errors: {
+      firstname: "",
+      lastname: "",
+      username: "",
+      birthdate: null,
+      successSnackbar: false,
+      snackbarError: false,
+    },
   }),
 
   computed: {
@@ -153,60 +134,43 @@ export default {
   },
 
   watch: {
-    firstname(value) {
+    "cacheUser.firstname"(value) {
       if (!value) {
-        this.firstnameError = "Ad boş bırakılamaz!";
+        this.errors.firstname = "Ad boş bırakılamaz!";
       } else {
-        this.firstnameError = "";
+        this.errors.firstname = "";
       }
     },
-    lastname(value) {
+    "cacheUser.lastname"(value) {
       if (!value) {
-        this.lastnameError = "Soyad boş bırakılamaz!";
+        this.errors.lastname = "Soyad boş bırakılamaz!";
       } else {
-        this.lastnameError = "";
+        this.errors.lastname = "";
       }
     },
-    username(value) {
+    "cacheUser.username"(value) {
       const pattern = /[ğĞçÇüÜöÖıİşŞ]/g;
 
       const matchesusername = value.match(pattern);
 
       if (!value) {
-        this.usernameError = "Kullanıcı adı boş bırakılamaz!";
+        this.errors.username = "Kullanıcı adı boş bırakılamaz!";
       } else if (
         matchesusername != null ||
         value.length < 6 ||
         value.length > 18
       ) {
-        this.usernameError =
+        this.errors.username =
           " Kullanıcı adında türkçe karakter kullanılamaz ve 6 ile 18 karakter arasında olmak zorundadır. ";
       } else {
-        this.usernameError = "";
+        this.errors.username = "";
       }
     },
-    password(value) {
-      const pattern = /[ğĞçÇüÜöÖıİşŞ]/g;
-
-      const matchespassword = value.match(pattern);
-
+    "cacheUser.birthdate"(value) {
       if (!value) {
-        this.passwordError = "Şifre boş bırakılamaz!";
-      } else if (
-        matchespassword != null ||
-        value.length < 6 ||
-        value.length > 18
-      ) {
-        this.passwordError =
-          "Şifre de türkçe karakter kullanılamaz ve 6 ile 18 karakter arasında olmak zorundadır.";
+        this.errors.birthdate = "Doğum tarihi boş bırakılamaz!";
       } else {
-        this.passwordError = "";
-      }
-    },
-    birthdate(value) {
-      if (!value) {
-        this.birthdateError = "Doğum tarihi boş bırakılamaz!";
-      } else {
+        this.errors.birthdate = "";
         const d = new Date(value);
         const day = ("0" + d.getDate()).slice(-2);
         const month = ("0" + (d.getMonth() + 1)).slice(-2);
@@ -214,54 +178,43 @@ export default {
         this.formatDate = day + "." + month + "." + year;
       }
     },
-    formatDate(value) {
-      if (!value) {
-        this.birthdateError = "Doğum tarihi boş bırakılamaz!";
-      } else {
-        this.birthdateError = "";
-      }
-    },
   },
 
   created() {
-    this.getUser().then((response) => {
-      this.firstname = response.data.firstname;
-      this.lastname = response.data.lastname;
-      this.username = response.data.username;
-      this.birthdate = new Date(response.data.birthdate);
+    this.getUser().then(() => {
+      Object.keys(this.user).forEach((key) => {
+        this.cacheUser[key] = this.user[key];
+      });
     });
   },
 
   methods: {
-    ...mapActions(["updateUser", "getUser"]),
+    ...mapActions(["getUser", "updateUser"]),
 
     patternCheck() {
       if (
-        this.firstnameError === "" &&
-        this.lastnameError === "" &&
-        this.usernameError === "" &&
-        this.birthdateError === "" &&
-        this.passwordError === "" &&
-        this.firstname &&
-        this.lastname &&
-        this.username &&
-        this.birthdate &&
-        this.password
+        this.errors.firstname === "" &&
+        this.errors.lastname === "" &&
+        this.errors.username === "" &&
+        this.errors.birthdate === "" &&
+        this.cacheUser.firstname &&
+        this.cacheUser.lastname &&
+        this.cacheUser.username &&
+        this.cacheUser.birthdate
       ) {
         this.updateUser({
-          firstname: this.firstname,
-          lastname: this.lastname,
-          username: this.username,
-          birthdate: this.birthdate,
-          password: this.password,
+          firstname: this.cacheUser.firstname,
+          lastname: this.cacheUser.lastname,
+          username: this.cacheUser.username,
+          birthdate: this.cacheUser.birthdate,
         }).then(() => {
-          this.successSnackbar = true;
+          this.errors.successSnackbar = true;
           setTimeout(() => {
             this.$router.push("/stock");
           }, 2000);
         });
       } else {
-        this.snackbarError = true;
+        this.errors.snackbarError = true;
       }
     },
   },

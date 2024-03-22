@@ -252,6 +252,8 @@ export default createStore({
 
         console.log("updateUser", result.data);
 
+        context.dispatch("getUser");
+        
         return result;
 
       } catch (error) {
