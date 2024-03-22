@@ -183,7 +183,11 @@ export default {
   created() {
     this.getUser().then(() => {
       Object.keys(this.user).forEach((key) => {
-        this.cacheUser[key] = this.user[key];
+        if (key === "birthdate") {
+          this.cacheUser[key] = new Date(this.user[key]);
+        } else {
+          this.cacheUser[key] = this.user[key];
+        }
       });
     });
   },
@@ -202,11 +206,17 @@ export default {
         this.cacheUser.username &&
         this.cacheUser.birthdate
       ) {
+        const birthdate = new Date(
+          this.cacheUser.birthdate.setHours(
+            this.cacheUser.birthdate.getHours() -
+              this.cacheUser.birthdate.getTimezoneOffset() / 60
+          )
+        );
         this.updateUser({
           firstname: this.cacheUser.firstname,
           lastname: this.cacheUser.lastname,
           username: this.cacheUser.username,
-          birthdate: this.cacheUser.birthdate,
+          birthdate,
         }).then(() => {
           this.errors.successSnackbar = true;
           setTimeout(() => {
