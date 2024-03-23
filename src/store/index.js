@@ -217,7 +217,9 @@ export default createStore({
     async signUp(context, payload) {
 
       try {
-        console.log(payload);
+        console.log("signUp", payload);
+
+        payload.birthdate = new Date(payload.birthdate.setHours(payload.birthdate.getHours() - payload.birthdate.getTimezoneOffset() / 60));
 
         return await axios.post("http://localhost:3000/auth/signup", payload);
 
@@ -230,7 +232,7 @@ export default createStore({
 
     async signIn(context, payload) {
 
-      console.log(payload);
+      console.log("signIn", payload);
 
       try {
 
@@ -253,7 +255,7 @@ export default createStore({
         console.log("updateUser", result.data);
 
         context.dispatch("getUser");
-        
+
         return result;
 
       } catch (error) {

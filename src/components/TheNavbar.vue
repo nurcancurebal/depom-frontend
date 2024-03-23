@@ -1,7 +1,11 @@
 <template>
   <v-sheet>
     <v-toolbar style="color: white; background-color: #208ec6">
-      <v-toolbar-title class="text-h4"> Depom </v-toolbar-title>
+      <v-toolbar-title class="text-h4">
+        <router-link to="/stock" style="text-decoration: none; color: white">
+          Depom
+        </router-link>
+      </v-toolbar-title>
       <v-toolbar-items style="align-items: center">
         {{ user.firstname }} {{ user.lastname }}
       </v-toolbar-items>
