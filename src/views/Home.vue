@@ -1,11 +1,10 @@
 <template>
   <v-row
     align="center"
-    style="background-color: #ededed"
+    style="background-color: #ededed; height: 100vh"
     justify="center"
-    class="py-16"
   >
-    <v-col cols="4" style="padding: 0" class="my-5">
+    <v-col cols="4" style="padding: 0">
       <v-sheet
         :elevation="13"
         :height="signInUp ? '590' : '400'"
