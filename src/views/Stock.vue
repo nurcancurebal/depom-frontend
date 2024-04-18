@@ -10,8 +10,11 @@
         <TheSidebar />
       </v-col>
       <v-col cols="10">
+        <div style="display: flex; justify-content: center">
+          <h3 class="ma-7" style="color: #757575">Depo - Stok</h3>
+        </div>
         <v-data-table-server
-          class="ma-5"
+          class="px-16"
           density="compact"
           v-model:items-per-page="itemsPerPage"
           :headers="headers"

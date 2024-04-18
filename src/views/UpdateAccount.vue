@@ -10,32 +10,33 @@
         <TheSidebar />
       </v-col>
       <v-col cols="10">
-        <v-sheet class="pa-16">
+        <v-sheet style="margin-top: 100px">
           <form class="d-flex align-center flex-column justify-center">
+            <h3 class="my-3">Hesabımı Düzenle</h3>
             <v-text-field
               prepend-inner-icon="mdi-account"
-              variant="solo"
+              label="Ad"
+              variant="outlined"
               rounded="xl"
-              style="width: 100%"
-              placeholder="Ad"
+              style="width: 40%"
               v-model="cacheUser.firstname"
               :error-messages="errors.firstname"
             />
             <v-text-field
               prepend-inner-icon="mdi-account"
-              variant="solo"
+              label="Soyad"
+              variant="outlined"
               rounded="xl"
-              style="width: 100%"
-              placeholder="Soyad"
+              style="width: 40%"
               v-model="cacheUser.lastname"
               :error-messages="errors.lastname"
             />
             <v-text-field
               prepend-inner-icon="mdi-account"
-              variant="solo"
+              label="Kullanıcı Adı"
+              variant="outlined"
               rounded="xl"
-              style="width: 100%"
-              placeholder="Kullanıcı Adı"
+              style="width: 40%"
               v-model="cacheUser.username"
               :error-messages="errors.username"
             />
@@ -45,9 +46,10 @@
               readonly
               @click="menu = !menu"
               prepend-inner-icon="mdi-calendar"
-              variant="solo"
+              label="Doğum Tarihi"
+              variant="outlined"
               rounded="xl"
-              style="width: 100%"
+              style="width: 40%"
               placeholder="Doğum Tarihi"
               :error-messages="errors.birthdate"
             >
@@ -73,9 +75,10 @@
             </v-text-field>
 
             <v-btn
-              style="width: 100%; background-color: #208ec6; color: #ededed"
+              style="width: 40%; background-color: #00c853; color: white"
               rounded="xl"
               @click="patternCheck"
+              class="font-weight-bold"
             >
               Düzenle
             </v-btn>

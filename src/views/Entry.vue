@@ -14,6 +14,9 @@
           style="margin: 40px; padding: 40px"
           v-show="!showEntryInventory"
         >
+          <div style="display: flex; justify-content: center">
+            <h3 style="color: #757575; margin-bottom: 50px">Stok Giriş</h3>
+          </div>
           <v-row align="center">
             <v-col cols="2" style="padding: 0 0 25px 0">
               <v-list-subheader style="padding-inline-end: 0">
@@ -46,6 +49,9 @@
         </v-card>
 
         <v-card style="margin: 40px; padding: 40px" v-show="showEntryInventory">
+          <div style="display: flex; justify-content: center">
+            <h3 style="color: #757575; margin-bottom: 50px">Stok Giriş</h3>
+          </div>
           <v-row align="center">
             <v-col cols="2" style="padding: 0 0 25px 0">
               <v-list-subheader style="padding-inline-end: 0">
