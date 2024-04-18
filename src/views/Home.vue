@@ -4,7 +4,7 @@
     style="background-color: #ededed; height: 100vh"
     justify="center"
   >
-    <v-col cols="4" style="padding: 0">
+    <v-col cols="3" style="padding: 0">
       <v-sheet
         :elevation="13"
         :height="signInUp ? '590' : '400'"
@@ -12,8 +12,11 @@
         class="d-flex align-center justify-center flex-column px-2"
       >
         <h2 class="text-h3 font-weight-bold" style="color: #ededed">Depom</h2>
-        <p class="my-4 text-body-1 text-center" style="color: #ededed">
-          Stok takip ve yönetim uygulaması
+        <p
+          class="my-4 text-body-1 text-center text-decoration-underline"
+          style="color: #ededed"
+        >
+          Stok Takip ve Yönetim Uygulaması
         </p>
         <ul style="list-style-type: disc; color: #ededed">
           <li>Depo - Stok</li>
@@ -23,30 +26,30 @@
         </ul>
       </v-sheet>
     </v-col>
-    <v-col cols="5" style="padding: 0">
+    <v-col cols="4" style="padding: 0">
       <v-sheet
         :elevation="13"
         :height="400"
         style="border-radius: 0px 25px 25px 0px"
         v-show="!signInUp"
-        class="pa-16"
       >
         <form class="d-flex align-center flex-column justify-center">
+          <h2 class="my-3">Giriş Yap</h2>
           <v-text-field
             prepend-inner-icon="mdi-account"
-            variant="solo"
+            label="Kullanıcı Adı"
+            variant="outlined"
             rounded="xl"
-            style="width: 100%"
-            placeholder="Kullanıcı Adı"
+            style="width: 50%"
             :error-messages="usernameError"
             v-model="username"
           />
           <v-text-field
             prepend-inner-icon="mdi-lock"
-            variant="solo"
-            style="width: 100%"
+            label="Şifre"
+            variant="outlined"
+            style="width: 50%"
             rounded="xl"
-            placeholder="Şifre"
             :type="visible ? 'text' : 'password'"
             @click:append-inner="visible = !visible"
             :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
@@ -54,7 +57,8 @@
             v-model="password"
           />
           <v-btn
-            style="width: 100%; background-color: #208ec6; color: #ededed"
+            class="font-weight-bold"
+            style="width: 50%; background-color: #00c853; color: white"
             rounded="xl"
             @click="
               if (
@@ -71,18 +75,16 @@
           >
             Giriş Yap
           </v-btn>
-        </form>
-        <v-divider class="ma-5" />
-        <div class="text-end">
+          <v-divider class="ma-5" style="width: 50%" />
           <v-btn
-            variant="plain"
-            style="color: #208ec6"
+            style="width: 50%; background-color: #ffd600; color: white"
+            rounded="xl"
             @click="changeSignInUp"
-            class="mr-5"
+            class="font-weight-bold"
           >
             Kayıt Ol!
           </v-btn>
-        </div>
+        </form>
       </v-sheet>
 
       <v-sheet
@@ -90,33 +92,33 @@
         :height="590"
         style="border-radius: 0px 25px 25px 0px"
         v-show="signInUp"
-        class="pa-16"
       >
         <form class="d-flex align-center flex-column justify-center">
+          <h2 class="my-3">Kayıt Ol</h2>
           <v-text-field
             prepend-inner-icon="mdi-account"
-            variant="solo"
             rounded="xl"
-            style="width: 100%"
-            placeholder="Ad"
+            style="width: 50%"
+            label="Ad"
+            variant="outlined"
             v-model="firstname"
             :error-messages="firstnameError"
           />
           <v-text-field
             prepend-inner-icon="mdi-account"
-            variant="solo"
+            label="Soyad"
+            variant="outlined"
             rounded="xl"
-            style="width: 100%"
-            placeholder="Soyad"
+            style="width: 50%"
             v-model="lastname"
             :error-messages="lastnameError"
           />
           <v-text-field
             prepend-inner-icon="mdi-account"
-            variant="solo"
+            label="Kullanıcı Adı"
+            variant="outlined"
             rounded="xl"
-            style="width: 100%"
-            placeholder="Kullanıcı Adı"
+            style="width: 50%"
             v-model="signupusername"
             :error-messages="signupusernameError"
           />
@@ -126,10 +128,10 @@
             readonly
             @click="menu = !menu"
             prepend-inner-icon="mdi-calendar"
-            variant="solo"
+            label="Doğum Tarihi"
+            variant="outlined"
             rounded="xl"
-            style="width: 100%"
-            placeholder="Doğum Tarihi"
+            style="width: 50%"
             :error-messages="birthdateError"
           >
             <v-menu
@@ -157,19 +159,18 @@
 
           <v-text-field
             prepend-inner-icon="mdi-lock"
-            variant="solo"
-            style="width: 100%"
+            label="Şifre"
+            variant="outlined"
+            style="width: 50%"
             rounded="xl"
-            placeholder="Şifre"
             :type="visible ? 'text' : 'password'"
             @click:append-inner="visible = !visible"
             :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
             v-model="signuppassword"
             :error-messages="signuppasswordError"
           />
-
           <v-btn
-            style="width: 100%; background-color: #208ec6; color: #ededed"
+            style="width: 50%; background-color: #ffd600; color: white"
             rounded="xl"
             @click="
               if (
@@ -205,22 +206,21 @@
                 showSnackbarError = true;
               }
             "
+            class="font-weight-bold"
           >
             Kayıt Ol
           </v-btn>
-        </form>
+          <v-divider class="ma-5" style="width: 50%" />
 
-        <v-divider class="ma-5" />
-        <div class="text-end">
           <v-btn
-            variant="plain"
-            style="color: #208ec6"
+            class="font-weight-bold"
+            style="width: 50%; background-color: #00c853; color: white"
+            rounded="xl"
             @click="changeSignUpIn"
-            class="mr-5"
           >
             Giriş Yap!
           </v-btn>
-        </div>
+        </form>
       </v-sheet>
       <v-snackbar
         v-model="showSnackbar"
@@ -393,9 +393,6 @@ export default {
 </script>
 
 <style>
-.v-field__input {
-  color: gray !important;
-}
 .v-picker-title {
   display: none;
 }
