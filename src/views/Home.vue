@@ -34,7 +34,8 @@
         v-show="!signInUp"
       >
         <form class="d-flex align-center flex-column justify-center">
-          <h2 class="my-3">Giriş Yap</h2>
+          <h2 class="mt-7">Giriş Yap</h2>
+          <v-divider class="ma-5" style="width: 50%" />
           <v-text-field
             prepend-inner-icon="mdi-account"
             label="Kullanıcı Adı"
@@ -75,12 +76,11 @@
           >
             Giriş Yap
           </v-btn>
-          <v-divider class="ma-5" style="width: 50%" />
           <v-btn
             style="width: 50%; background-color: #ffd600; color: white"
             rounded="xl"
             @click="changeSignInUp"
-            class="font-weight-bold"
+            class="font-weight-bold mt-5"
           >
             Kayıt Ol!
           </v-btn>
@@ -94,7 +94,8 @@
         v-show="signInUp"
       >
         <form class="d-flex align-center flex-column justify-center">
-          <h2 class="my-3">Kayıt Ol</h2>
+          <h2 class="mt-3">Kayıt Ol</h2>
+          <v-divider class="ma-5" style="width: 50%" />
           <v-text-field
             prepend-inner-icon="mdi-account"
             rounded="xl"
@@ -210,10 +211,9 @@
           >
             Kayıt Ol
           </v-btn>
-          <v-divider class="ma-5" style="width: 50%" />
 
           <v-btn
-            class="font-weight-bold"
+            class="font-weight-bold mt-5"
             style="width: 50%; background-color: #00c853; color: white"
             rounded="xl"
             @click="changeSignUpIn"
