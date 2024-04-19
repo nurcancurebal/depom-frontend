@@ -17,6 +17,7 @@
           <h3>Depo - Stok</h3>
           <v-divider style="width: 80%" class="my-5" />
           <v-data-table-server
+            class="elevation-1"
             density="compact"
             v-model:items-per-page="itemsPerPage"
             :headers="headers"

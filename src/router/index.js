@@ -33,7 +33,7 @@ const routes = [
     component: Current
   },
   {
-    path: '/updateaccount',
+    path: '/update-account',
     name: 'UpdateAccount',
     component: UpdateAccount
   },

@@ -48,9 +48,18 @@
               class="mb-2"
             />
           </router-link>
+
+          <router-link to="/" style="text-decoration: none; color: black">
+            <v-list-item
+              prepend-icon="mdi-exit-to-app"
+              title="Çıkış"
+              value="cikis"
+              class="mb-2"
+            />
+          </router-link>
         </v-list>
       </v-navigation-drawer>
-      <v-main style="height: 215px" />
+      <v-main style="height: 315px" />
     </v-layout>
   </v-card>
 </template>

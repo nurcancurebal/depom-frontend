@@ -21,7 +21,7 @@
                     color: #208ec6;
                     font-family: 'Material Design Icons';
                   "
-                  to="/updateaccount"
+                  to="/update-account"
                 >
                   Hesabımı Düzenle
                 </router-link>
@@ -61,7 +61,6 @@ export default {
   },
 };
 </script>
-
 
 <style>
 .v-toolbar-title__placeholder {
