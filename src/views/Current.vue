@@ -16,21 +16,30 @@
         >
           <h3>Cari</h3>
           <v-divider style="width: 80%" class="my-5" />
-          <v-data-table-server
-            class="elevation-1"
-            density="compact"
-            v-model:items-per-page="itemsPerPage"
-            :headers="headers"
-            :items-length="currentCount"
-            :items="formattedCurrent"
-            :loading="loading"
-            item-value="_id"
-            must-sort
-            fixed-header
-            height="399px"
-            style="font-size: 14px; width: 80%"
-            @update:options="updateOptions"
-          />
+          <v-card
+            style="
+              width: 90%;
+              display: flex;
+              justify-content: center;
+              padding: 45px;
+              margin-top: 20px;
+            "
+          >
+            <v-data-table-server
+              class="elevation-1"
+              density="compact"
+              v-model:items-per-page="itemsPerPage"
+              :headers="headers"
+              :items-length="currentCount"
+              :items="formattedCurrent"
+              :loading="loading"
+              item-value="_id"
+              must-sort
+              fixed-header
+              style="font-size: 14px"
+              @update:options="updateOptions"
+            />
+          </v-card>
         </div>
       </v-col>
     </v-row>

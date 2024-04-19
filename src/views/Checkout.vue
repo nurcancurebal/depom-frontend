@@ -17,7 +17,7 @@
           <h3>Stok Çıkış</h3>
           <v-divider style="width: 60%" class="my-5" />
           <v-card
-            style="width: 60%; padding: 50px; margin-top: 20px"
+            style="width: 60%; padding: 45px; margin-top: 20px"
             v-show="!showCheckoutInventory"
           >
             <v-row align="center">
@@ -55,7 +55,7 @@
           </v-card>
 
           <v-card
-            style="width: 60%; padding: 50px; margin-top: 20px"
+            style="width: 60%; padding: 45px; margin-top: 20px"
             v-show="showCheckoutInventory"
           >
             <v-row align="center">

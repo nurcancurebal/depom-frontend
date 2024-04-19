@@ -16,21 +16,30 @@
         >
           <h3>Depo - Stok</h3>
           <v-divider style="width: 80%" class="my-5" />
-          <v-data-table-server
-            class="elevation-1"
-            density="compact"
-            v-model:items-per-page="itemsPerPage"
-            :headers="headers"
-            :items-length="inventoryCount"
-            :items="formattedInventory"
-            :loading="loading"
-            item-value="_id"
-            @update:options="updateOptions"
-            must-sort
-            fixed-header
-            height="399px"
-            style="font-size: 14px; width: 80%"
-          />
+          <v-card
+            style="
+              width: 90%;
+              display: flex;
+              justify-content: center;
+              padding: 45px;
+              margin-top: 20px;
+            "
+          >
+            <v-data-table-server
+              class="elevation-1"
+              density="compact"
+              v-model:items-per-page="itemsPerPage"
+              :headers="headers"
+              :items-length="inventoryCount"
+              :items="formattedInventory"
+              :loading="loading"
+              item-value="_id"
+              @update:options="updateOptions"
+              must-sort
+              fixed-header
+              style="font-size: 14px"
+            />
+          </v-card>
         </div>
       </v-col>
     </v-row>
