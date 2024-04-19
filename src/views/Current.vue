@@ -10,24 +10,27 @@
         <TheSidebar />
       </v-col>
       <v-col cols="10">
-        <div style="display: flex; justify-content: center">
-          <h3 class="ma-7" style="color: #757575">Cari</h3>
+        <div
+          style="display: flex; flex-direction: column; align-items: center"
+          class="my-7"
+        >
+          <h3>Cari</h3>
+          <v-divider style="width: 80%" class="my-5" />
+          <v-data-table-server
+            density="compact"
+            v-model:items-per-page="itemsPerPage"
+            :headers="headers"
+            :items-length="currentCount"
+            :items="formattedCurrent"
+            :loading="loading"
+            item-value="_id"
+            must-sort
+            fixed-header
+            height="399px"
+            style="font-size: 14px; width: 80%"
+            @update:options="updateOptions"
+          />
         </div>
-        <v-data-table-server
-          class="px-16"
-          density="compact"
-          v-model:items-per-page="itemsPerPage"
-          :headers="headers"
-          :items-length="currentCount"
-          :items="formattedCurrent"
-          :loading="loading"
-          item-value="_id"
-          must-sort
-          fixed-header
-          height="399px"
-          style="font-size: 14px"
-          @update:options="updateOptions"
-        />
       </v-col>
     </v-row>
   </div>

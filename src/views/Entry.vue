@@ -14,10 +14,10 @@
           style="display: flex; flex-direction: column; align-items: center"
           class="my-7"
         >
-          <h3 style="color: #757575">Stok Giriş</h3>
-          <v-divider style="width: 50%" class="my-5" />
+          <h3>Stok Giriş</h3>
+          <v-divider style="width: 60%" class="my-5" />
           <v-card
-            style="width: 50%; padding: 50px; margin-top: 20px"
+            style="width: 60%; padding: 50px; margin-top: 20px"
             v-show="!showEntryInventory"
           >
             <v-row align="center">
@@ -38,10 +38,12 @@
             </v-row>
 
             <v-row>
-              <v-col cols="2" offset="10" style="padding: 0">
+              <v-col cols="3" offset="9" style="padding: 0">
                 <v-btn
-                  variant="text"
-                  style="color: rgb(89 86 86); font-family: auto; width: 100%"
+                  :style="{
+                    'background-color': disabled ? '#00c853' : '#ededed',
+                    'font-family': 'auto',
+                  }"
                   @click="findProduct"
                   :disabled="!disabled"
                 >
@@ -51,27 +53,30 @@
             </v-row>
           </v-card>
 
-          <v-card style="width: 50%; padding: 50px; margin-top: 20px">
+          <v-card
+            style="width: 60%; padding: 50px; margin-top: 20px"
+            v-show="showEntryInventory"
+          >
             <v-row align="center">
-              <v-col cols="3" style="padding: 0 0 25px 0">
+              <v-col cols="2" style="padding: 0 0 25px 0">
                 <v-list-subheader style="padding-inline-end: 0">
                   Stok Kodu / Barkod:
                 </v-list-subheader>
               </v-col>
 
-              <v-col cols="9" style="padding: 0">
+              <v-col cols="10" style="padding: 0">
                 <v-text-field variant="outlined" v-model="barcode" disabled />
               </v-col>
             </v-row>
 
             <v-row align="center">
-              <v-col cols="3" style="padding: 0 0 25px 0">
+              <v-col cols="2" style="padding: 0 0 25px 0">
                 <v-list-subheader style="padding-inline-end: 0">
                   Ürün Adı:
                 </v-list-subheader>
               </v-col>
 
-              <v-col cols="9" style="padding: 0">
+              <v-col cols="10" style="padding: 0">
                 <v-text-field
                   variant="outlined"
                   v-model="productname"
@@ -83,13 +88,13 @@
             </v-row>
 
             <v-row align="center">
-              <v-col cols="3" style="padding: 0 0 25px 0">
+              <v-col cols="2" style="padding: 0 0 25px 0">
                 <v-list-subheader style="padding-inline-end: 0">
                   Kategori:
                 </v-list-subheader>
               </v-col>
 
-              <v-col cols="9" style="padding: 0">
+              <v-col cols="10" style="padding: 0">
                 <v-select
                   clearable
                   :items="getCategories"
@@ -111,13 +116,13 @@
             </v-row>
 
             <v-row align="center">
-              <v-col cols="3" style="padding: 0 0 25px 0">
+              <v-col cols="2" style="padding: 0 0 25px 0">
                 <v-list-subheader style="padding-inline-end: 0">
                   Alt Kategori:
                 </v-list-subheader>
               </v-col>
 
-              <v-col cols="9" style="padding: 0">
+              <v-col cols="10" style="padding: 0">
                 <v-select
                   clearable
                   variant="outlined"
@@ -134,13 +139,13 @@
             </v-row>
 
             <v-row align="center">
-              <v-col cols="3" style="padding: 0 0 25px 0">
+              <v-col cols="2" style="padding: 0 0 25px 0">
                 <v-list-subheader style="padding-inline-end: 0">
                   Tedarikçi:
                 </v-list-subheader>
               </v-col>
 
-              <v-col cols="9" style="padding: 0">
+              <v-col cols="10" style="padding: 0">
                 <v-text-field
                   variant="outlined"
                   v-model="supplier"
@@ -152,13 +157,13 @@
             </v-row>
 
             <v-row align="center">
-              <v-col cols="3" style="padding: 0 0 25px 0">
+              <v-col cols="2" style="padding: 0 0 25px 0">
                 <v-list-subheader style="padding-inline-end: 0">
                   Marka:
                 </v-list-subheader>
               </v-col>
 
-              <v-col cols="9" style="padding: 0">
+              <v-col cols="4" style="padding: 0">
                 <v-select
                   clearable
                   variant="outlined"
@@ -169,16 +174,19 @@
                   :disabled="allDisabled"
                 />
               </v-col>
-            </v-row>
-
-            <v-row align="center">
-              <v-col cols="3" style="padding: 0 0 25px 0">
-                <v-list-subheader style="padding-inline-end: 0">
+              <v-col cols="2" style="padding: 0 0 25px 0">
+                <v-list-subheader
+                  style="
+                    padding-inline-end: 0;
+                    display: flex;
+                    justify-content: start;
+                    margin-left: 20px;
+                  "
+                >
                   Birim:
                 </v-list-subheader>
               </v-col>
-
-              <v-col cols="9" style="padding: 0">
+              <v-col cols="4" style="padding: 0">
                 <v-select
                   clearable
                   variant="outlined"
@@ -212,13 +220,13 @@
             </v-row>
 
             <v-row align="center">
-              <v-col cols="3" style="padding: 0 0 25px 0">
+              <v-col cols="2" style="padding: 0 0 25px 0">
                 <v-list-subheader style="padding-inline-end: 0">
                   Miktar:
                 </v-list-subheader>
               </v-col>
 
-              <v-col cols="9" style="padding: 0">
+              <v-col cols="4" style="padding: 0">
                 <v-text-field
                   variant="outlined"
                   v-model="quantity"
@@ -231,16 +239,19 @@
                   ]"
                 />
               </v-col>
-            </v-row>
-
-            <v-row align="center">
-              <v-col cols="3" style="padding: 0 0 25px 0">
-                <v-list-subheader style="padding-inline-end: 0">
+              <v-col cols="2" style="padding: 0 0 25px 0">
+                <v-list-subheader
+                  style="
+                    padding-inline-end: 0;
+                    display: flex;
+                    justify-content: start;
+                    margin-left: 20px;
+                  "
+                >
                   Birim Fiyat:
                 </v-list-subheader>
               </v-col>
-
-              <v-col cols="9" style="padding: 0">
+              <v-col cols="4" style="padding: 0">
                 <v-text-field
                   variant="outlined"
                   v-model="unitprice"
@@ -258,9 +269,11 @@
             <v-row>
               <v-col cols="2" offset="10" style="padding: 0">
                 <v-btn
+                  :style="{
+                    'background-color': allTrue ? '#00c853' : '#ededed',
+                    'font-family': 'auto',
+                  }"
                   :disabled="!allTrue"
-                  variant="text"
-                  style="color: rgb(89 86 86); font-family: auto; width: 100%"
                   @click="
                     entryOne({
                       barcode,

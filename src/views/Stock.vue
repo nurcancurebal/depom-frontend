@@ -10,24 +10,27 @@
         <TheSidebar />
       </v-col>
       <v-col cols="10">
-        <div style="display: flex; justify-content: center">
-          <h3 class="ma-7" style="color: #757575">Depo - Stok</h3>
+        <div
+          style="display: flex; flex-direction: column; align-items: center"
+          class="my-7"
+        >
+          <h3>Depo - Stok</h3>
+          <v-divider style="width: 80%" class="my-5" />
+          <v-data-table-server
+            density="compact"
+            v-model:items-per-page="itemsPerPage"
+            :headers="headers"
+            :items-length="inventoryCount"
+            :items="formattedInventory"
+            :loading="loading"
+            item-value="_id"
+            @update:options="updateOptions"
+            must-sort
+            fixed-header
+            height="399px"
+            style="font-size: 14px; width: 80%"
+          />
         </div>
-        <v-data-table-server
-          class="px-16"
-          density="compact"
-          v-model:items-per-page="itemsPerPage"
-          :headers="headers"
-          :items-length="inventoryCount"
-          :items="formattedInventory"
-          :loading="loading"
-          item-value="_id"
-          @update:options="updateOptions"
-          must-sort
-          fixed-header
-          height="399px"
-          style="font-size: 14px"
-        />
       </v-col>
     </v-row>
   </div>
