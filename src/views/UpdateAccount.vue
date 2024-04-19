@@ -10,9 +10,10 @@
         <TheSidebar />
       </v-col>
       <v-col cols="10">
-        <v-sheet style="margin-top: 100px">
+        <v-sheet style="margin-top: 90px">
           <form class="d-flex align-center flex-column justify-center">
-            <h3 class="my-3">Hesabımı Düzenle</h3>
+            <h2>Hesabımı Düzenle</h2>
+            <v-divider class="mt-5 mb-7" style="width: 40%" />
             <v-text-field
               prepend-inner-icon="mdi-account"
               label="Ad"
