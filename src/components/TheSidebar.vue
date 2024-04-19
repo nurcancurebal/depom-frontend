@@ -57,6 +57,18 @@
               class="mb-2"
             />
           </router-link>
+
+          <router-link
+            to="/settings"
+            style="text-decoration: none; color: black"
+          >
+            <v-list-item
+              prepend-icon="mdi-cog"
+              title="Settings"
+              value="settings"
+              class="mb-2"
+            />
+          </router-link>
         </v-list>
       </v-navigation-drawer>
       <v-main style="height: 315px" />

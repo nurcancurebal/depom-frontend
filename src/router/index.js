@@ -5,6 +5,7 @@ import Checkout from "@/views/Checkout"
 import Current from "@/views/Current"
 import Home from "@/views/Home"
 import UpdateAccount from "@/views/UpdateAccount"
+import Settings from "@/views/Settings"
 
 const routes = [
   {
@@ -36,6 +37,11 @@ const routes = [
     path: '/update-account',
     name: 'UpdateAccount',
     component: UpdateAccount
+  },
+  {
+    path: '/settings',
+    name: 'Settings',
+    component: Settings
   },
 ]
 
