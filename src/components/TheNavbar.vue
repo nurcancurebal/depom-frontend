@@ -1,8 +1,14 @@
 <template>
   <v-sheet>
     <v-toolbar style="color: white; background-color: #208ec6">
+      <v-img
+        :width="2"
+        :height="50"
+        aspect-ratio="16/9"
+        cover
+        src="/logo.png"
+      />
       <v-toolbar-title class="text-h4">
-        <v-img :width="100" aspect-ratio="16/9" cover src="/logo.png"></v-img>
         <router-link to="/stock" style="text-decoration: none; color: white">
           Depom
         </router-link>

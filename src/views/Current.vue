@@ -15,10 +15,10 @@
           class="my-7"
         >
           <h3>Cari</h3>
-          <v-divider style="width: 85%" class="my-5" />
+          <v-divider style="width: 90%" class="my-5" />
           <v-card
             style="
-              width: 85%;
+              width: 90%;
               display: flex;
               justify-content: center;
               padding: 45px;

@@ -1,5 +1,5 @@
 <template>
-  <v-card style="border-radius: unset">
+  <v-card style="border-radius: unset; max-width: 200px">
     <v-layout>
       <v-navigation-drawer
         floating

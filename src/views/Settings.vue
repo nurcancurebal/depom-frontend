@@ -15,7 +15,7 @@
           class="my-7"
         >
           <h3>Ayarlar</h3>
-          <v-divider style="width: 85%" class="my-5" />
+          <v-divider style="width: 90%" class="my-5" />
         </div>
       </v-col>
     </v-row>
