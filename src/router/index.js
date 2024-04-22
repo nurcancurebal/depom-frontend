@@ -11,37 +11,58 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    meta: {
+      title: 'Giriş Yap',
+    },
   },
   {
     path: '/stock',
     name: 'Stock',
-    component: Stock
+    component: Stock,
+    meta: {
+      title: 'Depo - Stok',
+    },
   },
   {
     path: '/entry',
     name: 'Entry',
-    component: Entry
+    component: Entry,
+    meta: {
+      title: 'Stok Giriş',
+    },
   },
   {
     path: '/checkout',
     name: 'Checkout',
-    component: Checkout
+    component: Checkout,
+    meta: {
+      title: 'Stok Çıkış',
+    },
   },
   {
     path: '/Current',
     name: 'Current',
-    component: Current
+    component: Current,
+    meta: {
+      title: 'Cari Hesaplar',
+    },
   },
   {
     path: '/update-account',
     name: 'UpdateAccount',
-    component: UpdateAccount
+    component: UpdateAccount,
+    meta: {
+      title: 'Hesabımı Düzenle',
+    },
   },
   {
     path: '/settings',
     name: 'Settings',
-    component: Settings
+    component: Settings,
+    meta: {
+      title: 'Ayarlar',
+    },
   },
 ]
 
@@ -49,6 +70,12 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
 })
+
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title || 'Default Title';
+  next();
+});
+
 
 const token = localStorage.getItem("token");
 const navPathName = location.pathname;
