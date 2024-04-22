@@ -15,10 +15,10 @@
           class="my-7"
         >
           <h3>Depo - Stok</h3>
-          <v-divider style="width: 80%" class="my-5" />
+          <v-divider style="width: 85%" class="my-5" />
           <v-card
             style="
-              width: 90%;
+              width: 85%;
               display: flex;
               justify-content: center;
               padding: 45px;

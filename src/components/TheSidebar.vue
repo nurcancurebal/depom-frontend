@@ -127,7 +127,7 @@
   </v-card>
 </template>
 
-<style>
+<style scoped>
 a:hover {
   background-color: #b3aeaecf;
 }
