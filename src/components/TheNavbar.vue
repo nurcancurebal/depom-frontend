@@ -1,12 +1,14 @@
 <template>
   <v-sheet>
     <v-toolbar style="color: white; background-color: #208ec6">
-      <v-img
-        :width="2"
-        :height="50"
+      <img
+        width="50"
+        height="50"
         aspect-ratio="16/9"
         cover
-        src="/logo.png"
+        src="@/assets/logo.png"
+        alt="logo"
+        class="ml-4"
       />
       <v-toolbar-title class="text-h4">
         <router-link to="/stock" style="text-decoration: none; color: white">

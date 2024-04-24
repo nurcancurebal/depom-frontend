@@ -11,6 +11,14 @@
         style="border-radius: 25px 0px 0px 25px; background-color: #208ec6"
         class="d-flex align-center justify-center flex-column px-2"
       >
+        <img
+          width="80"
+          height="80"
+          aspect-ratio="16/9"
+          cover
+          src="@/assets/logo.png"
+          alt="logo"
+        />
         <h2 class="text-h3 font-weight-bold" style="color: #ededed">Depom</h2>
         <p
           class="my-4 text-body-1 text-center text-decoration-underline"

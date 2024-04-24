@@ -43,6 +43,7 @@
                   :style="{
                     'background-color': disabled ? '#00c853' : '#ededed',
                     'font-family': 'auto',
+                    'min-width': '90px',
                   }"
                   @click="findProduct"
                   :disabled="!disabled"
