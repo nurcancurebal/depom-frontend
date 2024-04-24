@@ -7,7 +7,7 @@
     <v-col cols="3" style="padding: 0">
       <v-sheet
         :elevation="13"
-        :height="signInUp ? '600' : '400'"
+        :height="signInUp ? '650' : '400'"
         style="border-radius: 25px 0px 0px 25px; background-color: #208ec6"
         class="d-flex align-center justify-center flex-column px-2"
       >
@@ -84,11 +84,12 @@
           >
             Giriş Yap
           </v-btn>
+          <v-divider class="ma-5" style="width: 50%" />
           <v-btn
             style="width: 50%; background-color: #ffd600; color: white"
             rounded="xl"
             @click="changeSignInUp"
-            class="font-weight-bold mt-5"
+            class="font-weight-bold"
           >
             Kayıt Ol!
           </v-btn>
@@ -97,12 +98,12 @@
 
       <v-sheet
         :elevation="13"
-        :height="600"
+        :height="650"
         style="border-radius: 0px 25px 25px 0px"
         v-show="signInUp"
       >
         <form class="d-flex align-center flex-column justify-center">
-          <h2 class="mt-4">Kayıt Ol</h2>
+          <h2 class="mt-6">Kayıt Ol</h2>
           <v-divider class="ma-5" style="width: 50%" />
           <v-text-field
             prepend-inner-icon="mdi-account"
@@ -219,9 +220,9 @@
           >
             Kayıt Ol
           </v-btn>
-
+          <v-divider class="ma-5" style="width: 50%" />
           <v-btn
-            class="font-weight-bold mt-5"
+            class="font-weight-bold"
             style="width: 50%; background-color: #00c853; color: white"
             rounded="xl"
             @click="changeSignUpIn"
