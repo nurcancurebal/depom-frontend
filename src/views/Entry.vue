@@ -307,7 +307,7 @@
           </v-card>
         </div>
       </v-col>
-      <v-col cols="2"></v-col>
+      <v-col cols="2" />
     </v-row>
   </div>
 </template>
