@@ -82,25 +82,6 @@
           </v-list-item-title>
         </router-link>
 
-        <router-link
-          to="/"
-          style="
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            color: #424242;
-          "
-          class="ma-1 pa-2 my-3"
-        >
-          <v-icon size="20">mdi-exit-to-app</v-icon>
-          <v-list-item-title
-            value="cikis"
-            style="font-size: 20px; margin-left: 10px"
-          >
-            Çıkış
-          </v-list-item-title>
-        </router-link>
-
         <template v-slot:append>
           <router-link
             to="/settings"
@@ -120,9 +101,28 @@
               Ayarlar
             </v-list-item-title>
           </router-link>
+
+          <router-link
+            to="/"
+            style="
+              text-decoration: none;
+              display: flex;
+              align-items: center;
+              color: #424242;
+            "
+            class="ma-1 pa-2 my-3"
+          >
+            <v-icon size="20">mdi-exit-to-app</v-icon>
+            <v-list-item-title
+              value="cikis"
+              style="font-size: 20px; margin-left: 10px"
+            >
+              Çıkış
+            </v-list-item-title>
+          </router-link>
         </template>
       </v-navigation-drawer>
-      <v-main style="height: 90vh" />
+      <v-main style="height: 92.5vh" />
     </v-layout>
   </v-card>
 </template>

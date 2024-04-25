@@ -9,16 +9,16 @@
       <v-col cols="2">
         <TheSidebar />
       </v-col>
-      <v-col cols="10">
+      <v-col cols="8" offset="1">
         <div
           style="display: flex; flex-direction: column; align-items: center"
           class="my-7"
         >
           <h3>Cari</h3>
-          <v-divider style="width: 90%" class="my-5" />
+          <v-divider style="width: 100%" class="my-5" />
           <v-card
             style="
-              width: 90%;
+              width: 100%;
               display: flex;
               justify-content: center;
               padding: 45px;
@@ -42,6 +42,7 @@
           </v-card>
         </div>
       </v-col>
+      <v-col cols="1" />
     </v-row>
   </div>
 </template>

@@ -1,10 +1,6 @@
 <template>
-  <v-row
-    align="center"
-    style="background-color: #ededed; height: 100vh"
-    justify="center"
-  >
-    <v-col cols="3" style="padding: 0">
+  <v-row align="center" style="background-color: #ededed; height: 101.7vh">
+    <v-col cols="3" offset="3" style="padding: 0">
       <v-sheet
         :elevation="13"
         :height="signInUp ? '650' : '400'"
@@ -52,6 +48,8 @@
             style="width: 50%"
             :error-messages="usernameError"
             v-model="username"
+            @keyup.enter="signInEnterKey"
+            tabindex="0"
           />
           <v-text-field
             prepend-inner-icon="mdi-lock"
@@ -64,6 +62,8 @@
             :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
             :error-messages="passwordError"
             v-model="password"
+            @keyup.enter="signInEnterKey"
+            tabindex="0"
           />
           <v-btn
             class="font-weight-bold"
@@ -113,6 +113,8 @@
             variant="outlined"
             v-model="firstname"
             :error-messages="firstnameError"
+            @keyup.enter="signUpEnterKey"
+            tabindex="0"
           />
           <v-text-field
             prepend-inner-icon="mdi-account"
@@ -122,6 +124,8 @@
             style="width: 50%"
             v-model="lastname"
             :error-messages="lastnameError"
+            @keyup.enter="signUpEnterKey"
+            tabindex="0"
           />
           <v-text-field
             prepend-inner-icon="mdi-account"
@@ -131,6 +135,8 @@
             style="width: 50%"
             v-model="signupusername"
             :error-messages="signupusernameError"
+            @keyup.enter="signUpEnterKey"
+            tabindex="0"
           />
 
           <v-text-field
@@ -143,6 +149,8 @@
             rounded="xl"
             style="width: 50%"
             :error-messages="birthdateError"
+            @keyup.enter="signUpEnterKey"
+            tabindex="0"
           >
             <v-menu
               activator="parent"
@@ -157,11 +165,16 @@
                 scrollable
                 style="height: 476px; margin-top: auto"
               >
-                <v-btn text color="#208ec6" @click="menu = false">
-                  Cancel
+                <v-btn text color="#208ec6" class="mt-3" @click="menu = false">
+                  İptal
                 </v-btn>
-                <v-btn text color="#208ec6" @click="formatDateClick">
-                  OK
+                <v-btn
+                  text
+                  color="#208ec6"
+                  class="mt-3"
+                  @click="formatDateClick"
+                >
+                  Tamam
                 </v-btn>
               </v-date-picker>
             </v-menu>
@@ -178,6 +191,8 @@
             :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
             v-model="signuppassword"
             :error-messages="signuppasswordError"
+            @keyup.enter="signUpEnterKey"
+            tabindex="0"
           />
           <v-btn
             style="width: 50%; background-color: #ffd600; color: white"
@@ -250,6 +265,7 @@
         Lütfen tüm alanları doldurunuz!
       </v-snackbar>
     </v-col>
+    <v-col cols="2" />
   </v-row>
 </template>
 
@@ -396,6 +412,54 @@ export default {
           this.showSnackbarError = true;
           console.error("error", error);
         });
+    },
+    signInEnterKey() {
+      if (!this.signInUp) {
+        if (
+          !this.usernameError &&
+          !this.passwordError &&
+          !!this.username &&
+          !!this.password
+        ) {
+          this.logIn();
+        } else {
+          this.showSnackbarError = true;
+        }
+      }
+    },
+    signUpEnterKey() {
+      if (
+        !this.firstnameError &&
+        !this.lastnameError &&
+        !this.signupusernameError &&
+        !this.birthdateError &&
+        !this.signuppasswordError &&
+        !!this.firstname &&
+        !!this.lastname &&
+        !!this.signupusername &&
+        !!this.date &&
+        !!this.signuppassword
+      ) {
+        this.signUp({
+          firstname: this.firstname,
+          lastname: this.lastname,
+          username: this.signupusername,
+          birthdate: this.date,
+          password: this.signuppassword,
+        }).then(() => {
+          this.firstname = "";
+          this.lastname = "";
+          this.signupusername = "";
+          this.date = new Date();
+          this.signuppassword = "";
+          this.formatDate = null;
+          this.menu = false;
+          this.signInUp = !this.signInUp;
+          this.showSnackbar = true;
+        });
+      } else {
+        this.showSnackbarError = true;
+      }
     },
   },
 };

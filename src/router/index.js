@@ -72,7 +72,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title || 'Default Title';
+  document.title = `Depom - ${to.meta.title || 'Default Title'}`;
   next();
 });
 

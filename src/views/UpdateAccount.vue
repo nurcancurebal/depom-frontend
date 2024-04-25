@@ -9,17 +9,17 @@
       <v-col cols="2">
         <TheSidebar />
       </v-col>
-      <v-col cols="10">
+      <v-col cols="4" offset="3">
         <v-sheet>
           <form class="d-flex align-center flex-column justify-center my-7">
             <h2>Hesabımı Düzenle</h2>
-            <v-divider class="mt-5 mb-7" style="width: 40%" />
+            <v-divider class="mt-5 mb-7" style="width: 100%" />
             <v-text-field
               prepend-inner-icon="mdi-account"
               label="Ad"
               variant="outlined"
               rounded="xl"
-              style="width: 40%"
+              style="width: 100%"
               v-model="cacheUser.firstname"
               :error-messages="errors.firstname"
             />
@@ -28,7 +28,7 @@
               label="Soyad"
               variant="outlined"
               rounded="xl"
-              style="width: 40%"
+              style="width: 100%"
               v-model="cacheUser.lastname"
               :error-messages="errors.lastname"
             />
@@ -37,7 +37,7 @@
               label="Kullanıcı Adı"
               variant="outlined"
               rounded="xl"
-              style="width: 40%"
+              style="width: 100%"
               v-model="cacheUser.username"
               :error-messages="errors.username"
             />
@@ -50,7 +50,7 @@
               label="Doğum Tarihi"
               variant="outlined"
               rounded="xl"
-              style="width: 40%"
+              style="width: 100%"
               placeholder="Doğum Tarihi"
               :error-messages="errors.birthdate"
             >
@@ -67,16 +67,28 @@
                   scrollable
                   style="height: 476px; margin-top: auto"
                 >
-                  <v-btn text color="#208ec6" @click="menu = false">
-                    Cancel
+                  <v-btn
+                    text
+                    color="#208ec6"
+                    class="mt-3"
+                    @click="menu = false"
+                  >
+                    İptal
                   </v-btn>
-                  <v-btn text color="#208ec6" @click="menu = false"> OK </v-btn>
+                  <v-btn
+                    text
+                    color="#208ec6"
+                    class="mt-3"
+                    @click="menu = false"
+                  >
+                    Tamam
+                  </v-btn>
                 </v-date-picker>
               </v-menu>
             </v-text-field>
 
             <v-btn
-              style="width: 40%; background-color: #00c853; color: white"
+              style="width: 100%; background-color: #00c853; color: white"
               rounded="xl"
               @click="patternCheck"
               class="font-weight-bold"
@@ -104,6 +116,7 @@
           Lütfen doğru bir şekilde tüm alanları doldurunuz!
         </v-snackbar>
       </v-col>
+      <v-col cols="3" />
     </v-row>
   </div>
 </template>

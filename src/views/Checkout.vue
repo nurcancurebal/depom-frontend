@@ -9,15 +9,15 @@
       <v-col cols="2">
         <TheSidebar />
       </v-col>
-      <v-col cols="10">
+      <v-col cols="6" offset="2">
         <div
           style="display: flex; flex-direction: column; align-items: center"
           class="my-7"
         >
           <h3>Stok Çıkış</h3>
-          <v-divider style="width: 60%" class="my-5" />
+          <v-divider style="width: 100%" class="my-5" />
           <v-card
-            style="width: 60%; padding: 45px; margin-top: 20px"
+            style="width: 100%; padding: 45px; margin-top: 20px"
             v-show="!showCheckoutInventory"
           >
             <v-row align="center">
@@ -39,12 +39,11 @@
             </v-row>
 
             <v-row>
-              <v-col cols="3" offset="9" style="padding: 0">
+              <v-col cols="2" offset="10" style="padding: 0">
                 <v-btn
                   :style="{
                     'background-color': disabled ? '#00c853' : '#ededed',
                     'font-family': 'auto',
-                    'min-width': '90px',
                   }"
                   @click="findProduct"
                   :disabled="!disabled"
@@ -56,7 +55,7 @@
           </v-card>
 
           <v-card
-            style="width: 60%; padding: 45px; margin-top: 20px"
+            style="width: 100%; padding: 45px; margin-top: 20px"
             v-show="showCheckoutInventory"
           >
             <v-row align="center">
@@ -251,11 +250,12 @@
             </v-row>
 
             <v-row>
-              <v-col cols="3" offset="9" style="padding: 0 0 25px 0">
+              <v-col cols="2" offset="10" style="padding: 0 0 25px 0">
                 <v-btn
                   :style="{
                     'background-color': allTrueDisabled ? '#00c853' : '#ededed',
                     'font-family': 'auto',
+                    width: '100%',
                   }"
                   :disabled="!allTrueDisabled"
                   @click="overlay = !overlay"
@@ -320,6 +320,7 @@
                         ? '#00c853'
                         : '#ededed',
                       'font-family': 'auto',
+                      width: '100%',
                     }"
                     :disabled="!checkoutClickDisabled"
                     @click="checkout"

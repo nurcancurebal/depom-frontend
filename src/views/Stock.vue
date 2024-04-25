@@ -9,10 +9,10 @@
       <v-col cols="2">
         <TheSidebar />
       </v-col>
-      <v-col cols="10">
+      <v-col cols="8" offset="1">
         <div
           style="display: flex; flex-direction: column; align-items: center"
-          class="my-7 mr-11"
+          class="my-7"
         >
           <h3>Depo - Stok</h3>
           <v-divider style="width: 100%" class="my-5" />
@@ -42,6 +42,7 @@
           </v-card>
         </div>
       </v-col>
+      <v-col cols="1" />
     </v-row>
   </div>
 </template>

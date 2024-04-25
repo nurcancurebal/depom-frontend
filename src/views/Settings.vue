@@ -9,15 +9,16 @@
       <v-col cols="2">
         <TheSidebar />
       </v-col>
-      <v-col cols="10">
+      <v-col cols="8" offset="1">
         <div
           style="display: flex; flex-direction: column; align-items: center"
           class="my-7"
         >
           <h3>Ayarlar</h3>
-          <v-divider style="width: 90%" class="my-5" />
+          <v-divider style="width: 100%" class="my-5" />
         </div>
       </v-col>
+      <v-col cols="1" />
     </v-row>
   </div>
 </template>
