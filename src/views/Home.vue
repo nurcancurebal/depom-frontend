@@ -1,6 +1,13 @@
 <template>
   <v-row align="center" style="background-color: #ededed; height: 101.7vh">
-    <v-col cols="3" offset="3" style="padding: 0">
+    <v-col
+      cols="12"
+      md="4"
+      lg="3"
+      offset-md="2"
+      offset-lg="3"
+      style="padding: 0"
+    >
       <v-sheet
         :elevation="13"
         :height="signInUp ? '650' : '400'"
@@ -30,7 +37,7 @@
         </ul>
       </v-sheet>
     </v-col>
-    <v-col cols="4" style="padding: 0">
+    <v-col cols="12" md="5" lg="4" style="padding: 0">
       <v-sheet
         :elevation="13"
         :height="400"
@@ -265,7 +272,7 @@
         Lütfen tüm alanları doldurunuz!
       </v-snackbar>
     </v-col>
-    <v-col cols="2" />
+    <v-col md="1" lg="2" style="padding: 0" />
   </v-row>
 </template>
 

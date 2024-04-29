@@ -51,6 +51,8 @@
           </v-list>
         </v-menu>
       </v-btn>
+
+      <v-btn icon="mdi-dots-vertical" />
     </v-toolbar>
   </v-sheet>
 </template>
