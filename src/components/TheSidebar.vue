@@ -1,10 +1,11 @@
 <template>
-  <v-card style="border-radius: unset; max-width: 200px">
+  <v-card style="border-radius: unset">
     <v-layout>
       <v-navigation-drawer
         floating
         permanent
         style="position: absolute; width: 100%; background-color: #ededed"
+        v-model="drawer"
       >
         <router-link
           to="/stock"
@@ -126,6 +127,15 @@
     </v-layout>
   </v-card>
 </template>
+<script>
+export default {
+  data() {
+    return {
+      drawer: false,
+    };
+  },
+};
+</script>
 
 <style scoped>
 a:hover {

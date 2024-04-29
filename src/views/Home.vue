@@ -1,5 +1,5 @@
 <template>
-  <v-row align="center" style="background-color: #ededed; height: 101.7vh">
+  <v-row align="center" style="background-color: #ededed" class="your-selector">
     <v-col
       cols="12"
       md="4"
@@ -478,5 +478,10 @@ export default {
 }
 .v-snackbar__content {
   text-align: center !important;
+}
+@media (min-width: 960px) {
+  .your-selector {
+    height: 101.7vh;
+  }
 }
 </style>

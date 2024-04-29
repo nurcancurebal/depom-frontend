@@ -5,11 +5,12 @@
         <TheNavbar />
       </v-col>
     </v-row>
+
     <v-row no-gutters>
-      <v-col md="2" class="hidden-sm-and-down">
+      <v-col cols="12" md="2">
         <TheSidebar />
       </v-col>
-      <v-col cols="10" md="8" offset="1" offset-md="1">
+      <v-col cols="12" md="8" offset-md="1">
         <div
           style="display: flex; flex-direction: column; align-items: center"
           class="my-7"
@@ -42,7 +43,7 @@
           </v-card>
         </div>
       </v-col>
-      <v-col cols="1" md="1" style="padding: 0" />
+      <v-col md="1" style="padding: 0" />
     </v-row>
   </div>
 </template>
