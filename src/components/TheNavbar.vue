@@ -15,10 +15,10 @@
           Depom
         </router-link>
       </v-toolbar-title>
-      <v-toolbar-items style="align-items: center" v-show="!dotsVertical">
+      <v-toolbar-items style="align-items: center">
         {{ user.firstname }} {{ user.lastname }}
       </v-toolbar-items>
-      <v-btn icon v-show="!dotsVertical">
+      <v-btn icon>
         <v-icon>mdi-account</v-icon>
         <v-menu activator="parent">
           <v-list>
@@ -52,7 +52,7 @@
         </v-menu>
       </v-btn>
 
-      <v-btn icon="mdi-dots-vertical" v-show="dotsVertical" />
+      <v-btn icon="mdi-dots-vertical" />
     </v-toolbar>
   </v-sheet>
 </template>
@@ -61,9 +61,6 @@
 import { mapGetters, mapActions } from "vuex";
 
 export default {
-  data: () => ({
-    dotsVertical: false,
-  }),
   computed: {
     ...mapGetters(["user"]),
   },

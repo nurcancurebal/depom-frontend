@@ -5,7 +5,6 @@
         floating
         permanent
         style="position: absolute; width: 100%; background-color: #ededed"
-        v-model="drawer"
       >
         <router-link
           to="/stock"
@@ -127,15 +126,6 @@
     </v-layout>
   </v-card>
 </template>
-<script>
-export default {
-  data() {
-    return {
-      drawer: false,
-    };
-  },
-};
-</script>
 
 <style scoped>
 a:hover {
