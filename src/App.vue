@@ -2,8 +2,6 @@
   <v-card style="border-radius: unset">
     <v-layout>
       <v-app-bar style="color: white; background-color: #208ec6" prominent>
-        <v-app-bar-nav-icon variant="text" @click.stop="drawer = !drawer" />
-
         <img
           width="50"
           height="50"
@@ -32,34 +30,29 @@
             <v-icon icon="mdi-account"></v-icon>
             <v-menu activator="parent">
               <v-list>
-                <v-list-item>
-                  <v-list-item-title>
-                    <router-link
-                      style="
-                        text-decoration: none;
-                        color: #208ec6;
-                        font-family: 'Material Design Icons';
-                      "
-                      to="/update-account"
-                      class="pa-2"
-                    >
-                      Hesabımı Düzenle
-                    </router-link>
+                <router-link
+                  style="
+                    text-decoration: none;
+                    color: #208ec6;
+                    font-family: 'Material Design Icons';
+                  "
+                  to="/update-account"
+                >
+                  <v-list-item-title value="hesabimiduzenle">
+                    Hesabımı Düzenle
                   </v-list-item-title>
-                  <v-list-item-title>
-                    <router-link
-                      style="
-                        text-decoration: none;
-                        color: #208ec6;
-                        font-family: 'Material Design Icons';
-                      "
-                      to="/"
-                      class="pa-2"
-                    >
-                      Çıkış
-                    </router-link>
-                  </v-list-item-title>
-                </v-list-item>
+                </router-link>
+
+                <router-link
+                  style="
+                    text-decoration: none;
+                    color: #208ec6;
+                    font-family: 'Material Design Icons';
+                  "
+                  to="/"
+                >
+                  <v-list-item-title value="cikis"> Çıkış </v-list-item-title>
+                </router-link>
               </v-list>
             </v-menu>
           </v-btn>
@@ -70,19 +63,10 @@
       <v-navigation-drawer
         floating
         permanent
-        style="position: absolute; background-color: #ededed"
+        style="background-color: #ededed"
         v-model="drawer"
       >
-        <router-link
-          to="/stock"
-          style="
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            color: #424242;
-          "
-          class="ma-1 pa-2 my-3"
-        >
+        <router-link to="/stock" class="router-link">
           <v-icon size="20">mdi-warehouse</v-icon>
           <v-list-item-title
             value="depostok"
@@ -92,16 +76,7 @@
           </v-list-item-title>
         </router-link>
 
-        <router-link
-          to="/entry"
-          style="
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            color: #424242;
-          "
-          class="ma-1 pa-2 my-3"
-        >
+        <router-link to="/entry" class="router-link">
           <v-icon size="20">mdi-archive-plus</v-icon>
           <v-list-item-title
             value="stokgiris"
@@ -111,16 +86,7 @@
           </v-list-item-title>
         </router-link>
 
-        <router-link
-          to="/checkout"
-          style="
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            color: #424242;
-          "
-          class="ma-1 pa-2 my-3"
-        >
+        <router-link to="/checkout" class="router-link">
           <v-icon size="20">mdi-archive-minus</v-icon>
           <v-list-item-title
             value="stokcikis"
@@ -130,16 +96,7 @@
           </v-list-item-title>
         </router-link>
 
-        <router-link
-          to="/current"
-          style="
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            color: #424242;
-          "
-          class="ma-1 pa-2 my-3"
-        >
+        <router-link to="/current" class="router-link">
           <v-icon size="20">mdi-calculator-variant</v-icon>
           <v-list-item-title
             value="cari"
@@ -150,16 +107,7 @@
         </router-link>
 
         <template v-slot:append>
-          <router-link
-            to="/settings"
-            style="
-              text-decoration: none;
-              display: flex;
-              align-items: center;
-              color: #424242;
-            "
-            class="ma-1 pa-2 my-3"
-          >
+          <router-link to="/settings" class="router-link">
             <v-icon size="20">mdi-cog</v-icon>
             <v-list-item-title
               value="settings"
@@ -169,16 +117,7 @@
             </v-list-item-title>
           </router-link>
 
-          <router-link
-            to="/"
-            style="
-              text-decoration: none;
-              display: flex;
-              align-items: center;
-              color: #424242;
-            "
-            class="ma-1 pa-2 my-3"
-          >
+          <router-link to="/" class="router-link">
             <v-icon size="20">mdi-exit-to-app</v-icon>
             <v-list-item-title
               value="cikis"
@@ -229,9 +168,17 @@ export default {
   font-family: "Material Design Icons" !important;
 }
 a:hover {
-  background-color: #f5f5f5;
+  background-color: #dcd5d5;
 }
 #title:hover {
   background-color: #208ec6;
+}
+.router-link {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  color: #424242;
+  margin: 10px;
+  padding: 20px;
 }
 </style>
