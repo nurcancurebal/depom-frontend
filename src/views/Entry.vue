@@ -1,328 +1,303 @@
 <template>
-  <div>
-    <v-row no-gutters>
-      <v-col cols="12">
-        <TheNavbar />
-      </v-col>
-    </v-row>
-    <v-row no-gutters>
-      <v-col cols="2">
-        <TheSidebar />
-      </v-col>
-      <v-col cols="6" offset="2">
-        <div
-          style="display: flex; flex-direction: column; align-items: center"
-          class="my-7"
-        >
-          <h3>Stok Giriş</h3>
-          <v-divider style="width: 100%" class="my-5" />
-          <v-card
-            style="width: 100%; padding: 45px; margin-top: 20px"
-            v-show="!showEntryInventory"
+  <div
+    style="display: flex; flex-direction: column; align-items: center"
+    class="my-7"
+  >
+    <h3>Stok Giriş</h3>
+    <v-divider style="width: 100%" class="my-5" />
+    <v-card
+      style="width: 100%; padding: 45px; margin-top: 20px"
+      v-show="!showEntryInventory"
+    >
+      <v-row align="center">
+        <v-col cols="3" style="padding: 0 0 25px 0">
+          <v-list-subheader style="padding-inline-end: 0">
+            Stok Kodu / Barkod:
+          </v-list-subheader>
+        </v-col>
+
+        <v-col cols="9" style="padding: 0">
+          <v-text-field
+            variant="outlined"
+            v-model="barcode"
+            required
+            :rules="[() => !!barcode || 'Bu alan boş bırakılamaz.']"
+          />
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col cols="2" offset="10" style="padding: 0">
+          <v-btn
+            :style="{
+              'background-color': disabled ? '#00c853' : '#ededed',
+              'font-family': 'auto',
+              width: '100%',
+            }"
+            @click="findProduct"
+            :disabled="!disabled"
           >
-            <v-row align="center">
-              <v-col cols="3" style="padding: 0 0 25px 0">
-                <v-list-subheader style="padding-inline-end: 0">
-                  Stok Kodu / Barkod:
-                </v-list-subheader>
-              </v-col>
+            Ürünü Bul
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-card>
 
-              <v-col cols="9" style="padding: 0">
-                <v-text-field
-                  variant="outlined"
-                  v-model="barcode"
-                  required
-                  :rules="[() => !!barcode || 'Bu alan boş bırakılamaz.']"
-                />
-              </v-col>
-            </v-row>
+    <v-card
+      style="width: 100%; padding: 45px; margin-top: 20px"
+      v-show="showEntryInventory"
+    >
+      <v-row align="center">
+        <v-col cols="2" style="padding: 0 0 25px 0">
+          <v-list-subheader style="padding-inline-end: 0">
+            Stok Kodu / Barkod:
+          </v-list-subheader>
+        </v-col>
 
-            <v-row>
-              <v-col cols="2" offset="10" style="padding: 0">
-                <v-btn
-                  :style="{
-                    'background-color': disabled ? '#00c853' : '#ededed',
-                    'font-family': 'auto',
-                  }"
-                  @click="findProduct"
-                  :disabled="!disabled"
-                >
-                  Ürünü Bul
-                </v-btn>
-              </v-col>
-            </v-row>
-          </v-card>
+        <v-col cols="10" style="padding: 0">
+          <v-text-field variant="outlined" v-model="barcode" disabled />
+        </v-col>
+      </v-row>
 
-          <v-card
-            style="width: 100%; padding: 45px; margin-top: 20px"
-            v-show="showEntryInventory"
+      <v-row align="center">
+        <v-col cols="2" style="padding: 0 0 25px 0">
+          <v-list-subheader style="padding-inline-end: 0">
+            Ürün Adı:
+          </v-list-subheader>
+        </v-col>
+
+        <v-col cols="10" style="padding: 0">
+          <v-text-field
+            variant="outlined"
+            v-model="productname"
+            required
+            :rules="[() => !!productname || 'Bu alan boş bırakılamaz.']"
+            :disabled="allDisabled"
+          />
+        </v-col>
+      </v-row>
+
+      <v-row align="center">
+        <v-col cols="2" style="padding: 0 0 25px 0">
+          <v-list-subheader style="padding-inline-end: 0">
+            Kategori:
+          </v-list-subheader>
+        </v-col>
+
+        <v-col cols="10" style="padding: 0">
+          <v-select
+            clearable
+            :items="getCategories"
+            variant="outlined"
+            @click="
+              () => {
+                selectedSubCategory = '';
+                selectedBrand = '';
+              }
+            "
+            v-model="selectedCategory"
+            required
+            :rules="[() => !!selectedCategory || 'Bu alan boş bırakılamaz.']"
+            :disabled="allDisabled"
+          />
+        </v-col>
+      </v-row>
+
+      <v-row align="center">
+        <v-col cols="2" style="padding: 0 0 25px 0">
+          <v-list-subheader style="padding-inline-end: 0">
+            Alt Kategori:
+          </v-list-subheader>
+        </v-col>
+
+        <v-col cols="10" style="padding: 0">
+          <v-select
+            clearable
+            variant="outlined"
+            @click="selectedBrand = ''"
+            :items="getSubCategories"
+            v-model="selectedSubCategory"
+            required
+            :rules="[() => !!selectedSubCategory || 'Bu alan boş bırakılamaz.']"
+            :disabled="allDisabled"
+          />
+        </v-col>
+      </v-row>
+
+      <v-row align="center">
+        <v-col cols="2" style="padding: 0 0 25px 0">
+          <v-list-subheader style="padding-inline-end: 0">
+            Tedarikçi:
+          </v-list-subheader>
+        </v-col>
+
+        <v-col cols="10" style="padding: 0">
+          <v-text-field
+            variant="outlined"
+            v-model="supplier"
+            required
+            :rules="[() => !!supplier || 'Bu alan boş bırakılamaz.']"
+            :disabled="allDisabled"
+          />
+        </v-col>
+      </v-row>
+
+      <v-row align="center">
+        <v-col cols="2" style="padding: 0 0 25px 0">
+          <v-list-subheader style="padding-inline-end: 0">
+            Marka:
+          </v-list-subheader>
+        </v-col>
+
+        <v-col cols="4" style="padding: 0">
+          <v-select
+            clearable
+            variant="outlined"
+            :items="getSubCategoriesWithBrand"
+            v-model="selectedBrand"
+            required
+            :rules="[() => !!selectedBrand || 'Bu alan boş bırakılamaz.']"
+            :disabled="allDisabled"
+          />
+        </v-col>
+        <v-col cols="2" style="padding: 0 0 25px 0">
+          <v-list-subheader
+            style="
+              padding-inline-end: 0;
+              display: flex;
+              justify-content: start;
+              margin-left: 20px;
+            "
           >
-            <v-row align="center">
-              <v-col cols="2" style="padding: 0 0 25px 0">
-                <v-list-subheader style="padding-inline-end: 0">
-                  Stok Kodu / Barkod:
-                </v-list-subheader>
-              </v-col>
+            Birim:
+          </v-list-subheader>
+        </v-col>
+        <v-col cols="4" style="padding: 0">
+          <v-select
+            clearable
+            variant="outlined"
+            v-model="unit"
+            :items="[
+              'adet',
+              'bağ',
+              'boy',
+              'cm',
+              'çuval',
+              'gr',
+              'grup',
+              'kg',
+              'koli',
+              'kutu',
+              'lt',
+              'm²',
+              'm³',
+              'm',
+              'mm',
+              'ml',
+              'paket',
+              'saat',
+              'ton',
+              'top',
+            ]"
+            required
+            :rules="[() => !!unit || 'Bu alan boş bırakılamaz.']"
+          />
+        </v-col>
+      </v-row>
 
-              <v-col cols="10" style="padding: 0">
-                <v-text-field variant="outlined" v-model="barcode" disabled />
-              </v-col>
-            </v-row>
+      <v-row align="center">
+        <v-col cols="2" style="padding: 0 0 25px 0">
+          <v-list-subheader style="padding-inline-end: 0">
+            Miktar:
+          </v-list-subheader>
+        </v-col>
 
-            <v-row align="center">
-              <v-col cols="2" style="padding: 0 0 25px 0">
-                <v-list-subheader style="padding-inline-end: 0">
-                  Ürün Adı:
-                </v-list-subheader>
-              </v-col>
+        <v-col cols="4" style="padding: 0">
+          <v-text-field
+            variant="outlined"
+            v-model="quantity"
+            required
+            :rules="[
+              () => !!quantity || 'Bu alan boş bırakılamaz.',
+              () =>
+                /^\d+(\.\d+)?$/.test(quantity) ||
+                'Lütfen yalnızca sayısal bir değer giriniz.',
+            ]"
+          />
+        </v-col>
+        <v-col cols="2" style="padding: 0 0 25px 0">
+          <v-list-subheader
+            style="
+              padding-inline-end: 0;
+              display: flex;
+              justify-content: start;
+              margin-left: 20px;
+            "
+          >
+            Birim Fiyat:
+          </v-list-subheader>
+        </v-col>
+        <v-col cols="4" style="padding: 0">
+          <v-text-field
+            variant="outlined"
+            v-model="unitprice"
+            required
+            :rules="[
+              () => !!unitprice || 'Bu alan boş bırakılamaz.',
+              () =>
+                /^\d+(\.\d+)?$/.test(unitprice) ||
+                'Lütfen yalnızca sayısal bir değer giriniz.',
+            ]"
+          />
+        </v-col>
+      </v-row>
 
-              <v-col cols="10" style="padding: 0">
-                <v-text-field
-                  variant="outlined"
-                  v-model="productname"
-                  required
-                  :rules="[() => !!productname || 'Bu alan boş bırakılamaz.']"
-                  :disabled="allDisabled"
-                />
-              </v-col>
-            </v-row>
-
-            <v-row align="center">
-              <v-col cols="2" style="padding: 0 0 25px 0">
-                <v-list-subheader style="padding-inline-end: 0">
-                  Kategori:
-                </v-list-subheader>
-              </v-col>
-
-              <v-col cols="10" style="padding: 0">
-                <v-select
-                  clearable
-                  :items="getCategories"
-                  variant="outlined"
-                  @click="
-                    () => {
-                      selectedSubCategory = '';
-                      selectedBrand = '';
-                    }
-                  "
-                  v-model="selectedCategory"
-                  required
-                  :rules="[
-                    () => !!selectedCategory || 'Bu alan boş bırakılamaz.',
-                  ]"
-                  :disabled="allDisabled"
-                />
-              </v-col>
-            </v-row>
-
-            <v-row align="center">
-              <v-col cols="2" style="padding: 0 0 25px 0">
-                <v-list-subheader style="padding-inline-end: 0">
-                  Alt Kategori:
-                </v-list-subheader>
-              </v-col>
-
-              <v-col cols="10" style="padding: 0">
-                <v-select
-                  clearable
-                  variant="outlined"
-                  @click="selectedBrand = ''"
-                  :items="getSubCategories"
-                  v-model="selectedSubCategory"
-                  required
-                  :rules="[
-                    () => !!selectedSubCategory || 'Bu alan boş bırakılamaz.',
-                  ]"
-                  :disabled="allDisabled"
-                />
-              </v-col>
-            </v-row>
-
-            <v-row align="center">
-              <v-col cols="2" style="padding: 0 0 25px 0">
-                <v-list-subheader style="padding-inline-end: 0">
-                  Tedarikçi:
-                </v-list-subheader>
-              </v-col>
-
-              <v-col cols="10" style="padding: 0">
-                <v-text-field
-                  variant="outlined"
-                  v-model="supplier"
-                  required
-                  :rules="[() => !!supplier || 'Bu alan boş bırakılamaz.']"
-                  :disabled="allDisabled"
-                />
-              </v-col>
-            </v-row>
-
-            <v-row align="center">
-              <v-col cols="2" style="padding: 0 0 25px 0">
-                <v-list-subheader style="padding-inline-end: 0">
-                  Marka:
-                </v-list-subheader>
-              </v-col>
-
-              <v-col cols="4" style="padding: 0">
-                <v-select
-                  clearable
-                  variant="outlined"
-                  :items="getSubCategoriesWithBrand"
-                  v-model="selectedBrand"
-                  required
-                  :rules="[() => !!selectedBrand || 'Bu alan boş bırakılamaz.']"
-                  :disabled="allDisabled"
-                />
-              </v-col>
-              <v-col cols="2" style="padding: 0 0 25px 0">
-                <v-list-subheader
-                  style="
-                    padding-inline-end: 0;
-                    display: flex;
-                    justify-content: start;
-                    margin-left: 20px;
-                  "
-                >
-                  Birim:
-                </v-list-subheader>
-              </v-col>
-              <v-col cols="4" style="padding: 0">
-                <v-select
-                  clearable
-                  variant="outlined"
-                  v-model="unit"
-                  :items="[
-                    'adet',
-                    'bağ',
-                    'boy',
-                    'cm',
-                    'çuval',
-                    'gr',
-                    'grup',
-                    'kg',
-                    'koli',
-                    'kutu',
-                    'lt',
-                    'm²',
-                    'm³',
-                    'm',
-                    'mm',
-                    'ml',
-                    'paket',
-                    'saat',
-                    'ton',
-                    'top',
-                  ]"
-                  required
-                  :rules="[() => !!unit || 'Bu alan boş bırakılamaz.']"
-                />
-              </v-col>
-            </v-row>
-
-            <v-row align="center">
-              <v-col cols="2" style="padding: 0 0 25px 0">
-                <v-list-subheader style="padding-inline-end: 0">
-                  Miktar:
-                </v-list-subheader>
-              </v-col>
-
-              <v-col cols="4" style="padding: 0">
-                <v-text-field
-                  variant="outlined"
-                  v-model="quantity"
-                  required
-                  :rules="[
-                    () => !!quantity || 'Bu alan boş bırakılamaz.',
-                    () =>
-                      /^\d+(\.\d+)?$/.test(quantity) ||
-                      'Lütfen yalnızca sayısal bir değer giriniz.',
-                  ]"
-                />
-              </v-col>
-              <v-col cols="2" style="padding: 0 0 25px 0">
-                <v-list-subheader
-                  style="
-                    padding-inline-end: 0;
-                    display: flex;
-                    justify-content: start;
-                    margin-left: 20px;
-                  "
-                >
-                  Birim Fiyat:
-                </v-list-subheader>
-              </v-col>
-              <v-col cols="4" style="padding: 0">
-                <v-text-field
-                  variant="outlined"
-                  v-model="unitprice"
-                  required
-                  :rules="[
-                    () => !!unitprice || 'Bu alan boş bırakılamaz.',
-                    () =>
-                      /^\d+(\.\d+)?$/.test(unitprice) ||
-                      'Lütfen yalnızca sayısal bir değer giriniz.',
-                  ]"
-                />
-              </v-col>
-            </v-row>
-
-            <v-row>
-              <v-col cols="2" offset="10" style="padding: 0">
-                <v-btn
-                  :style="{
-                    'background-color': allTrue ? '#00c853' : '#ededed',
-                    'font-family': 'auto',
-                    width: '100%',
-                  }"
-                  :disabled="!allTrue"
-                  @click="
-                    entryOne({
-                      barcode,
-                      productname: capitalizeWords(productname),
-                      selectedCategory,
-                      selectedSubCategory,
-                      supplier: capitalizeWords(supplier),
-                      selectedBrand,
-                      unit,
-                      quantity,
-                      unitprice,
-                    }).then(() => {
-                      showEntryInventory = false;
-                      barcode = '';
-                      productname = '';
-                      selectedCategory = '';
-                      selectedSubCategory = '';
-                      selectedBrand = '';
-                      supplier = '';
-                      unit = '';
-                      quantity = '';
-                      unitprice = '';
-                    })
-                  "
-                >
-                  Ekle
-                </v-btn>
-              </v-col>
-            </v-row>
-          </v-card>
-        </div>
-      </v-col>
-      <v-col cols="2" />
-    </v-row>
+      <v-row>
+        <v-col cols="2" offset="10" style="padding: 0">
+          <v-btn
+            :style="{
+              'background-color': allTrue ? '#00c853' : '#ededed',
+              'font-family': 'auto',
+              width: '100%',
+            }"
+            :disabled="!allTrue"
+            @click="
+              entryOne({
+                barcode,
+                productname: capitalizeWords(productname),
+                selectedCategory,
+                selectedSubCategory,
+                supplier: capitalizeWords(supplier),
+                selectedBrand,
+                unit,
+                quantity,
+                unitprice,
+              }).then(() => {
+                showEntryInventory = false;
+                barcode = '';
+                productname = '';
+                selectedCategory = '';
+                selectedSubCategory = '';
+                selectedBrand = '';
+                supplier = '';
+                unit = '';
+                quantity = '';
+                unitprice = '';
+              })
+            "
+          >
+            Ekle
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-card>
   </div>
 </template>
 
 <script>
 import { mapActions } from "vuex";
-import TheSidebar from "../components/TheSidebar.vue";
-import TheNavbar from "../components/TheNavbar.vue";
 
 export default {
-  components: {
-    TheSidebar,
-    TheNavbar,
-  },
-
   data() {
     return {
       showEntryInventory: false,

@@ -1,137 +1,105 @@
 <template>
-  <div>
-    <v-row no-gutters>
-      <v-col cols="12">
-        <TheNavbar />
-      </v-col>
-    </v-row>
-    <v-row no-gutters>
-      <v-col cols="2">
-        <TheSidebar />
-      </v-col>
-      <v-col cols="4" offset="3">
-        <v-sheet>
-          <form class="d-flex align-center flex-column justify-center my-7">
-            <h2>Hesabımı Düzenle</h2>
-            <v-divider class="mt-5 mb-7" style="width: 100%" />
-            <v-text-field
-              prepend-inner-icon="mdi-account"
-              label="Ad"
-              variant="outlined"
-              rounded="xl"
-              style="width: 100%"
-              v-model="cacheUser.firstname"
-              :error-messages="errors.firstname"
-            />
-            <v-text-field
-              prepend-inner-icon="mdi-account"
-              label="Soyad"
-              variant="outlined"
-              rounded="xl"
-              style="width: 100%"
-              v-model="cacheUser.lastname"
-              :error-messages="errors.lastname"
-            />
-            <v-text-field
-              prepend-inner-icon="mdi-account"
-              label="Kullanıcı Adı"
-              variant="outlined"
-              rounded="xl"
-              style="width: 100%"
-              v-model="cacheUser.username"
-              :error-messages="errors.username"
-            />
+  <v-sheet>
+    <form class="d-flex align-center flex-column justify-center my-7">
+      <h2>Hesabımı Düzenle</h2>
+      <v-divider class="mt-5 mb-7" style="width: 100%" />
+      <v-text-field
+        prepend-inner-icon="mdi-account"
+        label="Ad"
+        variant="outlined"
+        rounded="xl"
+        style="width: 100%"
+        v-model="cacheUser.firstname"
+        :error-messages="errors.firstname"
+      />
+      <v-text-field
+        prepend-inner-icon="mdi-account"
+        label="Soyad"
+        variant="outlined"
+        rounded="xl"
+        style="width: 100%"
+        v-model="cacheUser.lastname"
+        :error-messages="errors.lastname"
+      />
+      <v-text-field
+        prepend-inner-icon="mdi-account"
+        label="Kullanıcı Adı"
+        variant="outlined"
+        rounded="xl"
+        style="width: 100%"
+        v-model="cacheUser.username"
+        :error-messages="errors.username"
+      />
 
-            <v-text-field
-              v-model="formatDate"
-              readonly
-              @click="menu = !menu"
-              prepend-inner-icon="mdi-calendar"
-              label="Doğum Tarihi"
-              variant="outlined"
-              rounded="xl"
-              style="width: 100%"
-              placeholder="Doğum Tarihi"
-              :error-messages="errors.birthdate"
-            >
-              <v-menu
-                activator="parent"
-                v-model="menu"
-                :close-on-content-click="false"
-                transition="scale-transition"
-                min-width="auto"
-              >
-                <v-date-picker
-                  v-model="cacheUser.birthdate"
-                  no-title
-                  scrollable
-                  style="height: 476px; margin-top: auto"
-                >
-                  <v-btn
-                    text
-                    color="#208ec6"
-                    class="mt-3"
-                    @click="menu = false"
-                  >
-                    İptal
-                  </v-btn>
-                  <v-btn
-                    text
-                    color="#208ec6"
-                    class="mt-3"
-                    @click="menu = false"
-                  >
-                    Tamam
-                  </v-btn>
-                </v-date-picker>
-              </v-menu>
-            </v-text-field>
-
-            <v-btn
-              style="width: 100%; background-color: #00c853; color: white"
-              rounded="xl"
-              @click="patternCheck"
-              class="font-weight-bold"
-            >
-              Düzenle
+      <v-text-field
+        v-model="formatDate"
+        readonly
+        @click="menu = !menu"
+        prepend-inner-icon="mdi-calendar"
+        label="Doğum Tarihi"
+        variant="outlined"
+        rounded="xl"
+        style="width: 100%"
+        placeholder="Doğum Tarihi"
+        :error-messages="errors.birthdate"
+      >
+        <v-menu
+          activator="parent"
+          v-model="menu"
+          :close-on-content-click="false"
+          transition="scale-transition"
+          min-width="auto"
+        >
+          <v-date-picker
+            v-model="cacheUser.birthdate"
+            no-title
+            scrollable
+            style="height: 476px; margin-top: auto"
+          >
+            <v-btn text color="#208ec6" class="mt-3" @click="menu = false">
+              İptal
             </v-btn>
-          </form>
-        </v-sheet>
-        <v-snackbar
-          v-model="errors.successSnackbar"
-          :timeout="2000"
-          color="#208ec6"
-          rounded="pill"
-          height="48px"
-        >
-          Tebrikler kullanıcı bilgileri değiştirildi!
-        </v-snackbar>
-        <v-snackbar
-          v-model="errors.snackbarError"
-          :timeout="2000"
-          color="#208ec6"
-          rounded="pill"
-          height="48px"
-        >
-          Lütfen doğru bir şekilde tüm alanları doldurunuz!
-        </v-snackbar>
-      </v-col>
-      <v-col cols="3" />
-    </v-row>
-  </div>
+            <v-btn text color="#208ec6" class="mt-3" @click="menu = false">
+              Tamam
+            </v-btn>
+          </v-date-picker>
+        </v-menu>
+      </v-text-field>
+
+      <v-btn
+        style="width: 100%; background-color: #00c853; color: white"
+        rounded="xl"
+        @click="patternCheck"
+        class="font-weight-bold"
+      >
+        Düzenle
+      </v-btn>
+    </form>
+    <v-snackbar
+      v-model="errors.successSnackbar"
+      :timeout="2000"
+      color="#208ec6"
+      rounded="pill"
+      height="48px"
+    >
+      Tebrikler kullanıcı bilgileri değiştirildi!
+    </v-snackbar>
+    <v-snackbar
+      v-model="errors.snackbarError"
+      :timeout="2000"
+      color="#208ec6"
+      rounded="pill"
+      height="48px"
+    >
+      Lütfen doğru bir şekilde tüm alanları doldurunuz!
+    </v-snackbar>
+  </v-sheet>
 </template>
 
 <script>
-import TheSidebar from "../components/TheSidebar.vue";
-import TheNavbar from "../components/TheNavbar.vue";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
-  components: {
-    TheSidebar,
-    TheNavbar,
-  },
-
   data: () => ({
     menu: false,
     formatDate: null,

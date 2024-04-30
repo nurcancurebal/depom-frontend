@@ -6,6 +6,7 @@ import Current from "@/views/Current"
 import Home from "@/views/Home"
 import UpdateAccount from "@/views/UpdateAccount"
 import Settings from "@/views/Settings"
+import Ornek from "@/views/Ornek"
 
 const routes = [
   {
@@ -62,6 +63,14 @@ const routes = [
     component: Settings,
     meta: {
       title: 'Ayarlar',
+    },
+  },
+  {
+    path: '/ornek',
+    name: 'Ornek',
+    component: Ornek,
+    meta: {
+      title: 'Ornek',
     },
   },
 ]
