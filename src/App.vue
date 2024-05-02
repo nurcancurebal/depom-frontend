@@ -62,7 +62,6 @@
 
       <v-navigation-drawer
         floating
-        permanent
         style="background-color: #ededed"
         v-model="drawer"
       >
@@ -141,17 +140,11 @@ import { mapGetters, mapActions } from "vuex";
 export default {
   data() {
     return {
-      drawer: false,
-      group: null,
+      drawer: true,
     };
   },
   computed: {
     ...mapGetters(["user"]),
-  },
-  watch: {
-    group() {
-      this.drawer = false;
-    },
   },
   methods: {
     ...mapActions(["getUser"]),
