@@ -1,6 +1,12 @@
 <template>
   <div
-    style="display: flex; flex-direction: column; align-items: center"
+    style="
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 70%;
+      margin: auto;
+    "
     class="my-7"
   >
     <h3>Stok Çıkış</h3>
@@ -10,13 +16,13 @@
       v-show="!showCheckoutInventory"
     >
       <v-row align="center">
-        <v-col cols="3" style="padding: 0 0 25px 0">
+        <v-col cols="12" md="3" class="custom-padding">
           <v-list-subheader style="padding-inline-end: 0">
             Stok Kodu / Barkod:
           </v-list-subheader>
         </v-col>
 
-        <v-col cols="9" style="padding: 0">
+        <v-col cols="12" md="9" style="padding: 0">
           <v-text-field
             variant="outlined"
             v-model="barcode"
@@ -28,7 +34,15 @@
       </v-row>
 
       <v-row>
-        <v-col cols="2" offset="10" style="padding: 0">
+        <v-col
+          cols="5"
+          offset="7"
+          sm="3"
+          offset-sm="9"
+          md="2"
+          offset-md="10"
+          style="padding: 0"
+        >
           <v-btn
             :style="{
               'background-color': disabled ? '#00c853' : '#ededed',
@@ -49,25 +63,25 @@
       v-show="showCheckoutInventory"
     >
       <v-row align="center">
-        <v-col cols="2" style="padding: 0 0 25px 0">
+        <v-col cols="12" md="2" class="custom-padding">
           <v-list-subheader style="padding-inline-end: 0">
             Stok Kodu / Barkod:
           </v-list-subheader>
         </v-col>
 
-        <v-col cols="10" style="padding: 0">
+        <v-col cols="12" md="10" style="padding: 0">
           <v-text-field variant="outlined" v-model="barcode" disabled />
         </v-col>
       </v-row>
 
       <v-row align="center">
-        <v-col cols="2" style="padding: 0 0 25px 0">
+        <v-col cols="12" md="2" class="custom-padding">
           <v-list-subheader style="padding-inline-end: 0">
             Ürün Adı:
           </v-list-subheader>
         </v-col>
 
-        <v-col cols="10" style="padding: 0">
+        <v-col cols="12" md="10" style="padding: 0">
           <v-text-field
             variant="outlined"
             v-model="productname"
@@ -79,13 +93,13 @@
       </v-row>
 
       <v-row align="center">
-        <v-col cols="2" style="padding: 0 0 25px 0">
+        <v-col cols="12" md="2" class="custom-padding">
           <v-list-subheader style="padding-inline-end: 0">
             Kategori:
           </v-list-subheader>
         </v-col>
 
-        <v-col cols="10" style="padding: 0">
+        <v-col cols="12" md="10" style="padding: 0">
           <v-select
             clearable
             :items="getCategories"
@@ -105,13 +119,13 @@
       </v-row>
 
       <v-row align="center">
-        <v-col cols="2" style="padding: 0 0 25px 0">
+        <v-col cols="12" md="2" class="custom-padding">
           <v-list-subheader style="padding-inline-end: 0">
             Alt Kategori:
           </v-list-subheader>
         </v-col>
 
-        <v-col cols="10" style="padding: 0">
+        <v-col cols="12" md="10" style="padding: 0">
           <v-select
             clearable
             variant="outlined"
@@ -126,13 +140,13 @@
       </v-row>
 
       <v-row align="center">
-        <v-col cols="2" style="padding: 0 0 25px 0">
+        <v-col cols="12" md="2" class="custom-padding">
           <v-list-subheader style="padding-inline-end: 0">
             Tedarikçi:
           </v-list-subheader>
         </v-col>
 
-        <v-col cols="10" style="padding: 0">
+        <v-col cols="12" md="10" style="padding: 0">
           <v-text-field
             variant="outlined"
             v-model="supplier"
@@ -144,13 +158,13 @@
       </v-row>
 
       <v-row align="center">
-        <v-col cols="2" style="padding: 0 0 25px 0">
+        <v-col cols="12" md="2" class="custom-padding">
           <v-list-subheader style="padding-inline-end: 0">
             Marka:
           </v-list-subheader>
         </v-col>
 
-        <v-col cols="4" style="padding: 0">
+        <v-col cols="12" md="4" style="padding: 0">
           <v-select
             clearable
             variant="outlined"
@@ -161,19 +175,15 @@
             :disabled="allDisabled"
           />
         </v-col>
-        <v-col cols="2" style="padding: 0 0 25px 0">
+        <v-col cols="12" md="2" class="custom-padding">
           <v-list-subheader
-            style="
-              padding-inline-end: 0;
-              display: flex;
-              justify-content: start;
-              margin-left: 20px;
-            "
+            style="padding-inline-end: 0; display: flex; justify-content: start"
+            class="subheader-margin"
           >
             Birim:
           </v-list-subheader>
         </v-col>
-        <v-col cols="4" style="padding: 0">
+        <v-col cols="12" md="4" style="padding: 0">
           <v-select
             clearable
             variant="outlined"
@@ -187,13 +197,13 @@
       </v-row>
 
       <v-row align="center">
-        <v-col cols="2" style="padding: 0 0 25px 0">
+        <v-col cols="12" md="2" class="custom-padding">
           <v-list-subheader style="padding-inline-end: 0">
             Toplam Miktar:
           </v-list-subheader>
         </v-col>
 
-        <v-col cols="4" style="padding: 0">
+        <v-col cols="12" md="4" style="padding: 0">
           <v-text-field
             variant="outlined"
             v-model="quantity"
@@ -207,19 +217,15 @@
             :disabled="quantityDisabled"
           />
         </v-col>
-        <v-col cols="2" style="padding: 0 0 25px 0">
+        <v-col cols="12" md="2" class="custom-padding">
           <v-list-subheader
-            style="
-              padding-inline-end: 0;
-              display: flex;
-              justify-content: start;
-              margin-left: 20px;
-            "
+            style="padding-inline-end: 0; display: flex; justify-content: start"
+            class="subheader-margin"
           >
             Toplam Birim Fiyat:
           </v-list-subheader>
         </v-col>
-        <v-col cols="4" style="padding: 0">
+        <v-col cols="12" md="4" style="padding: 0">
           <v-text-field
             variant="outlined"
             v-model="unitprice"
@@ -236,7 +242,15 @@
       </v-row>
 
       <v-row>
-        <v-col cols="2" offset="10" style="padding: 0 0 25px 0">
+        <v-col
+          cols="5"
+          offset="7"
+          sm="3"
+          offset-sm="9"
+          md="2"
+          offset-md="10"
+          class="custom-padding"
+        >
           <v-btn
             :style="{
               'background-color': allTrueDisabled ? '#00c853' : '#ededed',
@@ -252,7 +266,7 @@
       </v-row>
     </v-card>
     <v-overlay v-model="overlay" class="align-center justify-center">
-      <v-card style="margin: 40px; padding: 40px; width: 450px">
+      <v-card style="margin: 40px; padding: 40px" class="overlay-checkout">
         <v-row align="center">
           <v-col cols="6" style="padding: 0 0 25px 0">
             <v-list-subheader style="padding-inline-end: 0">
@@ -299,7 +313,13 @@
         </v-row>
 
         <v-row>
-          <v-col cols="3" offset="9" style="padding: 0">
+          <v-col
+            cols="5"
+            offset="7"
+            md="4"
+            offset-md="8"
+            style="padding: 0"
+          >
             <v-btn
               :style="{
                 'background-color': checkoutClickDisabled
@@ -3041,3 +3061,26 @@ export default {
   },
 };
 </script>
+
+<style>
+.custom-padding {
+  padding: 0 !important;
+}
+.overlay-checkout {
+  width: 75% !important;
+}
+.subheader-margin {
+  margin-left: 0 !important;
+}
+@media (min-width: 768px) {
+  .custom-padding {
+    padding: 0 0 25px 0 !important;
+  }
+  .overlay-checkout {
+    width: 450px !important;
+  }
+  .subheader-margin {
+    margin-left: 20px !important;
+  }
+}
+</style>

@@ -1,7 +1,7 @@
 <template>
   <div
     style="display: flex; flex-direction: column; align-items: center"
-    class="my-7"
+    class="ma-7"
   >
     <h3>Depo - Stok</h3>
     <v-divider style="width: 100%" class="my-5" />
