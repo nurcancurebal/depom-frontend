@@ -1,80 +1,78 @@
 <template>
-  <v-sheet>
-    <form class="d-flex align-center flex-column justify-center my-7">
-      <h2>Hesabımı Düzenle</h2>
-      <v-divider class="mt-5 mb-7" style="width: 100%" />
-      <v-text-field
-        prepend-inner-icon="mdi-account"
-        label="Ad"
-        variant="outlined"
-        rounded="xl"
-        style="width: 100%"
-        v-model="cacheUser.firstname"
-        :error-messages="errors.firstname"
-      />
-      <v-text-field
-        prepend-inner-icon="mdi-account"
-        label="Soyad"
-        variant="outlined"
-        rounded="xl"
-        style="width: 100%"
-        v-model="cacheUser.lastname"
-        :error-messages="errors.lastname"
-      />
-      <v-text-field
-        prepend-inner-icon="mdi-account"
-        label="Kullanıcı Adı"
-        variant="outlined"
-        rounded="xl"
-        style="width: 100%"
-        v-model="cacheUser.username"
-        :error-messages="errors.username"
-      />
+  <v-form class="my-8 main-div" style="width: 50%; margin: auto">
+    <h2>Hesabımı Düzenle</h2>
+    <v-divider class="mt-5 mb-7" style="width: 100%" />
+    <v-text-field
+      prepend-inner-icon="mdi-account"
+      label="Ad"
+      variant="outlined"
+      rounded="xl"
+      style="width: 100%"
+      v-model="cacheUser.firstname"
+      :error-messages="errors.firstname"
+    />
+    <v-text-field
+      prepend-inner-icon="mdi-account"
+      label="Soyad"
+      variant="outlined"
+      rounded="xl"
+      style="width: 100%"
+      v-model="cacheUser.lastname"
+      :error-messages="errors.lastname"
+    />
+    <v-text-field
+      prepend-inner-icon="mdi-account"
+      label="Kullanıcı Adı"
+      variant="outlined"
+      rounded="xl"
+      style="width: 100%"
+      v-model="cacheUser.username"
+      :error-messages="errors.username"
+    />
 
-      <v-text-field
-        v-model="formatDate"
-        readonly
-        @click="menu = !menu"
-        prepend-inner-icon="mdi-calendar"
-        label="Doğum Tarihi"
-        variant="outlined"
-        rounded="xl"
-        style="width: 100%"
-        placeholder="Doğum Tarihi"
-        :error-messages="errors.birthdate"
+    <v-text-field
+      v-model="formatDate"
+      readonly
+      @click="menu = !menu"
+      prepend-inner-icon="mdi-calendar"
+      label="Doğum Tarihi"
+      variant="outlined"
+      rounded="xl"
+      style="width: 100%"
+      placeholder="Doğum Tarihi"
+      :error-messages="errors.birthdate"
+    >
+      <v-menu
+        activator="parent"
+        v-model="menu"
+        :close-on-content-click="false"
+        transition="scale-transition"
+        min-width="auto"
       >
-        <v-menu
-          activator="parent"
-          v-model="menu"
-          :close-on-content-click="false"
-          transition="scale-transition"
-          min-width="auto"
+        <v-date-picker
+          v-model="cacheUser.birthdate"
+          no-title
+          scrollable
+          style="height: 476px; margin-top: auto"
         >
-          <v-date-picker
-            v-model="cacheUser.birthdate"
-            no-title
-            scrollable
-            style="height: 476px; margin-top: auto"
-          >
-            <v-btn text color="#208ec6" class="mt-3" @click="menu = false">
-              İptal
-            </v-btn>
-            <v-btn text color="#208ec6" class="mt-3" @click="menu = false">
-              Tamam
-            </v-btn>
-          </v-date-picker>
-        </v-menu>
-      </v-text-field>
+          <v-btn text color="#208ec6" class="mt-3" @click="menu = false">
+            İptal
+          </v-btn>
+          <v-btn text color="#208ec6" class="mt-3" @click="menu = false">
+            Tamam
+          </v-btn>
+        </v-date-picker>
+      </v-menu>
+    </v-text-field>
 
-      <v-btn
-        style="width: 100%; background-color: #00c853; color: white"
-        rounded="xl"
-        @click="patternCheck"
-        class="font-weight-bold"
-      >
-        Düzenle
-      </v-btn>
-    </form>
+    <v-btn
+      style="width: 100%; background-color: #00c853; color: white"
+      rounded="xl"
+      @click="patternCheck"
+      class="font-weight-bold"
+    >
+      Düzenle
+    </v-btn>
     <v-snackbar
       v-model="errors.successSnackbar"
       :timeout="2000"
@@ -93,7 +91,7 @@
     >
       Lütfen doğru bir şekilde tüm alanları doldurunuz!
     </v-snackbar>
-  </v-sheet>
+  </v-form>
 </template>
 
 <script>

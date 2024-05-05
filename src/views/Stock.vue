@@ -1,19 +1,8 @@
 <template>
-  <div
-    style="display: flex; flex-direction: column; align-items: center"
-    class="ma-7"
-  >
+  <div class="ma-8 main-div">
     <h3>Depo - Stok</h3>
     <v-divider style="width: 100%" class="my-5" />
-    <v-card
-      style="
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        padding: 45px;
-        margin-top: 20px;
-      "
-    >
+    <v-card class="card-padding card-custom">
       <v-data-table-server
         class="elevation-1"
         density="compact"
@@ -23,10 +12,10 @@
         :items="formattedInventory"
         :loading="loading"
         item-value="_id"
-        @update:options="updateOptions"
         must-sort
         fixed-header
         style="font-size: 14px"
+        @update:options="updateOptions"
       />
     </v-card>
   </div>
@@ -160,3 +149,21 @@ export default {
   },
 };
 </script>
+
+<style>
+.card-padding {
+  padding: 45px !important;
+}
+.card-custom {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+@media (max-width: 960px) {
+  .card-padding {
+    padding: 0!important;
+  }
+}
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <v-row align="center" style="background-color: #ededed" class="your-selector">
+  <v-row align="center" style="background-color: #ededed" class="row-height">
     <v-col
       cols="12"
       md="4"
@@ -480,7 +480,7 @@ export default {
   text-align: center !important;
 }
 @media (min-width: 960px) {
-  .your-selector {
+  .row-height {
     height: 101.7vh;
   }
 }

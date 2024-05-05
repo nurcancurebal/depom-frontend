@@ -1,19 +1,8 @@
 <template>
-  <div
-    style="display: flex; flex-direction: column; align-items: center"
-    class="my-7"
-  >
+  <div class="ma-8 main-div">
     <h3>Cari</h3>
     <v-divider style="width: 100%" class="my-5" />
-    <v-card
-      style="
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        padding: 45px;
-        margin-top: 20px;
-      "
-    >
+    <v-card class="card-padding card-custom">
       <v-data-table-server
         class="elevation-1"
         density="compact"
