@@ -1,10 +1,11 @@
 <template>
   <div class="ma-8 main-div">
     <h3>Depo - Stok</h3>
-    <v-divider style="width: 100%" class="my-5" />
+    <v-divider class="my-5 w-100" />
     <v-card class="card-padding card-custom">
       <v-data-table-server
         class="elevation-1"
+        style="font-size: 14px"
         density="compact"
         v-model:items-per-page="itemsPerPage"
         :headers="headers"
@@ -14,7 +15,6 @@
         item-value="_id"
         must-sort
         fixed-header
-        style="font-size: 14px"
         @update:options="updateOptions"
       />
     </v-card>
@@ -163,7 +163,7 @@ export default {
 
 @media (max-width: 960px) {
   .card-padding {
-    padding: 0!important;
+    padding: 0 !important;
   }
 }
 </style>

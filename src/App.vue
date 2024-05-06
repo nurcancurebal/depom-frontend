@@ -2,7 +2,8 @@
   <v-app>
     <v-app-bar
       v-if="$route.name !== 'Home'"
-      style="color: white; background-color: #208ec6"
+      style="background-color: #208ec6"
+      class="text-white"
       prominent
     >
       <img
@@ -17,15 +18,15 @@
       <v-toolbar-title class="text-h4">
         <router-link
           to="/stock"
-          style="text-decoration: none; color: white"
           id="title"
+          class="text-white text-decoration-none"
         >
           Depom
         </router-link>
       </v-toolbar-title>
 
       <template v-if="$vuetify.display.lgAndUp">
-        <v-toolbar-items style="align-items: center">
+        <v-toolbar-items class="align-center">
           {{ user.firstname }} {{ user.lastname }}
         </v-toolbar-items>
 
@@ -34,12 +35,9 @@
           <v-menu activator="parent">
             <v-list>
               <router-link
-                style="
-                  text-decoration: none;
-                  color: #208ec6;
-                  font-family: 'Material Design Icons';
-                "
+                style="color: #208ec6; font-family: 'Material Design Icons'"
                 to="/update-account"
+                class="text-decoration-none"
               >
                 <v-list-item-title value="hesabimiduzenle" class="pa-1 mx-2">
                   Hesabımı Düzenle
@@ -47,12 +45,9 @@
               </router-link>
 
               <router-link
-                style="
-                  text-decoration: none;
-                  color: #208ec6;
-                  font-family: 'Material Design Icons';
-                "
+                style="color: #208ec6; font-family: 'Material Design Icons'"
                 to="/"
+                class="text-decoration-none"
               >
                 <v-list-item-title value="cikis" class="pa-1 mx-2">
                   Çıkış
@@ -77,40 +72,28 @@
     >
       <router-link to="/stock" class="router-link">
         <v-icon size="21">mdi-warehouse</v-icon>
-        <v-list-item-title
-          value="depostok"
-          style="font-size: 20px; margin-left: 10px"
-        >
+        <v-list-item-title value="depostok" class="a-list-item-title">
           Depo - Stok
         </v-list-item-title>
       </router-link>
 
       <router-link to="/entry" class="router-link">
         <v-icon size="21">mdi-archive-plus</v-icon>
-        <v-list-item-title
-          value="stokgiris"
-          style="font-size: 20px; margin-left: 10px"
-        >
+        <v-list-item-title value="stokgiris" class="a-list-item-title">
           Stok Giriş
         </v-list-item-title>
       </router-link>
 
       <router-link to="/checkout" class="router-link">
         <v-icon size="21">mdi-archive-minus</v-icon>
-        <v-list-item-title
-          value="stokcikis"
-          style="font-size: 20px; margin-left: 10px"
-        >
+        <v-list-item-title value="stokcikis" class="a-list-item-title">
           Stok Çıkış
         </v-list-item-title>
       </router-link>
 
       <router-link to="/current" class="router-link">
         <v-icon size="21">mdi-calculator-variant</v-icon>
-        <v-list-item-title
-          value="cari"
-          style="font-size: 20px; margin-left: 10px"
-        >
+        <v-list-item-title value="cari" class="a-list-item-title">
           Cari
         </v-list-item-title>
       </router-link>
@@ -118,27 +101,21 @@
       <template v-slot:append>
         <router-link to="/settings" class="router-link">
           <v-icon size="21">mdi-cog</v-icon>
-          <v-list-item-title
-            value="settings"
-            style="font-size: 20px; margin-left: 10px"
-          >
+          <v-list-item-title value="settings" class="a-list-item-title">
             Ayarlar
           </v-list-item-title>
         </router-link>
 
         <router-link to="/" class="router-link">
           <v-icon size="21">mdi-exit-to-app</v-icon>
-          <v-list-item-title
-            value="cikis"
-            style="font-size: 20px; margin-left: 10px"
-          >
+          <v-list-item-title value="cikis" class="a-list-item-title">
             Çıkış
           </v-list-item-title>
         </router-link>
       </template>
     </v-navigation-drawer>
 
-    <v-main style="height: 200vh">
+    <v-main class="h-screen">
       <router-view />
     </v-main>
   </v-app>
@@ -184,5 +161,9 @@ a:hover {
   margin: 15px;
   padding: 13px;
   border-radius: 8px;
+}
+.a-list-item-title {
+  font-size: 20px !important;
+  margin-left: 10px !important;
 }
 </style>

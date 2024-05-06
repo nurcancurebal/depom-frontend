@@ -1,11 +1,8 @@
 <template>
-  <div class="my-8 main-div" style="width: 70%; margin: auto">
+  <div class="my-8 main-div ma-auto w-75">
     <h3>Stok Giriş</h3>
-    <v-divider style="width: 100%" class="my-5" />
-    <v-card
-      style="width: 100%; padding: 45px; margin-top: 20px"
-      v-show="!showEntryInventory"
-    >
+    <v-divider class="my-5 w-100" />
+    <v-card class="w-100 mt-5 pa-11" v-show="!showEntryInventory">
       <v-row align="center">
         <v-col cols="12" md="3" class="col-padding">
           <v-list-subheader style="padding-inline-end: 0">
@@ -13,7 +10,7 @@
           </v-list-subheader>
         </v-col>
 
-        <v-col cols="12" md="9" style="padding: 0">
+        <v-col cols="12" md="9" class="pa-0">
           <v-text-field
             variant="outlined"
             v-model="barcode"
@@ -31,7 +28,7 @@
           offset-sm="9"
           md="2"
           offset-md="10"
-          style="padding: 0"
+          class="pa-0"
         >
           <v-btn
             :style="{
@@ -48,10 +45,7 @@
       </v-row>
     </v-card>
 
-    <v-card
-      style="width: 100%; padding: 45px; margin-top: 20px"
-      v-show="showEntryInventory"
-    >
+    <v-card class="w-100 mt-5 pa-11" v-show="showEntryInventory">
       <v-row align="center">
         <v-col cols="12" md="2" class="col-padding">
           <v-list-subheader style="padding-inline-end: 0">
@@ -59,7 +53,7 @@
           </v-list-subheader>
         </v-col>
 
-        <v-col cols="12" md="10" style="padding: 0">
+        <v-col cols="12" md="10" class="pa-0">
           <v-text-field variant="outlined" v-model="barcode" disabled />
         </v-col>
       </v-row>
@@ -71,7 +65,7 @@
           </v-list-subheader>
         </v-col>
 
-        <v-col cols="12" md="10" style="padding: 0">
+        <v-col cols="12" md="10" class="pa-0">
           <v-text-field
             variant="outlined"
             v-model="productname"
@@ -89,7 +83,7 @@
           </v-list-subheader>
         </v-col>
 
-        <v-col cols="12" md="10" style="padding: 0">
+        <v-col cols="12" md="10" class="pa-0">
           <v-select
             clearable
             :items="getCategories"
@@ -115,7 +109,7 @@
           </v-list-subheader>
         </v-col>
 
-        <v-col cols="12" md="10" style="padding: 0">
+        <v-col cols="12" md="10" class="pa-0">
           <v-select
             clearable
             variant="outlined"
@@ -136,7 +130,7 @@
           </v-list-subheader>
         </v-col>
 
-        <v-col cols="12" md="10" style="padding: 0">
+        <v-col cols="12" md="10" class="pa-0">
           <v-text-field
             variant="outlined"
             v-model="supplier"
@@ -154,7 +148,7 @@
           </v-list-subheader>
         </v-col>
 
-        <v-col cols="12" md="4" style="padding: 0">
+        <v-col cols="12" md="4" class="pa-0">
           <v-select
             clearable
             variant="outlined"
@@ -167,13 +161,13 @@
         </v-col>
         <v-col cols="12" md="2" class="col-padding">
           <v-list-subheader
-            style="padding-inline-end: 0; display: flex; justify-content: start"
+            style="padding-inline-end: 0"
             class="subheader-margin"
           >
             Birim:
           </v-list-subheader>
         </v-col>
-        <v-col cols="12" md="4" style="padding: 0">
+        <v-col cols="12" md="4" class="pa-0">
           <v-select
             clearable
             variant="outlined"
@@ -213,7 +207,7 @@
           </v-list-subheader>
         </v-col>
 
-        <v-col cols="12" md="4" style="padding: 0">
+        <v-col cols="12" md="4" class="pa-0">
           <v-text-field
             variant="outlined"
             v-model="quantity"
@@ -228,13 +222,13 @@
         </v-col>
         <v-col cols="12" md="2" class="col-padding">
           <v-list-subheader
-            style="padding-inline-end: 0; display: flex; justify-content: start"
+            style="padding-inline-end: 0"
             class="subheader-margin"
           >
             Birim Fiyat:
           </v-list-subheader>
         </v-col>
-        <v-col cols="12" md="4" style="padding: 0">
+        <v-col cols="12" md="4" class="pa-0">
           <v-text-field
             variant="outlined"
             v-model="unitprice"

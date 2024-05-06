@@ -1,13 +1,13 @@
 <template>
-  <v-form class="my-8 main-div" style="width: 50%; margin: auto">
+  <v-form class="my-8 main-div w-50 ma-auto">
     <h2>Hesabımı Düzenle</h2>
-    <v-divider class="mt-5 mb-7" style="width: 100%" />
+    <v-divider class="mt-5 mb-7 w-100" />
     <v-text-field
       prepend-inner-icon="mdi-account"
       label="Ad"
       variant="outlined"
       rounded="xl"
-      style="width: 100%"
+      class="w-100"
       v-model="cacheUser.firstname"
       :error-messages="errors.firstname"
     />
@@ -16,7 +16,7 @@
       label="Soyad"
       variant="outlined"
       rounded="xl"
-      style="width: 100%"
+      class="w-100"
       v-model="cacheUser.lastname"
       :error-messages="errors.lastname"
     />
@@ -25,7 +25,7 @@
       label="Kullanıcı Adı"
       variant="outlined"
       rounded="xl"
-      style="width: 100%"
+      class="w-100"
       v-model="cacheUser.username"
       :error-messages="errors.username"
     />
@@ -38,7 +38,7 @@
       label="Doğum Tarihi"
       variant="outlined"
       rounded="xl"
-      style="width: 100%"
+      class="w-100"
       placeholder="Doğum Tarihi"
       :error-messages="errors.birthdate"
     >
@@ -53,7 +53,8 @@
           v-model="cacheUser.birthdate"
           no-title
           scrollable
-          style="height: 476px; margin-top: auto"
+          style="height: 476px"
+          class="mt-auto"
         >
           <v-btn text color="#208ec6" class="mt-3" @click="menu = false">
             İptal
@@ -66,10 +67,10 @@
     </v-text-field>
 
     <v-btn
-      style="width: 100%; background-color: #00c853; color: white"
+      class="font-weight-bold w-100 text-white"
+      style="background-color: #00c853"
       rounded="xl"
       @click="patternCheck"
-      class="font-weight-bold"
     >
       Düzenle
     </v-btn>
