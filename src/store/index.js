@@ -267,6 +267,13 @@ export default createStore({
 
     async getUser(context) {
 
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        console.log("No user is currently logged in.");
+        return;
+      }
+
       try {
 
         const result = await axios

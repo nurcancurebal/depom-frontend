@@ -70,15 +70,12 @@
             style="background-color: #00c853"
             rounded="xl"
             @click="
-              if (
-                !usernameError &&
-                !passwordError &&
-                !!username &&
-                !!password
-              ) {
+              if (!usernameError && !passwordError) {
                 logIn();
               } else {
                 showSnackbarError = true;
+                showErrorToast();
+                // toast ekle lütfen tüm alanları doldurunuz
               }
             "
           >
@@ -271,6 +268,7 @@
 
 <script>
 import { mapActions } from "vuex";
+import { useToast } from "vue-toast-notification";
 
 export default {
   data() {
@@ -298,6 +296,18 @@ export default {
       signuppasswordError: "",
     };
   },
+  setup() {
+    const toast = useToast();
+
+    const showErrorToast = () => {
+      toast.error("Lütfen tüm alanları doldurunuz!");
+    };
+
+    return {
+      showErrorToast,
+    };
+  },
+
   watch: {
     username(value) {
       if (!value) {
@@ -404,6 +414,7 @@ export default {
       this.signIn({ username, password })
         .then((response) => {
           localStorage.setItem("token", response.data.token);
+          // buraya bir toast eklemek istiyorum "giriş başarılı ana sayfaya yönlendiriliyorsunuz"
         })
         .then(() => {
           this.$router.push("/stock");
