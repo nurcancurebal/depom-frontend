@@ -46,7 +46,7 @@
             variant="outlined"
             rounded="xl"
             class="w-50"
-            :error-messages="usernameError"
+            :rules="[() => !!username || 'Kullanıcı adı boş bırakılamaz!']"
             v-model="username"
             @keyup.enter="signInEnterKey"
             tabindex="0"
@@ -60,7 +60,7 @@
             :type="visible ? 'text' : 'password'"
             @click:append-inner="visible = !visible"
             :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
-            :error-messages="passwordError"
+            :rules="[() => !!password || 'Şifre boş bırakılamaz!']"
             v-model="password"
             @keyup.enter="signInEnterKey"
             tabindex="0"
@@ -69,15 +69,7 @@
             class="font-weight-bold w-50 text-white"
             style="background-color: #00c853"
             rounded="xl"
-            @click="
-              if (!usernameError && !passwordError) {
-                logIn();
-              } else {
-                showSnackbarError = true;
-                showErrorToast();
-                // toast ekle lütfen tüm alanları doldurunuz
-              }
-            "
+            @click="signInClick"
           >
             Giriş Yap
           </v-btn>
@@ -109,7 +101,7 @@
             label="Ad"
             variant="outlined"
             v-model="firstname"
-            :error-messages="firstnameError"
+            :rules="[() => !!firstname || 'Ad boş bırakılamaz!']"
             @keyup.enter="signUpEnterKey"
             tabindex="0"
           />
@@ -120,7 +112,7 @@
             rounded="xl"
             class="w-50"
             v-model="lastname"
-            :error-messages="lastnameError"
+            :rules="[() => !!lastname || 'Soyad boş bırakılamaz!']"
             @keyup.enter="signUpEnterKey"
             tabindex="0"
           />
@@ -145,7 +137,7 @@
             variant="outlined"
             rounded="xl"
             class="w-50"
-            :error-messages="birthdateError"
+            :rules="[() => !!formatDate || 'Doğum Tarihi boş bırakılamaz!']"
             @keyup.enter="signUpEnterKey"
             tabindex="0"
           >
@@ -195,40 +187,7 @@
             class="font-weight-bold w-50 text-white"
             style="background-color: #ffd600"
             rounded="xl"
-            @click="
-              if (
-                !firstnameError &&
-                !lastnameError &&
-                !signupusernameError &&
-                !birthdateError &&
-                !signuppasswordError &&
-                !!firstname &&
-                !!lastname &&
-                !!signupusername &&
-                !!date &&
-                !!signuppassword
-              ) {
-                signUp({
-                  firstname,
-                  lastname,
-                  username: signupusername,
-                  birthdate: date,
-                  password: signuppassword,
-                }).then(() => {
-                  firstname = '';
-                  lastname = '';
-                  signupusername = '';
-                  date = new Date();
-                  signuppassword = '';
-                  formatDate = null;
-                  menu = false;
-                  signInUp = !signInUp;
-                  showSnackbar = true;
-                });
-              } else {
-                showSnackbarError = true;
-              }
-            "
+            @click="signUpClick"
           >
             Kayıt Ol
           </v-btn>
@@ -243,24 +202,6 @@
           </v-btn>
         </form>
       </v-sheet>
-      <v-snackbar
-        v-model="showSnackbar"
-        :timeout="2000"
-        color="#208ec6"
-        rounded="pill"
-        height="48px"
-      >
-        Tebrikler kayıt oldunuz!
-      </v-snackbar>
-      <v-snackbar
-        v-model="showSnackbarError"
-        :timeout="2000"
-        color="#208ec6"
-        rounded="pill"
-        height="48px"
-      >
-        Lütfen tüm alanları doldurunuz!
-      </v-snackbar>
     </v-col>
     <v-col md="1" lg="2" class="pa-0" />
   </v-row>
@@ -273,9 +214,8 @@ import { useToast } from "vue-toast-notification";
 export default {
   data() {
     return {
-      passwordUsernameError: false,
-      showSnackbarError: false,
-      showSnackbar: false,
+      signupusernameError: "",
+      signuppasswordError: "",
       signInUp: false,
       visible: false,
       date: null,
@@ -287,56 +227,10 @@ export default {
       lastname: "",
       signuppassword: "",
       signupusername: "",
-      usernameError: "",
-      passwordError: "",
-      firstnameError: "",
-      lastnameError: "",
-      signupusernameError: "",
-      birthdateError: "",
-      signuppasswordError: "",
-    };
-  },
-  setup() {
-    const toast = useToast();
-
-    const showErrorToast = () => {
-      toast.error("Lütfen tüm alanları doldurunuz!");
-    };
-
-    return {
-      showErrorToast,
     };
   },
 
   watch: {
-    username(value) {
-      if (!value) {
-        this.usernameError = "Kullanıcı adı boş bırakılamaz!";
-      } else {
-        this.usernameError = "";
-      }
-    },
-    password(value) {
-      if (!value) {
-        this.passwordError = "Şifre boş bırakılamaz!";
-      } else {
-        this.passwordError = "";
-      }
-    },
-    firstname(value) {
-      if (!value) {
-        this.firstnameError = "Ad boş bırakılamaz!";
-      } else {
-        this.firstnameError = "";
-      }
-    },
-    lastname(value) {
-      if (!value) {
-        this.lastnameError = "Soyad boş bırakılamaz!";
-      } else {
-        this.lastnameError = "";
-      }
-    },
     signupusername(value) {
       const pattern = /[ğĞçÇüÜöÖıİşŞ]/g;
 
@@ -373,13 +267,6 @@ export default {
         this.signuppasswordError = "";
       }
     },
-    formatDate(value) {
-      if (!value) {
-        this.birthdateError = "Doğum tarihi boş bırakılamaz!";
-      } else {
-        this.birthdateError = "";
-      }
-    },
   },
   methods: {
     ...mapActions(["signUp", "signIn"]),
@@ -412,43 +299,45 @@ export default {
       const password = this.password;
 
       this.signIn({ username, password })
-        .then((response) => {
+        .then(async (response) => {
           localStorage.setItem("token", response.data.token);
-          // buraya bir toast eklemek istiyorum "giriş başarılı ana sayfaya yönlendiriliyorsunuz"
+
+          const toast = useToast();
+
+          toast.success("Giriş başarılı ana sayfaya yönlendiriliyorsunuz.", {
+            position: "bottom",
+          });
+          await new Promise((resolve) => setTimeout(resolve, 3000));
         })
         .then(() => {
           this.$router.push("/stock");
         })
         .catch((error) => {
-          this.showSnackbarError = true;
+          const toast = useToast();
+
+          toast.error("Kullanıcı bilgileri bulunamadı.", {
+            position: "bottom",
+          });
           console.error("error", error);
         });
     },
     signInEnterKey() {
       if (!this.signInUp) {
-        if (
-          !this.usernameError &&
-          !this.passwordError &&
-          !!this.username &&
-          !!this.password
-        ) {
+        if (!this.passwordError && !!this.username && !!this.password) {
           this.logIn();
         } else {
-          this.showSnackbarError = true;
+          // toast ekle
         }
       }
     },
     signUpEnterKey() {
       if (
-        !this.firstnameError &&
-        !this.lastnameError &&
         !this.signupusernameError &&
-        !this.birthdateError &&
         !this.signuppasswordError &&
         !!this.firstname &&
         !!this.lastname &&
         !!this.signupusername &&
-        !!this.date &&
+        !!this.formatDate &&
         !!this.signuppassword
       ) {
         this.signUp({
@@ -466,10 +355,61 @@ export default {
           this.formatDate = null;
           this.menu = false;
           this.signInUp = !this.signInUp;
-          this.showSnackbar = true;
+          // toast ekle
         });
       } else {
-        this.showSnackbarError = true;
+        // toast ekle
+      }
+    },
+    signInClick() {
+      if (this.username && this.password) {
+        this.logIn();
+      } else {
+        const toast = useToast();
+
+        toast.error("Lütfen tüm alanları doldurunuz.", {
+          position: "bottom",
+        });
+      }
+    },
+    signUpClick() {
+      if (
+        !this.signupusernameError &&
+        !this.signuppasswordError &&
+        !!this.firstname &&
+        !!this.lastname &&
+        !!this.formatDate
+      ) {
+        this.signUp({
+          firstname: this.firstname,
+          lastname: this.lastname,
+          username: this.signupusername,
+          birthdate: this.date,
+          password: this.signuppassword,
+        }).then(async () => {
+          const toast = useToast();
+
+          toast.success("Kayıt işlemi başarılı. Giriş yapabilirsiniz.", {
+            position: "bottom",
+          });
+
+          await new Promise((resolve) => setTimeout(resolve, 3000));
+
+          this.firstname = "";
+          this.lastname = "";
+          this.signupusername = "";
+          this.date = new Date();
+          this.signuppassword = "";
+          this.formatDate = null;
+          this.menu = false;
+          this.signInUp = !this.signInUp;
+        });
+      } else {
+        const toast = useToast();
+
+        toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz.", {
+          position: "bottom",
+        });
       }
     },
   },
@@ -480,9 +420,7 @@ export default {
 .v-picker-title {
   display: none;
 }
-.v-snackbar__content {
-  text-align: center !important;
-}
+
 @media (min-width: 960px) {
   .row-height {
     height: 101.7vh;
