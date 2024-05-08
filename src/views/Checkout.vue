@@ -252,6 +252,13 @@
     </v-card>
     <v-overlay v-model="overlay" class="align-center justify-center">
       <v-card class="overlay-checkout ma-10 pa-10">
+        <v-row>
+          <v-col cols="12" class="pa-0 main-div">
+            <h3>Stok Çıkış</h3>
+            <v-divider class="my-5 w-100" />
+          </v-col>
+        </v-row>
+
         <v-row align="center">
           <v-col cols="6" style="padding: 0 0 25px 0">
             <v-list-subheader style="padding-inline-end: 0">
