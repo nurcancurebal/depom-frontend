@@ -48,7 +48,7 @@
             class="w-50"
             :rules="[() => !!username || 'Kullanıcı adı boş bırakılamaz!']"
             v-model="username"
-            @keyup.enter="signInEnterKey"
+            @keyup.enter="logIn"
             tabindex="0"
           />
           <v-text-field
@@ -62,14 +62,14 @@
             :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
             :rules="[() => !!password || 'Şifre boş bırakılamaz!']"
             v-model="password"
-            @keyup.enter="signInEnterKey"
+            @keyup.enter="logIn"
             tabindex="0"
           />
           <v-btn
             class="font-weight-bold w-50 text-white"
             style="background-color: #00c853"
             rounded="xl"
-            @click="signInClick"
+            @click="logIn"
           >
             Giriş Yap
           </v-btn>
@@ -102,7 +102,7 @@
             variant="outlined"
             v-model="firstname"
             :rules="[() => !!firstname || 'Ad boş bırakılamaz!']"
-            @keyup.enter="signUpEnterKey"
+            @keyup.enter="signUpClick"
             tabindex="0"
           />
           <v-text-field
@@ -113,7 +113,7 @@
             class="w-50"
             v-model="lastname"
             :rules="[() => !!lastname || 'Soyad boş bırakılamaz!']"
-            @keyup.enter="signUpEnterKey"
+            @keyup.enter="signUpClick"
             tabindex="0"
           />
           <v-text-field
@@ -124,7 +124,7 @@
             class="w-50"
             v-model="signupusername"
             :error-messages="signupusernameError"
-            @keyup.enter="signUpEnterKey"
+            @keyup.enter="signUpClick"
             tabindex="0"
           />
 
@@ -138,7 +138,7 @@
             rounded="xl"
             class="w-50"
             :rules="[() => !!formatDate || 'Doğum Tarihi boş bırakılamaz!']"
-            @keyup.enter="signUpEnterKey"
+            @keyup.enter="signUpClick"
             tabindex="0"
           >
             <v-menu
@@ -149,7 +149,7 @@
               min-width="auto"
             >
               <v-date-picker
-                v-model="date"
+                v-model="birthdate"
                 no-title
                 scrollable
                 style="height: 476px"
@@ -180,7 +180,7 @@
             :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
             v-model="signuppassword"
             :error-messages="signuppasswordError"
-            @keyup.enter="signUpEnterKey"
+            @keyup.enter="signUpClick"
             tabindex="0"
           />
           <v-btn
@@ -218,7 +218,7 @@ export default {
       signuppasswordError: "",
       signInUp: false,
       visible: false,
-      date: null,
+      birthdate: null,
       menu: false,
       formatDate: null,
       username: "",
@@ -273,7 +273,7 @@ export default {
 
     formatDateClick() {
       this.menu = false;
-      const d = new Date(this.date);
+      const d = new Date(this.birthdate);
       const day = ("0" + d.getDate()).slice(-2);
       const month = ("0" + (d.getMonth() + 1)).slice(-2);
       const year = d.getFullYear();
@@ -288,82 +288,39 @@ export default {
       this.firstname = "";
       this.lastname = "";
       this.signupusername = "";
-      this.date = null;
+      this.birthdate = null;
       this.signuppassword = "";
       this.formatDate = null;
       this.menu = false;
       this.signInUp = !this.signInUp;
     },
     logIn() {
-      const username = this.username;
-      const password = this.password;
-
-      this.signIn({ username, password })
-        .then(async (response) => {
-          localStorage.setItem("token", response.data.token);
-
-          const toast = useToast();
-
-          toast.success("Giriş başarılı ana sayfaya yönlendiriliyorsunuz.", {
-            position: "bottom",
-          });
-          await new Promise((resolve) => setTimeout(resolve, 3000));
-        })
-        .then(() => {
-          this.$router.push("/stock");
-        })
-        .catch((error) => {
-          const toast = useToast();
-
-          toast.error("Kullanıcı bilgileri bulunamadı.", {
-            position: "bottom",
-          });
-          console.error("error", error);
-        });
-    },
-    signInEnterKey() {
-      if (!this.signInUp) {
-        if (!this.passwordError && !!this.username && !!this.password) {
-          this.logIn();
-        } else {
-          // toast ekle
-        }
-      }
-    },
-    signUpEnterKey() {
-      if (
-        !this.signupusernameError &&
-        !this.signuppasswordError &&
-        !!this.firstname &&
-        !!this.lastname &&
-        !!this.signupusername &&
-        !!this.formatDate &&
-        !!this.signuppassword
-      ) {
-        this.signUp({
-          firstname: this.firstname,
-          lastname: this.lastname,
-          username: this.signupusername,
-          birthdate: this.date,
-          password: this.signuppassword,
-        }).then(() => {
-          this.firstname = "";
-          this.lastname = "";
-          this.signupusername = "";
-          this.date = new Date();
-          this.signuppassword = "";
-          this.formatDate = null;
-          this.menu = false;
-          this.signInUp = !this.signInUp;
-          // toast ekle
-        });
-      } else {
-        // toast ekle
-      }
-    },
-    signInClick() {
       if (this.username && this.password) {
-        this.logIn();
+        const username = this.username;
+        const password = this.password;
+
+        this.signIn({ username, password })
+          .then(async (response) => {
+            localStorage.setItem("token", response.data.token);
+
+            const toast = useToast();
+
+            toast.success("Giriş başarılı ana sayfaya yönlendiriliyorsunuz.", {
+              position: "bottom",
+            });
+            await new Promise((resolve) => setTimeout(resolve, 3000));
+          })
+          .then(() => {
+            this.$router.push("/stock");
+          })
+          .catch((error) => {
+            const toast = useToast();
+
+            toast.error("Kullanıcı bilgileri bulunamadı.", {
+              position: "bottom",
+            });
+            console.error("error", error);
+          });
       } else {
         const toast = useToast();
 
@@ -384,7 +341,7 @@ export default {
           firstname: this.firstname,
           lastname: this.lastname,
           username: this.signupusername,
-          birthdate: this.date,
+          birthdate: this.birthdate,
           password: this.signuppassword,
         }).then(async () => {
           const toast = useToast();
@@ -398,7 +355,7 @@ export default {
           this.firstname = "";
           this.lastname = "";
           this.signupusername = "";
-          this.date = new Date();
+          this.birthdate = new Date();
           this.signuppassword = "";
           this.formatDate = null;
           this.menu = false;

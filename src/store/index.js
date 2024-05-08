@@ -236,11 +236,15 @@ export default createStore({
 
       try {
 
-        return await axios.post("http://localhost:3000/auth/signin", payload);
+        const result = await axios.post("http://localhost:3000/auth/signin", payload);
+
+        context.dispatch("getUser");
+
+        return result;
 
       } catch (error) {
 
-        console.error(error);
+        console.error("signIn", error);
 
       };
     },
@@ -248,7 +252,6 @@ export default createStore({
     async updateUser(context, payload) {
 
       try {
-        console.log(payload);
 
         const result = await axios.put(`http://localhost:3000/user`, payload);
 
@@ -270,7 +273,6 @@ export default createStore({
       const token = localStorage.getItem('token');
 
       if (!token) {
-        console.log("No user is currently logged in.");
         return;
       }
 

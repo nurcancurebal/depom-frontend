@@ -9,7 +9,8 @@
       rounded="xl"
       class="w-100"
       v-model="cacheUser.firstname"
-      :error-messages="errors.firstname"
+      :rules="[() => !!cacheUser.firstname || 'Ad boş bırakılamaz!']"
+      @keyup.enter="updateUserClick"
     />
     <v-text-field
       prepend-inner-icon="mdi-account"
@@ -18,7 +19,8 @@
       rounded="xl"
       class="w-100"
       v-model="cacheUser.lastname"
-      :error-messages="errors.lastname"
+      :rules="[() => !!cacheUser.lastname || 'Soyad boş bırakılamaz!']"
+      @keyup.enter="updateUserClick"
     />
     <v-text-field
       prepend-inner-icon="mdi-account"
@@ -27,7 +29,8 @@
       rounded="xl"
       class="w-100"
       v-model="cacheUser.username"
-      :error-messages="errors.username"
+      :error-messages="usernameError"
+      @keyup.enter="updateUserClick"
     />
 
     <v-text-field
@@ -39,8 +42,9 @@
       variant="outlined"
       rounded="xl"
       class="w-100"
-      placeholder="Doğum Tarihi"
-      :error-messages="errors.birthdate"
+      :rules="[() => !!formatDate || 'Doğum Tarihi boş bırakılamaz!']"
+      tabindex="0"
+      @keyup.enter="updateUserClick"
     >
       <v-menu
         activator="parent"
@@ -54,12 +58,11 @@
           no-title
           scrollable
           style="height: 476px"
-          class="mt-auto"
         >
           <v-btn text color="#208ec6" class="mt-3" @click="menu = false">
             İptal
           </v-btn>
-          <v-btn text color="#208ec6" class="mt-3" @click="menu = false">
+          <v-btn text color="#208ec6" class="mt-3" @click="this.menu = false">
             Tamam
           </v-btn>
         </v-date-picker>
@@ -70,47 +73,23 @@
       class="font-weight-bold w-100 text-white"
       style="background-color: #00c853"
       rounded="xl"
-      @click="patternCheck"
+      @click="updateUserClick"
     >
       Düzenle
     </v-btn>
-    <v-snackbar
-      v-model="errors.successSnackbar"
-      :timeout="2000"
-      color="#208ec6"
-      rounded="pill"
-      height="48px"
-    >
-      Tebrikler kullanıcı bilgileri değiştirildi!
-    </v-snackbar>
-    <v-snackbar
-      v-model="errors.snackbarError"
-      :timeout="2000"
-      color="#208ec6"
-      rounded="pill"
-      height="48px"
-    >
-      Lütfen doğru bir şekilde tüm alanları doldurunuz!
-    </v-snackbar>
   </v-form>
 </template>
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { useToast } from "vue-toast-notification";
 
 export default {
   data: () => ({
     menu: false,
     formatDate: null,
     cacheUser: {},
-    errors: {
-      firstname: "",
-      lastname: "",
-      username: "",
-      birthdate: null,
-      successSnackbar: false,
-      snackbarError: false,
-    },
+    usernameError: "",
   }),
 
   computed: {
@@ -118,43 +97,26 @@ export default {
   },
 
   watch: {
-    "cacheUser.firstname"(value) {
-      if (!value) {
-        this.errors.firstname = "Ad boş bırakılamaz!";
-      } else {
-        this.errors.firstname = "";
-      }
-    },
-    "cacheUser.lastname"(value) {
-      if (!value) {
-        this.errors.lastname = "Soyad boş bırakılamaz!";
-      } else {
-        this.errors.lastname = "";
-      }
-    },
     "cacheUser.username"(value) {
       const pattern = /[ğĞçÇüÜöÖıİşŞ]/g;
 
       const matchesusername = value.match(pattern);
 
       if (!value) {
-        this.errors.username = "Kullanıcı adı boş bırakılamaz!";
+        this.usernameError = "Kullanıcı adı boş bırakılamaz!";
       } else if (
         matchesusername != null ||
         value.length < 6 ||
         value.length > 18
       ) {
-        this.errors.username =
+        this.usernameError =
           " Kullanıcı adında türkçe karakter kullanılamaz ve 6 ile 18 karakter arasında olmak zorundadır. ";
       } else {
-        this.errors.username = "";
+        this.usernameError = "";
       }
     },
     "cacheUser.birthdate"(value) {
-      if (!value) {
-        this.errors.birthdate = "Doğum tarihi boş bırakılamaz!";
-      } else {
-        this.errors.birthdate = "";
+      if (value) {
         const d = new Date(value);
         const day = ("0" + d.getDate()).slice(-2);
         const month = ("0" + (d.getMonth() + 1)).slice(-2);
@@ -179,16 +141,12 @@ export default {
   methods: {
     ...mapActions(["getUser", "updateUser"]),
 
-    patternCheck() {
+    updateUserClick() {
       if (
-        this.errors.firstname === "" &&
-        this.errors.lastname === "" &&
-        this.errors.username === "" &&
-        this.errors.birthdate === "" &&
-        this.cacheUser.firstname &&
-        this.cacheUser.lastname &&
-        this.cacheUser.username &&
-        this.cacheUser.birthdate
+        !this.usernameError &&
+        !!this.cacheUser.firstname &&
+        !!this.cacheUser.lastname &&
+        !!this.formatDate
       ) {
         const birthdate = new Date(
           this.cacheUser.birthdate.setHours(
@@ -201,14 +159,19 @@ export default {
           lastname: this.cacheUser.lastname,
           username: this.cacheUser.username,
           birthdate,
-        }).then(() => {
-          this.errors.successSnackbar = true;
-          setTimeout(() => {
-            this.$router.push("/stock");
-          }, 2000);
+        }).then(async () => {
+          const toast = useToast();
+
+          toast.success("Kullanıcı bilgileri güncellendi", {
+            position: "bottom",
+          });
         });
       } else {
-        this.errors.snackbarError = true;
+        const toast = useToast();
+
+        toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz.", {
+          position: "bottom",
+        });
       }
     },
   },
