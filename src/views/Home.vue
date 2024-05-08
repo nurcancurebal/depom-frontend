@@ -295,6 +295,7 @@ export default {
       this.signInUp = !this.signInUp;
     },
     logIn() {
+      const toast = useToast();
       if (this.username && this.password) {
         const username = this.username;
         const password = this.password;
@@ -302,8 +303,6 @@ export default {
         this.signIn({ username, password })
           .then(async (response) => {
             localStorage.setItem("token", response.data.token);
-
-            const toast = useToast();
 
             toast.success("Giriş başarılı ana sayfaya yönlendiriliyorsunuz.", {
               position: "bottom",
@@ -314,22 +313,19 @@ export default {
             this.$router.push("/stock");
           })
           .catch((error) => {
-            const toast = useToast();
-
             toast.error("Kullanıcı bilgileri bulunamadı.", {
               position: "bottom",
             });
             console.error("error", error);
           });
       } else {
-        const toast = useToast();
-
         toast.error("Lütfen tüm alanları doldurunuz.", {
           position: "bottom",
         });
       }
     },
     signUpClick() {
+      const toast = useToast();
       if (
         !this.signupusernameError &&
         !this.signuppasswordError &&
@@ -344,8 +340,6 @@ export default {
           birthdate: this.birthdate,
           password: this.signuppassword,
         }).then(async () => {
-          const toast = useToast();
-
           toast.success("Kayıt işlemi başarılı. Giriş yapabilirsiniz.", {
             position: "bottom",
           });
@@ -362,8 +356,6 @@ export default {
           this.signInUp = !this.signInUp;
         });
       } else {
-        const toast = useToast();
-
         toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz.", {
           position: "bottom",
         });

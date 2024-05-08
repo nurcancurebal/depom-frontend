@@ -142,6 +142,7 @@ export default {
     ...mapActions(["getUser", "updateUser"]),
 
     updateUserClick() {
+      const toast = useToast();
       if (
         !this.usernameError &&
         !!this.cacheUser.firstname &&
@@ -160,15 +161,11 @@ export default {
           username: this.cacheUser.username,
           birthdate,
         }).then(async () => {
-          const toast = useToast();
-
           toast.success("Kullanıcı bilgileri güncellendi", {
             position: "bottom",
           });
         });
       } else {
-        const toast = useToast();
-
         toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz.", {
           position: "bottom",
         });
