@@ -274,6 +274,7 @@
                 quantity,
                 unitprice,
               }).then(() => {
+                entrySuccessToast();
                 showEntryInventory = false;
                 barcode = '';
                 productname = '';
@@ -297,6 +298,7 @@
 
 <script>
 import { mapActions } from "vuex";
+import { useToast } from "vue-toast-notification";
 
 export default {
   data() {
@@ -2864,6 +2866,12 @@ export default {
         .split(" ")
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ");
+    },
+    entrySuccessToast() {
+      const toast = useToast();
+      toast.success("Stok girişi başarıyla gerçekleştirildi.", {
+        position: "bottom",
+      });
     },
   },
 };
