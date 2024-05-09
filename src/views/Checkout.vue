@@ -333,6 +333,7 @@
 
 <script>
 import { mapActions } from "vuex";
+import { useToast } from "vue-toast-notification";
 
 export default {
   data() {
@@ -2900,6 +2901,7 @@ export default {
     checkoutClickDisabled() {
       return (
         this.checkoutQuantity !== "" &&
+        this.checkoutQuantity > 0 &&
         /^\d+(\.\d+)?$/.test(this.checkoutQuantity) !== false &&
         this.checkoutUnitprice !== "" &&
         /^\d+(\.\d+)?$/.test(this.checkoutUnitprice) !== false
@@ -2983,14 +2985,18 @@ export default {
               })
             ),
           ];
+        } else {
+          this.errorMessagesBarcode = `Bu barkoda ait ürün bulunamadı.`;
+          const toast = useToast();
+          toast.error("Bu barkoda ait ürün bulunamadı.", {
+            position: "bottom",
+          });
+          return;
         }
-        this.errorMessagesBarcode = `Bu barkoda ait ürün bulunamadı.`;
-        return;
       });
     },
     checkout() {
       if (this.checkoutQuantity > 0 && this.checkoutQuantity <= this.quantity) {
-        this.errorMessagesCheckout = "";
         this.checkoutOne({
           barcode: this.barcode,
           productname: this.productname,
@@ -3002,6 +3008,11 @@ export default {
           quantity: this.checkoutQuantity,
           unitprice: this.checkoutUnitprice,
         }).then(() => {
+          const toast = useToast();
+          toast.success("Ürün çıkışı başarıyla gerçekleştirildi.", {
+            position: "bottom",
+          });
+
           this.errorMessagesCheckout = "";
           this.showCheckoutInventory = false;
           this.overlay = false;
