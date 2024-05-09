@@ -15,7 +15,7 @@
             variant="outlined"
             v-model="barcode"
             required
-            :rules="[() => !!barcode || 'Bu alan boş bırakılamaz.']"
+            :rules="[() => !!barcode || 'Stok kodu/barkod boş bırakılamaz.']"
           />
         </v-col>
       </v-row>
@@ -70,7 +70,7 @@
             variant="outlined"
             v-model="productname"
             required
-            :rules="[() => !!productname || 'Bu alan boş bırakılamaz.']"
+            :rules="[() => !!productname || 'Ürün adı boş bırakılamaz.']"
             :disabled="allDisabled"
           />
         </v-col>
@@ -96,7 +96,7 @@
             "
             v-model="selectedCategory"
             required
-            :rules="[() => !!selectedCategory || 'Bu alan boş bırakılamaz.']"
+            :rules="[() => !!selectedCategory || 'Kategori boş bırakılamaz.']"
             :disabled="allDisabled"
           />
         </v-col>
@@ -117,7 +117,9 @@
             :items="getSubCategories"
             v-model="selectedSubCategory"
             required
-            :rules="[() => !!selectedSubCategory || 'Bu alan boş bırakılamaz.']"
+            :rules="[
+              () => !!selectedSubCategory || 'Alt kategori boş bırakılamaz.',
+            ]"
             :disabled="allDisabled"
           />
         </v-col>
@@ -135,7 +137,7 @@
             variant="outlined"
             v-model="supplier"
             required
-            :rules="[() => !!supplier || 'Bu alan boş bırakılamaz.']"
+            :rules="[() => !!supplier || 'Tedarikçi boş bırakılamaz.']"
             :disabled="allDisabled"
           />
         </v-col>
@@ -155,7 +157,7 @@
             :items="getSubCategoriesWithBrand"
             v-model="selectedBrand"
             required
-            :rules="[() => !!selectedBrand || 'Bu alan boş bırakılamaz.']"
+            :rules="[() => !!selectedBrand || 'Marka boş bırakılamaz.']"
             :disabled="allDisabled"
           />
         </v-col>
@@ -195,7 +197,7 @@
               'top',
             ]"
             required
-            :rules="[() => !!unit || 'Bu alan boş bırakılamaz.']"
+            :rules="[() => !!unit || 'Birim boş bırakılamaz.']"
           />
         </v-col>
       </v-row>
@@ -213,7 +215,7 @@
             v-model="quantity"
             required
             :rules="[
-              () => !!quantity || 'Bu alan boş bırakılamaz.',
+              () => !!quantity || 'Miktar boş bırakılamaz.',
               () =>
                 /^\d+(\.\d+)?$/.test(quantity) ||
                 'Lütfen yalnızca sayısal bir değer giriniz.',
@@ -234,7 +236,7 @@
             v-model="unitprice"
             required
             :rules="[
-              () => !!unitprice || 'Bu alan boş bırakılamaz.',
+              () => !!unitprice || 'Birim fiyat boş bırakılamaz.',
               () =>
                 /^\d+(\.\d+)?$/.test(unitprice) ||
                 'Lütfen yalnızca sayısal bir değer giriniz.',

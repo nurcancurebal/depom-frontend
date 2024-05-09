@@ -15,7 +15,7 @@
             variant="outlined"
             v-model="barcode"
             required
-            :rules="[() => !!barcode || 'Bu alan boş bırakılamaz.']"
+            :rules="[() => !!barcode || 'Stok kodu/barkod boş bırakılamaz.']"
             :error-messages="errorMessagesBarcode"
           />
         </v-col>
@@ -71,7 +71,7 @@
             variant="outlined"
             v-model="productname"
             required
-            :rules="[() => !!productname || 'Bu alan boş bırakılamaz.']"
+            :rules="[() => !!productname || 'Ürün adı boş bırakılamaz.']"
             :disabled="allDisabled"
           />
         </v-col>
@@ -97,7 +97,7 @@
             "
             v-model="selectedCategory"
             required
-            :rules="[() => !!selectedCategory || 'Bu alan boş bırakılamaz.']"
+            :rules="[() => !!selectedCategory || 'Kategori boş bırakılamaz.']"
             :disabled="allDisabled"
           />
         </v-col>
@@ -118,7 +118,9 @@
             :items="getSubCategories"
             v-model="selectedSubCategory"
             required
-            :rules="[() => !!selectedSubCategory || 'Bu alan boş bırakılamaz.']"
+            :rules="[
+              () => !!selectedSubCategory || 'Alt kategori boş bırakılamaz.',
+            ]"
             :disabled="allDisabled"
           />
         </v-col>
@@ -136,7 +138,7 @@
             variant="outlined"
             v-model="supplier"
             required
-            :rules="[() => !!supplier || 'Bu alan boş bırakılamaz.']"
+            :rules="[() => !!supplier || 'Tedarikçi boş bırakılamaz.']"
             :disabled="allDisabled"
           />
         </v-col>
@@ -156,7 +158,7 @@
             :items="getSubCategoriesWithBrand"
             v-model="selectedBrand"
             required
-            :rules="[() => !!selectedBrand || 'Bu alan boş bırakılamaz.']"
+            :rules="[() => !!selectedBrand || 'Marka boş bırakılamaz.']"
             :disabled="allDisabled"
           />
         </v-col>
@@ -175,7 +177,7 @@
             v-model="unit"
             :items="unitItems"
             required
-            :rules="[() => !!unit || 'Bu alan boş bırakılamaz.']"
+            :rules="[() => !!unit || 'Birim boş bırakılamaz.']"
             :disabled="unitDisabled"
           />
         </v-col>
@@ -194,7 +196,7 @@
             v-model="quantity"
             required
             :rules="[
-              () => !!quantity || 'Bu alan boş bırakılamaz.',
+              () => !!quantity || 'Toplam miktar boş bırakılamaz.',
               () =>
                 /^\d+(\.\d+)?$/.test(quantity) ||
                 'Lütfen yalnızca sayısal bir değer giriniz.',
@@ -216,7 +218,7 @@
             v-model="unitprice"
             required
             :rules="[
-              () => !!unitprice || 'Bu alan boş bırakılamaz.',
+              () => !!unitprice || 'Toplam birim fiyat boş bırakılamaz.',
               () =>
                 /^\d+(\.\d+)?$/.test(unitprice) ||
                 'Lütfen yalnızca sayısal bir değer giriniz.',
@@ -272,7 +274,8 @@
               v-model="checkoutQuantity"
               required
               :rules="[
-                () => !!checkoutQuantity || 'Bu alan boş bırakılamaz.',
+                () =>
+                  !!checkoutQuantity || 'Çıkış yapılan miktar boş bırakılamaz.',
                 () =>
                   /^\d+(\.\d+)?$/.test(checkoutQuantity) ||
                   'Lütfen yalnızca sayısal bir değer giriniz.',
@@ -295,7 +298,9 @@
               v-model="checkoutUnitprice"
               required
               :rules="[
-                () => !!checkoutUnitprice || 'Bu alan boş bırakılamaz.',
+                () =>
+                  !!checkoutUnitprice ||
+                  'Çıkış yapılan birim fiyat boş bırakılamaz.',
                 () =>
                   /^\d+(\.\d+)?$/.test(checkoutUnitprice) ||
                   'Lütfen yalnızca sayısal bir değer giriniz.',

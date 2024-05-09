@@ -48,6 +48,7 @@
                 style="color: #208ec6; font-family: 'Material Design Icons'"
                 to="/"
                 class="text-decoration-none"
+                @click="exitToast"
               >
                 <v-list-item-title value="cikis" class="pa-1 mx-2">
                   Çıkış
@@ -123,6 +124,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import { useToast } from "vue-toast-notification";
 
 export default {
   data() {
@@ -135,6 +137,13 @@ export default {
   },
   methods: {
     ...mapActions(["getUser"]),
+    exitToast() {
+      const toast = useToast();
+
+      toast.success("Başarıyla çıkış yaptınız.", {
+        position: "bottom",
+      });
+    },
   },
   created() {
     this.getUser();
