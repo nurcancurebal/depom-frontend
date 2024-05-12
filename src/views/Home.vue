@@ -307,10 +307,11 @@ export default {
             toast.success("Giriş başarılı ana sayfaya yönlendiriliyorsunuz.", {
               position: "bottom",
             });
-            await new Promise((resolve) => setTimeout(resolve, 3000));
-          })
-          .then(() => {
-            this.$router.push("/stock");
+            await new Promise(() =>
+              setTimeout(() => {
+                this.$router.push("/stock");
+              }, 3000)
+            );
           })
           .catch((error) => {
             toast.error("Kullanıcı bilgileri bulunamadı.", {
@@ -344,7 +345,18 @@ export default {
             position: "bottom",
           });
 
-          await new Promise((resolve) => setTimeout(resolve, 3000));
+          await new Promise(() =>
+            setTimeout(() => {
+              this.firstname = "";
+              this.lastname = "";
+              this.signupusername = "";
+              this.birthdate = new Date();
+              this.signuppassword = "";
+              this.formatDate = null;
+              this.menu = false;
+              this.signInUp = !this.signInUp;
+            }, 3000)
+          );
 
           this.firstname = "";
           this.lastname = "";
