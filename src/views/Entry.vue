@@ -2,20 +2,22 @@
   <div class="my-8 main-div ma-auto w-75">
     <h3>Stok Giriş</h3>
     <v-divider class="my-5 w-100" />
-    <v-card class="w-100 mt-5 pa-11" v-show="!showEntryInventory">
+    <v-card class="w-100 mt-5 pa-11">
       <v-row align="center">
-        <v-col cols="12" md="3" class="col-padding">
+        <v-col cols="12" md="2" class="col-padding">
           <v-list-subheader style="padding-inline-end: 0">
             Stok Kodu / Barkod:
           </v-list-subheader>
         </v-col>
 
-        <v-col cols="12" md="9" class="pa-0">
+        <v-col cols="12" md="10" class="pa-0">
           <v-text-field
             variant="outlined"
             v-model="barcode"
             required
             :rules="[() => !!barcode || 'Stok kodu/barkod boş bırakılamaz.']"
+            @keyup.enter="findProduct"
+            :disabled="allDisabled"
           />
         </v-col>
       </v-row>
@@ -45,19 +47,7 @@
       </v-row>
     </v-card>
 
-    <v-card class="w-100 mt-5 pa-11" v-show="showEntryInventory">
-      <v-row align="center">
-        <v-col cols="12" md="2" class="col-padding">
-          <v-list-subheader style="padding-inline-end: 0">
-            Stok Kodu / Barkod:
-          </v-list-subheader>
-        </v-col>
-
-        <v-col cols="12" md="10" class="pa-0">
-          <v-text-field variant="outlined" v-model="barcode" disabled />
-        </v-col>
-      </v-row>
-
+    <v-card class="w-100 my-5 pa-11">
       <v-row align="center">
         <v-col cols="12" md="2" class="col-padding">
           <v-list-subheader style="padding-inline-end: 0">
@@ -262,31 +252,7 @@
               width: '100%',
             }"
             :disabled="!allTrue"
-            @click="
-              entryOne({
-                barcode,
-                productname: capitalizeWords(productname),
-                selectedCategory,
-                selectedSubCategory,
-                supplier: capitalizeWords(supplier),
-                selectedBrand,
-                unit,
-                quantity,
-                unitprice,
-              }).then(() => {
-                entrySuccessToast();
-                showEntryInventory = false;
-                barcode = '';
-                productname = '';
-                selectedCategory = '';
-                selectedSubCategory = '';
-                selectedBrand = '';
-                supplier = '';
-                unit = '';
-                quantity = '';
-                unitprice = '';
-              })
-            "
+            @click="entry"
           >
             Ekle
           </v-btn>
@@ -303,7 +269,6 @@ import { useToast } from "vue-toast-notification";
 export default {
   data() {
     return {
-      showEntryInventory: false,
       disabled: false,
       allDisabled: false,
       barcode: "",
@@ -2846,18 +2811,25 @@ export default {
     ...mapActions(["entryOne", "getListBarcode"]),
     findProduct() {
       this.getListBarcode({ barcode: this.barcode }).then((result) => {
+        const toast = useToast();
         if (result.data.length > 0) {
           this.allDisabled = true;
-          this.showEntryInventory = !this.showEntryInventory;
           this.productname = result.data[0].productname;
           this.selectedCategory = result.data[0].category;
           this.selectedSubCategory = result.data[0].subcategory;
           this.selectedBrand = result.data[0].brand;
           this.supplier = result.data[0].supplier;
+          toast.info("Bu barkoda ait stok mevcuttur.", {
+            position: "bottom",
+            duration: 2000,
+          });
           return;
         }
+        toast.info("Bu barkoda ait stok girişi mevcut değildir.", {
+          position: "bottom",
+          duration: 2000,
+        });
         this.allDisabled = false;
-        this.showEntryInventory = !this.showEntryInventory;
         return;
       });
     },
@@ -2867,10 +2839,34 @@ export default {
         .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
         .join(" ");
     },
-    entrySuccessToast() {
-      const toast = useToast();
-      toast.success("Stok girişi başarıyla gerçekleştirildi.", {
-        position: "bottom",
+    entry() {
+      this.entryOne({
+        barcode: this.barcode,
+        productname: this.capitalizeWords(this.productname),
+        selectedCategory: this.selectedCategory,
+        selectedSubCategory: this.selectedSubCategory,
+        supplier: this.capitalizeWords(this.supplier),
+        selectedBrand: this.selectedBrand,
+        unit: this.unit,
+        quantity: this.quantity,
+        unitprice: this.unitprice,
+      }).then(() => {
+        const toast = useToast();
+        toast.success("Stok girişi başarıyla gerçekleştirildi.", {
+          position: "bottom",
+          duration: 2000,
+        });
+
+        this.barcode = "";
+        this.productname = "";
+        this.selectedCategory = "";
+        this.selectedSubCategory = "";
+        this.selectedBrand = "";
+        this.supplier = "";
+        this.unit = "";
+        this.quantity = "";
+        this.unitprice = "";
+        this.allDisabled = false;
       });
     },
   },

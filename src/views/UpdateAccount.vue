@@ -145,6 +145,7 @@ export default {
       const toast = useToast();
       if (
         !this.usernameError &&
+        !!this.cacheUser.username &&
         !!this.cacheUser.firstname &&
         !!this.cacheUser.lastname &&
         !!this.formatDate
@@ -163,11 +164,13 @@ export default {
         }).then(async () => {
           toast.success("Kullanıcı bilgileri güncellendi", {
             position: "bottom",
+            duration: 2000,
           });
         });
       } else {
         toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz.", {
           position: "bottom",
+          duration: 2000,
         });
       }
     },

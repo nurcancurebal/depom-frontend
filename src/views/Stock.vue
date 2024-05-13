@@ -152,13 +152,13 @@ export default {
 
 <style>
 .card-padding {
-  padding: 45px !important;
+  padding: 44px !important;
 }
 .card-custom {
   width: 100%;
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  margin: 20px 0;
 }
 
 @media (max-width: 960px) {

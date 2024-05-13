@@ -306,6 +306,7 @@ export default {
 
             toast.success("Giriş başarılı ana sayfaya yönlendiriliyorsunuz.", {
               position: "bottom",
+              duration: 2000,
             });
             await new Promise(() =>
               setTimeout(() => {
@@ -316,12 +317,14 @@ export default {
           .catch((error) => {
             toast.error("Kullanıcı bilgileri bulunamadı.", {
               position: "bottom",
+              duration: 2000,
             });
             console.error("error", error);
           });
       } else {
         toast.error("Lütfen tüm alanları doldurunuz.", {
           position: "bottom",
+          duration: 2000,
         });
       }
     },
@@ -330,6 +333,8 @@ export default {
       if (
         !this.signupusernameError &&
         !this.signuppasswordError &&
+        !!this.signuppassword &&
+        !!this.signupusername &&
         !!this.firstname &&
         !!this.lastname &&
         !!this.formatDate
@@ -343,6 +348,7 @@ export default {
         }).then(async () => {
           toast.success("Kayıt işlemi başarılı. Giriş yapabilirsiniz.", {
             position: "bottom",
+            duration: 2000,
           });
 
           await new Promise(() =>
@@ -370,6 +376,7 @@ export default {
       } else {
         toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz.", {
           position: "bottom",
+          duration: 2000,
         });
       }
     },

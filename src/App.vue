@@ -27,7 +27,7 @@
 
       <template v-if="$vuetify.display.lgAndUp">
         <v-toolbar-items class="align-center">
-          {{ user.firstname }} {{ user.lastname }}
+          {{ formattedName(user.firstname) }} {{ formattedName(user.lastname) }}
         </v-toolbar-items>
 
         <v-btn icon>
@@ -107,7 +107,7 @@
           </v-list-item-title>
         </router-link>
 
-        <router-link to="/" class="router-link">
+        <router-link to="/" class="router-link" @click="exitToast">
           <v-icon size="21">mdi-exit-to-app</v-icon>
           <v-list-item-title value="cikis" class="a-list-item-title">
             Çıkış
@@ -142,7 +142,12 @@ export default {
 
       toast.success("Başarıyla çıkış yaptınız.", {
         position: "bottom",
+        duration: 2000,
       });
+    },
+    formattedName(name) {
+      if (!name) return "";
+      return name.charAt(0).toUpperCase() + name.slice(1);
     },
   },
   created() {
@@ -172,7 +177,7 @@ a:hover {
   border-radius: 8px;
 }
 .a-list-item-title {
-  font-size: 20px !important;
+  font-size: 19px !important;
   margin-left: 10px !important;
 }
 </style>

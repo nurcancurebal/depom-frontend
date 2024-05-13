@@ -2,7 +2,7 @@
   <div class="my-8 main-div ma-auto w-75">
     <h3>Stok Çıkış</h3>
     <v-divider class="my-5 w-100" />
-    <v-card class="w-100 mt-5 pa-11" v-show="!showCheckoutInventory">
+    <v-card class="w-100 my-5 pa-11" v-show="!showCheckoutInventory">
       <v-row align="center">
         <v-col cols="12" md="3" class="col-padding">
           <v-list-subheader style="padding-inline-end: 0">
@@ -17,6 +17,7 @@
             required
             :rules="[() => !!barcode || 'Stok kodu/barkod boş bırakılamaz.']"
             :error-messages="errorMessagesBarcode"
+            @keyup.enter="findProduct"
           />
         </v-col>
       </v-row>
@@ -46,7 +47,7 @@
       </v-row>
     </v-card>
 
-    <v-card class="w-100 mt-5 pa-11" v-show="showCheckoutInventory">
+    <v-card class="w-100 my-5 pa-11" v-show="showCheckoutInventory">
       <v-row align="center">
         <v-col cols="12" md="2" class="col-padding">
           <v-list-subheader style="padding-inline-end: 0">
@@ -2990,6 +2991,7 @@ export default {
           const toast = useToast();
           toast.error("Bu barkoda ait ürün bulunamadı.", {
             position: "bottom",
+            duration: 2000,
           });
           return;
         }
@@ -3011,6 +3013,7 @@ export default {
           const toast = useToast();
           toast.success("Ürün çıkışı başarıyla gerçekleştirildi.", {
             position: "bottom",
+            duration: 2000,
           });
 
           this.errorMessagesCheckout = "";
