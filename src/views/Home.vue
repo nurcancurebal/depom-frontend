@@ -6,6 +6,7 @@
         :height="signInUp ? '650' : '400'"
         style="border-radius: 25px 0px 0px 25px; background-color: #208ec6"
         class="d-flex align-center justify-center flex-column px-2"
+        id="sheet-height"
       >
         <img
           width="80"
@@ -311,7 +312,7 @@ export default {
             await new Promise(() =>
               setTimeout(() => {
                 this.$router.push("/stock");
-              }, 3000)
+              }, 2000)
             );
           })
           .catch((error) => {
@@ -361,7 +362,7 @@ export default {
               this.formatDate = null;
               this.menu = false;
               this.signInUp = !this.signInUp;
-            }, 3000)
+            }, 2000)
           );
 
           this.firstname = "";
@@ -392,6 +393,11 @@ export default {
 @media (min-width: 960px) {
   .row-height {
     height: 101.7vh;
+  }
+}
+@media (max-width: 960px) {
+  #sheet-height {
+    height: 400px !important;
   }
 }
 </style>

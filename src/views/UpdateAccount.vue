@@ -1,83 +1,130 @@
 <template>
-  <v-form class="my-8 main-div w-50 ma-auto">
-    <h2>Hesabımı Düzenle</h2>
-    <v-divider class="mt-5 mb-7 w-100" />
-    <v-text-field
-      prepend-inner-icon="mdi-account"
-      label="Ad"
-      variant="outlined"
-      rounded="xl"
-      class="w-100"
-      v-model="cacheUser.firstname"
-      :rules="[() => !!cacheUser.firstname || 'Ad boş bırakılamaz!']"
-      @keyup.enter="updateUserClick"
-    />
-    <v-text-field
-      prepend-inner-icon="mdi-account"
-      label="Soyad"
-      variant="outlined"
-      rounded="xl"
-      class="w-100"
-      v-model="cacheUser.lastname"
-      :rules="[() => !!cacheUser.lastname || 'Soyad boş bırakılamaz!']"
-      @keyup.enter="updateUserClick"
-    />
-    <v-text-field
-      prepend-inner-icon="mdi-account"
-      label="Kullanıcı Adı"
-      variant="outlined"
-      rounded="xl"
-      class="w-100"
-      v-model="cacheUser.username"
-      :error-messages="usernameError"
-      @keyup.enter="updateUserClick"
-    />
+  <div>
+    <v-form class="my-8 main-div w-50 ma-auto">
+      <h2>Hesabımı Düzenle</h2>
+      <v-divider class="mt-5 mb-7 w-100" />
+      <v-text-field
+        prepend-inner-icon="mdi-account"
+        label="Ad"
+        variant="outlined"
+        rounded="xl"
+        class="w-100"
+        v-model="cacheUser.firstname"
+        :rules="[() => !!cacheUser.firstname || 'Ad boş bırakılamaz!']"
+        @keyup.enter="updateUserClick"
+      />
+      <v-text-field
+        prepend-inner-icon="mdi-account"
+        label="Soyad"
+        variant="outlined"
+        rounded="xl"
+        class="w-100"
+        v-model="cacheUser.lastname"
+        :rules="[() => !!cacheUser.lastname || 'Soyad boş bırakılamaz!']"
+        @keyup.enter="updateUserClick"
+      />
+      <v-text-field
+        prepend-inner-icon="mdi-account"
+        label="Kullanıcı Adı"
+        variant="outlined"
+        rounded="xl"
+        class="w-100"
+        v-model="cacheUser.username"
+        :error-messages="usernameError"
+        @keyup.enter="updateUserClick"
+      />
 
-    <v-text-field
-      v-model="formatDate"
-      readonly
-      @click="menu = !menu"
-      prepend-inner-icon="mdi-calendar"
-      label="Doğum Tarihi"
-      variant="outlined"
-      rounded="xl"
-      class="w-100"
-      :rules="[() => !!formatDate || 'Doğum Tarihi boş bırakılamaz!']"
-      tabindex="0"
-      @keyup.enter="updateUserClick"
-    >
-      <v-menu
-        activator="parent"
-        v-model="menu"
-        :close-on-content-click="false"
-        transition="scale-transition"
-        min-width="auto"
+      <v-text-field
+        v-model="formatDate"
+        readonly
+        @click="menu = !menu"
+        prepend-inner-icon="mdi-calendar"
+        label="Doğum Tarihi"
+        variant="outlined"
+        rounded="xl"
+        class="w-100"
+        :rules="[() => !!formatDate || 'Doğum Tarihi boş bırakılamaz!']"
+        tabindex="0"
+        @keyup.enter="updateUserClick"
       >
-        <v-date-picker
-          v-model="cacheUser.birthdate"
-          no-title
-          scrollable
-          style="height: 476px"
+        <v-menu
+          activator="parent"
+          v-model="menu"
+          :close-on-content-click="false"
+          transition="scale-transition"
+          min-width="auto"
         >
-          <v-btn text color="#208ec6" class="mt-3" @click="menu = false">
-            İptal
-          </v-btn>
-          <v-btn text color="#208ec6" class="mt-3" @click="this.menu = false">
-            Tamam
-          </v-btn>
-        </v-date-picker>
-      </v-menu>
-    </v-text-field>
+          <v-date-picker
+            v-model="cacheUser.birthdate"
+            no-title
+            scrollable
+            style="height: 476px"
+          >
+            <v-btn text color="#208ec6" class="mt-3" @click="menu = false">
+              İptal
+            </v-btn>
+            <v-btn text color="#208ec6" class="mt-3" @click="this.menu = false">
+              Tamam
+            </v-btn>
+          </v-date-picker>
+        </v-menu>
+      </v-text-field>
 
-    <v-btn
-      class="font-weight-bold w-100 text-white"
-      style="background-color: #00c853"
-      rounded="xl"
-      @click="updateUserClick"
-    >
-      Düzenle
-    </v-btn>
-  </v-form>
+      <v-btn
+        class="font-weight-bold w-100 text-white"
+        style="background-color: #00c853"
+        rounded="xl"
+        @click="updateUserClick"
+      >
+        Düzenle
+      </v-btn>
+    </v-form>
+    <v-form class="my-8 main-div w-50 ma-auto">
+      <h2>Şifremi Düzenle</h2>
+      <v-divider class="mt-5 mb-7 w-100" />
+      <v-text-field
+        prepend-inner-icon="mdi-account"
+        label="Yeni Şifre"
+        variant="outlined"
+        rounded="xl"
+        class="w-100"
+        v-model="newPassword"
+        :error-messages="newPasswordError"
+        @keyup.enter="updatePasswordClick"
+      />
+      <v-text-field
+        prepend-inner-icon="mdi-account"
+        label="Yeni Şifre Tekrar"
+        variant="outlined"
+        rounded="xl"
+        class="w-100"
+        v-model="newPasswordRepeat"
+        :rules="[
+          () => !!newPasswordRepeat || 'Yeni şifre tekrar boş bırakılamaz!',
+        ]"
+        @keyup.enter="updatePasswordClick"
+      />
+      <v-text-field
+        prepend-inner-icon="mdi-account"
+        label="Eski Şifre"
+        variant="outlined"
+        rounded="xl"
+        class="w-100"
+        v-model="cacheUser.password"
+        :rules="[() => !!cacheUser.password || 'Eski şifre boş bırakılamaz!']"
+        @keyup.enter="updatePasswordClick"
+      />
+
+      <v-btn
+        class="font-weight-bold w-100 text-white"
+        style="background-color: #00c853"
+        rounded="xl"
+        @click="updatePasswordClick"
+      >
+        Düzenle
+      </v-btn>
+    </v-form>
+  </div>
 </template>
 
 <script>
@@ -90,6 +137,8 @@ export default {
     formatDate: null,
     cacheUser: {},
     usernameError: "",
+    newPassword: "",
+    newPasswordRepeat: "",
   }),
 
   computed: {
@@ -163,6 +212,30 @@ export default {
           birthdate,
         }).then(async () => {
           toast.success("Kullanıcı bilgileri güncellendi", {
+            position: "bottom",
+            duration: 2000,
+          });
+        });
+      } else {
+        toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz.", {
+          position: "bottom",
+          duration: 2000,
+        });
+      }
+    },
+    updatePasswordClick() {
+      const toast = useToast();
+      if (
+        !!this.newPassword &&
+        !!this.newPasswordRepeat &&
+        !!this.password &&
+        this.newPassword === this.newPasswordRepeat
+      ) {
+        this.updateUser({
+          password: this.password,
+          newPassword: this.newPassword,
+        }).then(async () => {
+          toast.success("Şifre güncellendi", {
             position: "bottom",
             duration: 2000,
           });

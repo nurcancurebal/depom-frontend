@@ -116,7 +116,7 @@
       </template>
     </v-navigation-drawer>
 
-    <v-main class="h-screen">
+    <v-main>
       <router-view />
     </v-main>
   </v-app>
