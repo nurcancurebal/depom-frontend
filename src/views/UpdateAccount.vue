@@ -87,11 +87,28 @@
         Düzenle
       </v-btn>
     </v-form>
-    <v-form class="my-8 main-div w-50 ma-auto">
+
+    <v-form class="my-8 main-div w-50 ma-auto mt-16">
       <h2>Şifremi Düzenle</h2>
       <v-divider class="mt-5 mb-7 w-100" />
       <v-text-field
-        prepend-inner-icon="mdi-account"
+        prepend-inner-icon="mdi-lock"
+        label="Eski Şifre"
+        variant="outlined"
+        rounded="xl"
+        class="w-100"
+        v-model="password"
+        :type="visible ? 'text' : 'password'"
+        @click:append-inner="visible = !visible"
+        :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+        :rules="[
+          () => !!password || 'Eski şifre boş bırakılamaz!',
+          () => password === cacheUser.password || 'Eski şifre hatalı.',
+        ]"
+        @keyup.enter="updatePasswordClick"
+      />
+      <v-text-field
+        prepend-inner-icon="mdi-lock"
         label="Yeni Şifre"
         variant="outlined"
         rounded="xl"
@@ -108,8 +125,9 @@
         ]"
         @keyup.enter="updatePasswordClick"
       />
+
       <v-text-field
-        prepend-inner-icon="mdi-account"
+        prepend-inner-icon="mdi-lock"
         label="Yeni Şifre Tekrar"
         variant="outlined"
         rounded="xl"
@@ -117,17 +135,10 @@
         v-model="newPasswordRepeat"
         :rules="[
           () => !!newPasswordRepeat || 'Yeni şifre tekrar boş bırakılamaz!',
+          () =>
+            newPassword === newPasswordRepeat ||
+            'Şifreler birbiriyle uyuşmuyor.',
         ]"
-        @keyup.enter="updatePasswordClick"
-      />
-      <v-text-field
-        prepend-inner-icon="mdi-account"
-        label="Eski Şifre"
-        variant="outlined"
-        rounded="xl"
-        class="w-100"
-        v-model="password"
-        :rules="[() => !!password || 'Eski şifre boş bırakılamaz!']"
         @keyup.enter="updatePasswordClick"
       />
 
@@ -154,6 +165,8 @@ export default {
     cacheUser: {},
     newPassword: "",
     newPasswordRepeat: "",
+    password: "",
+    visible: false,
   }),
 
   computed: {
@@ -181,6 +194,7 @@ export default {
           this.cacheUser[key] = this.user[key];
         }
       });
+      console.log(this.cacheUser);
     });
   },
 
@@ -227,16 +241,27 @@ export default {
         !!this.newPassword &&
         !!this.newPasswordRepeat &&
         !!this.password &&
-        this.newPassword === this.newPasswordRepeat
+        this.newPassword === this.newPasswordRepeat &&
+        !/[ğĞçÇüÜöÖıİşŞ]/g.test(this.newPassword) &&
+        !!/^.{6,18}$/.test(this.newPassword) &&
+        this.password === this.cacheUser.password
       ) {
         this.updateUser({
-          password: this.password,
-          newPassword: this.newPassword,
+          password: this.newPassword,
         }).then(async () => {
+          this.cacheUser.password = this.newPassword;
+
           toast.success("Şifre güncellendi", {
             position: "bottom",
             duration: 2000,
           });
+          await new Promise(() =>
+            setTimeout(() => {
+              this.newPassword = "";
+              this.newPasswordRepeat = "";
+              this.password = "";
+            }, 2000)
+          );
         });
       } else {
         toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz.", {

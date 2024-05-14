@@ -50,7 +50,6 @@
             :rules="[() => !!username || 'Kullanıcı adı boş bırakılamaz!']"
             v-model="username"
             @keyup.enter="logIn"
-            tabindex="0"
           />
           <v-text-field
             prepend-inner-icon="mdi-lock"
@@ -64,7 +63,6 @@
             :rules="[() => !!password || 'Şifre boş bırakılamaz!']"
             v-model="password"
             @keyup.enter="logIn"
-            tabindex="0"
           />
           <v-btn
             class="font-weight-bold w-50 text-white"
@@ -104,7 +102,6 @@
             v-model="firstname"
             :rules="[() => !!firstname || 'Ad boş bırakılamaz!']"
             @keyup.enter="signUpClick"
-            tabindex="0"
           />
           <v-text-field
             prepend-inner-icon="mdi-account"
@@ -115,7 +112,6 @@
             v-model="lastname"
             :rules="[() => !!lastname || 'Soyad boş bırakılamaz!']"
             @keyup.enter="signUpClick"
-            tabindex="0"
           />
           <v-text-field
             prepend-inner-icon="mdi-account"
@@ -134,7 +130,6 @@
                 'Kullanıcı adı 6 ile 18 karakter arasında olmak zorundadır.',
             ]"
             @keyup.enter="signUpClick"
-            tabindex="0"
           />
 
           <v-text-field
@@ -148,7 +143,6 @@
             class="w-50"
             :rules="[() => !!formatDate || 'Doğum Tarihi boş bırakılamaz!']"
             @keyup.enter="signUpClick"
-            tabindex="0"
           >
             <v-menu
               activator="parent"
@@ -198,7 +192,6 @@
                 'Şifre 6 ile 18 karakter arasında olmak zorundadır.',
             ]"
             @keyup.enter="signUpClick"
-            tabindex="0"
           />
           <v-btn
             class="font-weight-bold w-50 text-white"
