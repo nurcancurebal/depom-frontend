@@ -62,6 +62,7 @@
             required
             :rules="[() => !!productname || 'Ürün adı boş bırakılamaz.']"
             :disabled="allDisabled"
+            @keyup.enter="entryKeyupEnter"
           />
         </v-col>
       </v-row>
@@ -129,6 +130,7 @@
             required
             :rules="[() => !!supplier || 'Tedarikçi boş bırakılamaz.']"
             :disabled="allDisabled"
+            @keyup.enter="entryKeyupEnter"
           />
         </v-col>
       </v-row>
@@ -210,6 +212,7 @@
                 /^\d+(\.\d+)?$/.test(quantity) ||
                 'Lütfen yalnızca sayısal bir değer giriniz.',
             ]"
+            @keyup.enter="entryKeyupEnter"
           />
         </v-col>
         <v-col cols="12" md="2" class="col-padding">
@@ -231,6 +234,7 @@
                 /^\d+(\.\d+)?$/.test(unitprice) ||
                 'Lütfen yalnızca sayısal bir değer giriniz.',
             ]"
+            @keyup.enter="entryKeyupEnter"
           />
         </v-col>
       </v-row>
@@ -2819,13 +2823,13 @@ export default {
           this.selectedSubCategory = result.data[0].subcategory;
           this.selectedBrand = result.data[0].brand;
           this.supplier = result.data[0].supplier;
-          toast.info("Bu barkoda ait stok mevcuttur.", {
+          toast.info("Ürün bulundu: Barkod ile eşleşen bir stok var.", {
             position: "bottom",
             duration: 2000,
           });
           return;
         }
-        toast.info("Bu barkoda ait stok girişi mevcut değildir.", {
+        toast.info("Ürün bulunamadı: Barkod ile eşleşen bir stok bulunamadı.", {
           position: "bottom",
           duration: 2000,
         });
@@ -2840,6 +2844,7 @@ export default {
         .join(" ");
     },
     entry() {
+      const toast = useToast();
       this.entryOne({
         barcode: this.barcode,
         productname: this.capitalizeWords(this.productname),
@@ -2850,24 +2855,48 @@ export default {
         unit: this.unit,
         quantity: this.quantity,
         unitprice: this.unitprice,
-      }).then(() => {
+      })
+        .then(() => {
+          toast.success("Stok girişi başarıyla gerçekleştirildi.", {
+            position: "bottom",
+            duration: 2000,
+          });
+
+          this.barcode = "";
+          this.productname = "";
+          this.selectedCategory = "";
+          this.selectedSubCategory = "";
+          this.selectedBrand = "";
+          this.supplier = "";
+          this.unit = "";
+          this.quantity = "";
+          this.unitprice = "";
+          this.allDisabled = false;
+        })
+        .catch(() => {
+          toast.error("Stok girişi sırasında bir hata oluştu.", {
+            position: "bottom",
+            duration: 2000,
+          });
+        });
+    },
+    entryKeyupEnter() {
+      if (
+        !!this.productname &&
+        !!this.supplier &&
+        !!this.quantity &&
+        /^\d+(\.\d+)?$/.test(this.quantity) &&
+        !!this.unitprice &&
+        /^\d+(\.\d+)?$/.test(this.unitprice)
+      ) {
+        this.entry();
+      } else {
         const toast = useToast();
-        toast.success("Stok girişi başarıyla gerçekleştirildi.", {
+        toast.error("Stok girişi sırasında bir hata oluştu.", {
           position: "bottom",
           duration: 2000,
         });
-
-        this.barcode = "";
-        this.productname = "";
-        this.selectedCategory = "";
-        this.selectedSubCategory = "";
-        this.selectedBrand = "";
-        this.supplier = "";
-        this.unit = "";
-        this.quantity = "";
-        this.unitprice = "";
-        this.allDisabled = false;
-      });
+      }
     },
   },
 };

@@ -286,6 +286,7 @@
                   !!(checkoutQuantity <= quantity) ||
                   'Çıkış yapılan miktar toplam miktardan küçük olmak zorundadır.',
               ]"
+              @keyup.enter="checkoutKeyupEnter"
             />
           </v-col>
         </v-row>
@@ -310,6 +311,7 @@
                   /^\d+(\.\d+)?$/.test(checkoutUnitprice) ||
                   'Lütfen yalnızca sayısal bir değer giriniz.',
               ]"
+              @keyup.enter="checkoutKeyupEnter"
             />
           </v-col>
         </v-row>
@@ -3054,6 +3056,24 @@ export default {
           });
           console.error("error", error);
         });
+    },
+    checkoutKeyupEnter() {
+      if (
+        !!this.checkoutQuantity &&
+        /^\d+(\.\d+)?$/.test(this.checkoutQuantity) &&
+        !!(this.checkoutQuantity > 0) &&
+        !!(this.checkoutQuantity <= this.quantity) &&
+        !!this.checkoutUnitprice &&
+        /^\d+(\.\d+)?$/.test(this.checkoutUnitprice)
+      ) {
+        this.checkout();
+      } else {
+        const toast = useToast();
+        toast.error("Ürün çıkışı gerçekleştirilemedi.", {
+          position: "bottom",
+          duration: 2000,
+        });
+      }
     },
   },
 };
