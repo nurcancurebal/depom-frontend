@@ -16,7 +16,6 @@
             v-model="barcode"
             required
             :rules="[() => !!barcode || 'Stok kodu/barkod boş bırakılamaz.']"
-            :error-messages="errorMessagesBarcode"
             @keyup.enter="findProduct"
           />
         </v-col>
@@ -280,8 +279,13 @@
                 () =>
                   /^\d+(\.\d+)?$/.test(checkoutQuantity) ||
                   'Lütfen yalnızca sayısal bir değer giriniz.',
+                () =>
+                  !!(checkoutQuantity > 0) ||
+                  'Çıkış yapılan miktar sıfırdan büyük olmak zorundadır.',
+                () =>
+                  !!(checkoutQuantity <= quantity) ||
+                  'Çıkış yapılan miktar toplam miktardan küçük olmak zorundadır.',
               ]"
-              :error-messages="errorMessagesCheckout"
             />
           </v-col>
         </v-row>
@@ -348,7 +352,6 @@ export default {
       unitDisabled: false,
       quantityDisabled: false,
       unitpriceDisabled: false,
-      errorMessagesBarcode: "",
       barcode: "",
       productname: "",
       selectedCategory: "",
@@ -380,7 +383,6 @@ export default {
         "ton",
         "top",
       ],
-      errorMessagesCheckout: "",
       inventories: {
         "Meyve ve Sebze": {
           Meyve: [
@@ -2904,6 +2906,7 @@ export default {
         this.checkoutQuantity !== "" &&
         this.checkoutQuantity > 0 &&
         /^\d+(\.\d+)?$/.test(this.checkoutQuantity) !== false &&
+        this.checkoutQuantity <= this.quantity &&
         this.checkoutUnitprice !== "" &&
         /^\d+(\.\d+)?$/.test(this.checkoutUnitprice) !== false
       );
@@ -2950,17 +2953,6 @@ export default {
       }
       return;
     },
-    checkoutQuantity(value) {
-      if (
-        (value !== "" && value <= 0) ||
-        (value !== "" && value > this.quantity)
-      ) {
-        return (this.errorMessagesCheckout =
-          "Lütfen geçerli bir miktar giriniz.");
-      } else {
-        return (this.errorMessagesCheckout = "");
-      }
-    },
     overlay(val) {
       this.overlay = val;
     },
@@ -2973,7 +2965,6 @@ export default {
         if (result.data.length > 0) {
           this.allDisabled = true;
           this.showCheckoutInventory = !this.showCheckoutInventory;
-          this.errorMessagesBarcode = "";
           this.productname = result.data[0].productname;
           this.selectedCategory = result.data[0].category;
           this.selectedSubCategory = result.data[0].subcategory;
@@ -2987,7 +2978,6 @@ export default {
             ),
           ];
         } else {
-          this.errorMessagesBarcode = `Bu barkoda ait ürün bulunamadı.`;
           const toast = useToast();
           toast.error("Bu barkoda ait ürün bulunamadı.", {
             position: "bottom",
@@ -2998,25 +2988,24 @@ export default {
       });
     },
     checkout() {
-      if (this.checkoutQuantity > 0 && this.checkoutQuantity <= this.quantity) {
-        this.checkoutOne({
-          barcode: this.barcode,
-          productname: this.productname,
-          selectedCategory: this.selectedCategory,
-          selectedSubCategory: this.selectedSubCategory,
-          supplier: this.supplier,
-          selectedBrand: this.selectedBrand,
-          unit: this.unit,
-          quantity: this.checkoutQuantity,
-          unitprice: this.checkoutUnitprice,
-        }).then(() => {
-          const toast = useToast();
+      const toast = useToast();
+      this.checkoutOne({
+        barcode: this.barcode,
+        productname: this.productname,
+        selectedCategory: this.selectedCategory,
+        selectedSubCategory: this.selectedSubCategory,
+        supplier: this.supplier,
+        selectedBrand: this.selectedBrand,
+        unit: this.unit,
+        quantity: this.checkoutQuantity,
+        unitprice: this.checkoutUnitprice,
+      })
+        .then(() => {
           toast.success("Ürün çıkışı başarıyla gerçekleştirildi.", {
             position: "bottom",
             duration: 2000,
           });
 
-          this.errorMessagesCheckout = "";
           this.showCheckoutInventory = false;
           this.overlay = false;
           this.barcode = "";
@@ -3033,7 +3022,6 @@ export default {
           this.unitDisabled = false;
           this.quantityDisabled = false;
           this.unitpriceDisabled = false;
-          this.errorMessagesBarcode = "";
           this.quantity = "";
           this.unitprice = "";
           this.unitItems = [
@@ -3058,10 +3046,14 @@ export default {
             "ton",
             "top",
           ];
+        })
+        .catch((error) => {
+          toast.error("Ürün çıkışı gerçekleştirilemedi.", {
+            position: "bottom",
+            duration: 2000,
+          });
+          console.error("error", error);
         });
-      } else {
-        this.errorMessagesCheckout = "Lütfen geçerli bir miktar giriniz.";
-      }
     },
   },
 };

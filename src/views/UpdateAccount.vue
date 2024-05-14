@@ -30,7 +30,15 @@
         rounded="xl"
         class="w-100"
         v-model="cacheUser.username"
-        :error-messages="usernameError"
+        :rules="[
+          () => !!cacheUser.username || 'Kullanıcı adı boş bırakılamaz.',
+          () =>
+            !/[ğĞçÇüÜöÖıİşŞ]/g.test(cacheUser.username) ||
+            'Kullanıcı adında Türkçe karakterler kullanılamaz.',
+          () =>
+            !!/^.{6,18}$/.test(cacheUser.username) ||
+            'Kullanıcı adı 6 ile 18 karakter arasında olmak zorundadır.',
+        ]"
         @keyup.enter="updateUserClick"
       />
 
@@ -89,7 +97,15 @@
         rounded="xl"
         class="w-100"
         v-model="newPassword"
-        :error-messages="newPasswordError"
+        :rules="[
+          () => !!newPassword || 'Yeni şifre boş bırakılamaz.',
+          () =>
+            !/[ğĞçÇüÜöÖıİşŞ]/g.test(newPassword) ||
+            'Şifrede Türkçe karakterler kullanılamaz.',
+          () =>
+            !!/^.{6,18}$/.test(newPassword) ||
+            'Şifre 6 ile 18 karakter arasında olmak zorundadır.',
+        ]"
         @keyup.enter="updatePasswordClick"
       />
       <v-text-field
@@ -110,8 +126,8 @@
         variant="outlined"
         rounded="xl"
         class="w-100"
-        v-model="cacheUser.password"
-        :rules="[() => !!cacheUser.password || 'Eski şifre boş bırakılamaz!']"
+        v-model="password"
+        :rules="[() => !!password || 'Eski şifre boş bırakılamaz!']"
         @keyup.enter="updatePasswordClick"
       />
 
@@ -136,7 +152,6 @@ export default {
     menu: false,
     formatDate: null,
     cacheUser: {},
-    usernameError: "",
     newPassword: "",
     newPasswordRepeat: "",
   }),
@@ -146,24 +161,6 @@ export default {
   },
 
   watch: {
-    "cacheUser.username"(value) {
-      const pattern = /[ğĞçÇüÜöÖıİşŞ]/g;
-
-      const matchesusername = value.match(pattern);
-
-      if (!value) {
-        this.usernameError = "Kullanıcı adı boş bırakılamaz!";
-      } else if (
-        matchesusername != null ||
-        value.length < 6 ||
-        value.length > 18
-      ) {
-        this.usernameError =
-          " Kullanıcı adında türkçe karakter kullanılamaz ve 6 ile 18 karakter arasında olmak zorundadır. ";
-      } else {
-        this.usernameError = "";
-      }
-    },
     "cacheUser.birthdate"(value) {
       if (value) {
         const d = new Date(value);
@@ -193,7 +190,8 @@ export default {
     updateUserClick() {
       const toast = useToast();
       if (
-        !this.usernameError &&
+        !!/^.{6,18}$/.test(this.cacheUser.username) &&
+        !/[ğĞçÇüÜöÖıİşŞ]/g.test(this.cacheUser.username) &&
         !!this.cacheUser.username &&
         !!this.cacheUser.firstname &&
         !!this.cacheUser.lastname &&

@@ -124,7 +124,15 @@
             rounded="xl"
             class="w-50"
             v-model="signupusername"
-            :error-messages="signupusernameError"
+            :rules="[
+              () => !!signupusername || 'Kullanıcı adı boş bırakılamaz.',
+              () =>
+                !/[ğĞçÇüÜöÖıİşŞ]/g.test(signupusername) ||
+                'Kullanıcı adında Türkçe karakterler kullanılamaz.',
+              () =>
+                !!/^.{6,18}$/.test(signupusername) ||
+                'Kullanıcı adı 6 ile 18 karakter arasında olmak zorundadır.',
+            ]"
             @keyup.enter="signUpClick"
             tabindex="0"
           />
@@ -180,7 +188,15 @@
             @click:append-inner="visible = !visible"
             :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
             v-model="signuppassword"
-            :error-messages="signuppasswordError"
+            :rules="[
+              () => !!signuppassword || 'Şifre boş bırakılamaz.',
+              () =>
+                !/[ğĞçÇüÜöÖıİşŞ]/g.test(signuppassword) ||
+                'Şifrede Türkçe karakterler kullanılamaz.',
+              () =>
+                !!/^.{6,18}$/.test(signuppassword) ||
+                'Şifre 6 ile 18 karakter arasında olmak zorundadır.',
+            ]"
             @keyup.enter="signUpClick"
             tabindex="0"
           />
@@ -215,8 +231,6 @@ import { useToast } from "vue-toast-notification";
 export default {
   data() {
     return {
-      signupusernameError: "",
-      signuppasswordError: "",
       signInUp: false,
       visible: false,
       birthdate: null,
@@ -229,45 +243,6 @@ export default {
       signuppassword: "",
       signupusername: "",
     };
-  },
-
-  watch: {
-    signupusername(value) {
-      const pattern = /[ğĞçÇüÜöÖıİşŞ]/g;
-
-      const matchesusername = value.match(pattern);
-
-      if (!value) {
-        this.signupusernameError = "Kullanıcı adı boş bırakılamaz!";
-      } else if (
-        matchesusername != null ||
-        value.length < 6 ||
-        value.length > 18
-      ) {
-        this.signupusernameError =
-          " Kullanıcı adında türkçe karakter kullanılamaz ve 6 ile 18 karakter arasında olmak zorundadır. ";
-      } else {
-        this.signupusernameError = "";
-      }
-    },
-    signuppassword(value) {
-      const pattern = /[ğĞçÇüÜöÖıİşŞ]/g;
-
-      const matchespassword = value.match(pattern);
-
-      if (!value) {
-        this.signuppasswordError = "Şifre boş bırakılamaz!";
-      } else if (
-        matchespassword != null ||
-        value.length < 6 ||
-        value.length > 18
-      ) {
-        this.signuppasswordError =
-          "Şifre de türkçe karakter kullanılamaz ve 6 ile 18 karakter arasında olmak zorundadır.";
-      } else {
-        this.signuppasswordError = "";
-      }
-    },
   },
   methods: {
     ...mapActions(["signUp", "signIn"]),
@@ -332,8 +307,10 @@ export default {
     signUpClick() {
       const toast = useToast();
       if (
-        !this.signupusernameError &&
-        !this.signuppasswordError &&
+        !!/^.{6,18}$/.test(this.signupusername) &&
+        !/[ğĞçÇüÜöÖıİşŞ]/g.test(this.signupusername) &&
+        !!/^.{6,18}$/.test(this.signuppassword) &&
+        !/[ğĞçÇüÜöÖıİşŞ]/g.test(this.signuppassword) &&
         !!this.signuppassword &&
         !!this.signupusername &&
         !!this.firstname &&
