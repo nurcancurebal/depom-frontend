@@ -100,6 +100,17 @@
       </router-link>
 
       <template v-slot:append>
+        <router-link
+          to="/update-account"
+          class="router-link"
+          id="editmyaccount"
+        >
+          <v-icon size="21">mdi-account</v-icon>
+          <v-list-item-title value="hesabimiduzenle" class="a-list-item-title">
+            Hesabımı Düzenle
+          </v-list-item-title>
+        </router-link>
+
         <router-link to="/settings" class="router-link">
           <v-icon size="21">mdi-cog</v-icon>
           <v-list-item-title value="settings" class="a-list-item-title">
@@ -177,7 +188,15 @@ a:hover {
   border-radius: 8px;
 }
 .a-list-item-title {
-  font-size: 19px !important;
+  font-size: 18px !important;
   margin-left: 10px !important;
+}
+#editmyaccount {
+  display: none;
+}
+@media (max-width: 960px) {
+  #editmyaccount {
+    display: flex;
+  }
 }
 </style>
