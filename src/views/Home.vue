@@ -270,9 +270,7 @@ export default {
         const password = this.password;
 
         this.signIn({ username, password })
-          .then(async (response) => {
-            localStorage.setItem("token", response.data.token);
-
+          .then(async () => {
             toast.success("Giriş başarılı ana sayfaya yönlendiriliyorsunuz.", {
               position: "bottom",
               duration: 2000,

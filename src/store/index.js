@@ -2,7 +2,13 @@ import { createStore } from 'vuex'
 import axios from "axios";
 import router from "../router";
 
-axios.interceptors.request.use(config => {
+const baseURL = process.env.VUE_APP_BASE_URL;
+
+const instance = axios.create({
+  baseURL: baseURL,
+});
+
+instance.interceptors.request.use(config => {
 
   const authToken = localStorage.getItem('token');
 
@@ -13,7 +19,7 @@ axios.interceptors.request.use(config => {
   return config;
 });
 
-axios.interceptors.response.use(function (response) {
+instance.interceptors.response.use(function (response) {
 
   return response;
 
@@ -31,7 +37,7 @@ export default createStore({
   state: {
     inventory: [],
     current: [],
-    user: [],
+    user: {},
   },
   getters: {
     inventory(state) {
@@ -70,8 +76,8 @@ export default createStore({
 
       try {
 
-        const result = await axios
-          .get(`http://localhost:3000/inventory?page=${payload.page}&limit=${payload.limit}&sort=${payload.sort}`);
+        const result = await instance
+          .get(`/inventory?page=${payload.page}&limit=${payload.limit}&sort=${payload.sort}`);
 
         console.log("getInventory", result.data);
 
@@ -82,7 +88,7 @@ export default createStore({
       } catch (error) {
 
         console.error("getInventory", error);
-
+        return error;
       };
     },
 
@@ -90,8 +96,8 @@ export default createStore({
 
       try {
 
-        const result = await axios
-          .get("http://localhost:3000/inventory/list/count");
+        const result = await instance
+          .get("/inventory/list/count");
 
         console.log("getInventoryCount", result.data.count);
 
@@ -100,7 +106,7 @@ export default createStore({
       } catch (error) {
 
         console.error("getInventoryCount", error);
-
+        return error;
       };
     },
 
@@ -108,8 +114,8 @@ export default createStore({
 
       try {
 
-        const result = await axios
-          .get("http://localhost:3000/inventory/current/count");
+        const result = await instance
+          .get("/inventory/current/count");
 
         console.log("getCurrentCount", result.data.count);
 
@@ -118,7 +124,7 @@ export default createStore({
       } catch (error) {
 
         console.error("getCurrentCount", error);
-
+        return error;
       };
     },
 
@@ -126,8 +132,8 @@ export default createStore({
 
       try {
 
-        const result = await axios
-          .get(`http://localhost:3000/inventory/${payload.barcode}`);
+        const result = await instance
+          .get(`/inventory/${payload.barcode}`);
 
         console.log("getListBarcode", result.data);
 
@@ -136,7 +142,7 @@ export default createStore({
       } catch (error) {
 
         console.error("getListBarcode", error);
-
+        return error;
       };
     },
 
@@ -144,8 +150,8 @@ export default createStore({
 
       try {
 
-        const result = await axios
-          .get(`http://localhost:3000/inventory/current?page=${payload.page}&limit=${payload.limit}&sort=${payload.sort}`);
+        const result = await instance
+          .get(`/inventory/current?page=${payload.page}&limit=${payload.limit}&sort=${payload.sort}`);
 
         console.log("getCurrent", result.data);
 
@@ -156,7 +162,7 @@ export default createStore({
       } catch (error) {
 
         console.error("getCurrent", error);
-
+        return error;
       };
     },
 
@@ -164,7 +170,7 @@ export default createStore({
 
       try {
 
-        const result = await axios.post("http://localhost:3000/Inventory", {
+        const result = await instance.post("/Inventory", {
           "barcode": payload.barcode,
           "productname": payload.productname,
           "category": payload.selectedCategory,
@@ -183,7 +189,7 @@ export default createStore({
       } catch (error) {
 
         console.error("entryOne", error);
-
+        return error;
       };
     },
 
@@ -191,7 +197,7 @@ export default createStore({
 
       try {
 
-        const result = await axios.post(`http://localhost:3000/inventory/${payload.barcode}`, {
+        const result = await instance.post(`/inventory/${payload.barcode}`, {
           "barcode": payload.barcode,
           "productname": payload.productname,
           "category": payload.selectedCategory,
@@ -210,7 +216,7 @@ export default createStore({
       } catch (error) {
 
         console.error("checkoutOne", error);
-
+        return error;
       };
     },
 
@@ -219,14 +225,12 @@ export default createStore({
       try {
         console.log("signUp", payload);
 
-        payload.birthdate = new Date(payload.birthdate.setHours(payload.birthdate.getHours() - payload.birthdate.getTimezoneOffset() / 60));
-
-        return await axios.post("http://localhost:3000/auth/signup", payload);
+        return await instance.post("/auth/signup", payload);
 
       } catch (error) {
 
         console.error("signUp", error);
-
+        return error;
       };
     },
 
@@ -236,7 +240,9 @@ export default createStore({
 
       try {
 
-        const result = await axios.post("http://localhost:3000/auth/signin", payload);
+        const result = await instance.post("/auth/signin", payload);
+
+        localStorage.setItem("token", result.data.token);
 
         context.dispatch("getUser");
 
@@ -245,7 +251,7 @@ export default createStore({
       } catch (error) {
 
         console.error("signIn", error);
-
+        return error;
       };
     },
 
@@ -253,7 +259,7 @@ export default createStore({
 
       try {
 
-        const result = await axios.put(`http://localhost:3000/user`, payload);
+        const result = await instance.put(`/user`, payload);
 
         console.log("updateUser", result.data);
 
@@ -264,22 +270,16 @@ export default createStore({
       } catch (error) {
 
         console.error("updateUser", error);
-
+        return error;
       };
     },
 
     async getUser(context) {
 
-      const token = localStorage.getItem('token');
-
-      if (!token) {
-        return;
-      }
-
       try {
 
-        const result = await axios
-          .get("http://localhost:3000/user");
+        const result = await instance
+          .get("/user");
 
         console.log("getUser", result.data);
 
@@ -290,7 +290,7 @@ export default createStore({
       } catch (error) {
 
         console.error("getUser", error);
-
+        return error;
       };
     },
   }
