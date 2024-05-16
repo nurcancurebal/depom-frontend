@@ -1,7 +1,6 @@
 import instance from '../services/axios'
-import { createStore } from 'vuex'
 
-export default createStore({
+export default {
     state: {
         user: {},
     },
@@ -63,4 +62,4 @@ export default createStore({
             };
         },
     }
-})
+}

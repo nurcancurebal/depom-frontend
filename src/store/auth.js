@@ -1,7 +1,6 @@
 import instance from '../services/axios'
-import { createStore } from 'vuex'
 
-export default createStore({
+export default {
     actions: {
 
         async signUp(context, payload) {
@@ -26,9 +25,11 @@ export default createStore({
 
                 const result = await instance.post("/auth/signin", payload);
 
+                console.log("signIn", result);
+
                 localStorage.setItem("token", result.data.token);
 
-                context.dispatch("getUser");
+                context.dispatch("user/getUser");
 
                 return result;
 
@@ -39,4 +40,4 @@ export default createStore({
             };
         },
     }
-})
+}
