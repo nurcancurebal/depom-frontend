@@ -3054,7 +3054,6 @@ export default {
             position: "bottom",
             duration: 2000,
           });
-          console.error("error", error);
         });
     },
     checkoutKeyupEnter() {

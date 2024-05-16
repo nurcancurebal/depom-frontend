@@ -286,7 +286,6 @@ export default {
               position: "bottom",
               duration: 2000,
             });
-            console.error("error", error);
           });
       } else {
         toast.error("Lütfen tüm alanları doldurunuz.", {

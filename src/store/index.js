@@ -1,3 +1,4 @@
+
 import { createStore } from 'vuex'
 import axios from "axios";
 import router from "../router";
@@ -275,6 +276,12 @@ export default createStore({
     },
 
     async getUser(context) {
+
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        return;
+      }
 
       try {
 

@@ -194,7 +194,6 @@ export default {
           this.cacheUser[key] = this.user[key];
         }
       });
-      console.log(this.cacheUser);
     });
   },
 
