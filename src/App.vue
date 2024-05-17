@@ -103,7 +103,7 @@
         <router-link
           to="/update-account"
           class="router-link"
-          id="editmyaccount"
+          v-if="$vuetify.display.mdAndDown"
         >
           <v-icon size="21">mdi-account</v-icon>
           <v-list-item-title value="hesabimiduzenle" class="a-list-item-title">
@@ -190,13 +190,5 @@ a:hover {
 .a-list-item-title {
   font-size: 18px !important;
   margin-left: 10px !important;
-}
-#editmyaccount {
-  display: none;
-}
-@media (max-width: 960px) {
-  #editmyaccount {
-    display: flex;
-  }
 }
 </style>
