@@ -27,7 +27,8 @@
 
       <template v-if="$vuetify.display.lgAndUp">
         <v-toolbar-items class="align-center">
-          {{ formattedName(user.firstname) }} {{ formattedName(user.lastname) }}
+          {{ formattedName(userData.firstname) }}
+          {{ formattedName(userData.lastname) }}
         </v-toolbar-items>
 
         <v-btn icon>
@@ -144,10 +145,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["user"]),
+    ...mapGetters("user", { userData: "user" }),
   },
   methods: {
-    ...mapActions(["getUser"]),
+    ...mapActions("user", ["getUser"]),
     exitToast() {
       const toast = useToast();
 

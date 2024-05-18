@@ -170,7 +170,7 @@ export default {
   }),
 
   computed: {
-    ...mapGetters(["user"]),
+    ...mapGetters("user", ["user"]),
   },
 
   watch: {
@@ -198,7 +198,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["getUser", "updateUser"]),
+    ...mapActions("user", ["getUser", "updateUser"]),
 
     updateUserClick() {
       const toast = useToast();

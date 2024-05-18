@@ -238,7 +238,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["signUp", "signIn"]),
+    ...mapActions("auth", ["signUp", "signIn"]),
 
     formatDateClick() {
       this.menu = false;

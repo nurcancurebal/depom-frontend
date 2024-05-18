@@ -1,9 +1,10 @@
 import instance from '../services/axios'
 
 export default {
+    namespaced: true,
     actions: {
 
-        async signUp(context, payload) {
+        async signUp(_context, payload) {
 
             try {
                 console.log("signUp", payload);
@@ -29,7 +30,7 @@ export default {
 
                 localStorage.setItem("token", result.data.token);
 
-                context.dispatch("user/getUser");
+                context.dispatch("user/getUser", null, { root: true });
 
                 return result;
 

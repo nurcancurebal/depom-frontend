@@ -108,9 +108,9 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["inventory"]),
+    ...mapGetters("inventory", { inventoryData: "inventory" }),
     formattedInventory() {
-      return this.inventory.map((item) => {
+      return this.inventoryData.map((item) => {
         const date = new Date(item.date);
         const day = date.getDate().toString().padStart(2, "0");
         const month = (date.getMonth() + 1).toString().padStart(2, "0");
@@ -128,7 +128,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["getInventory", "getInventoryCount"]),
+    ...mapActions("inventory", ["getInventory", "getInventoryCount"]),
     updateOptions(options) {
       this.currentPage = options.page;
       this.itemsPerPage = options.itemsPerPage;

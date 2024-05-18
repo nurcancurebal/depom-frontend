@@ -2812,7 +2812,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["entryOne", "getListBarcode"]),
+    ...mapActions("inventory", ["entryOne", "getListBarcode"]),
     findProduct() {
       this.getListBarcode({ barcode: this.barcode }).then((result) => {
         const toast = useToast();

@@ -1,6 +1,7 @@
 import instance from '../services/axios'
 
 export default {
+    namespaced: true,
     state: {
         inventory: [],
         current: [],

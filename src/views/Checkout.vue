@@ -2961,7 +2961,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["getListBarcode", "checkoutOne"]),
+    ...mapActions("inventory", ["getListBarcode", "checkoutOne"]),
     findProduct() {
       this.getListBarcode({ barcode: this.barcode }).then((result) => {
         if (result.data.length > 0) {

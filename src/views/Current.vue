@@ -110,7 +110,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["current"]),
+    ...mapGetters("inventory", ["current"]),
     formattedCurrent() {
       return this.current.map((item) => {
         const date = new Date(item.date);
@@ -130,7 +130,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["getCurrent", "getCurrentCount"]),
+    ...mapActions("inventory", ["getCurrent", "getCurrentCount"]),
     updateOptions(options) {
       this.currentPage = options.page;
       this.itemsPerPage = options.itemsPerPage;
