@@ -2874,7 +2874,7 @@ export default {
           this.allDisabled = false;
         })
         .catch(() => {
-          toast.error("Stok girişi sırasında bir hata oluştu.", {
+          toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz.", {
             position: "bottom",
             duration: 2000,
           });

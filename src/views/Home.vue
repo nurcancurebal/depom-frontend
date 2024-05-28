@@ -281,7 +281,7 @@ export default {
               }, 2000)
             );
           })
-          .catch((error) => {
+          .catch(() => {
             toast.error("Kullanıcı bilgileri bulunamadı.", {
               position: "bottom",
               duration: 2000,

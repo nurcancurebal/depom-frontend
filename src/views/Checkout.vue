@@ -3049,8 +3049,8 @@ export default {
             "top",
           ];
         })
-        .catch((error) => {
-          toast.error("Ürün çıkışı gerçekleştirilemedi.", {
+        .catch(() => {
+          toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz", {
             position: "bottom",
             duration: 2000,
           });

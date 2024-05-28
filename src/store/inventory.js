@@ -51,7 +51,7 @@ export default {
             };
         },
 
-        async getInventoryCount(context, payload) {
+        async getInventoryCount(_context, _payload) {
 
             try {
 
@@ -69,7 +69,7 @@ export default {
             };
         },
 
-        async getCurrentCount(context, payload) {
+        async getCurrentCount(_context, _payload) {
 
             try {
 
@@ -87,7 +87,7 @@ export default {
             };
         },
 
-        async getListBarcode(context, payload) {
+        async getListBarcode(_context, payload) {
 
             try {
 
@@ -125,7 +125,7 @@ export default {
             };
         },
 
-        async entryOne(context, payload) {
+        async entryOne(_context, payload) {
 
             try {
 
@@ -148,11 +148,11 @@ export default {
             } catch (error) {
 
                 console.error("entryOne", error);
-                return error;
+                throw error;
             };
         },
 
-        async checkoutOne(context, payload) {
+        async checkoutOne(_context, payload) {
 
             try {
 
@@ -175,7 +175,7 @@ export default {
             } catch (error) {
 
                 console.error("checkoutOne", error);
-                return error;
+                throw error;
             };
         },
     }

@@ -7,9 +7,12 @@ export default {
         async signUp(_context, payload) {
 
             try {
-                console.log("signUp", payload);
 
-                return await instance.post("/auth/signup", payload);
+                const result = await instance.post("/auth/signup", payload);
+
+                console.log("signUp", result);
+
+                return result;
 
             } catch (error) {
 
@@ -19,8 +22,6 @@ export default {
         },
 
         async signIn(context, payload) {
-
-            console.log("signIn", payload);
 
             try {
 
@@ -37,7 +38,7 @@ export default {
             } catch (error) {
 
                 console.error("signIn", error);
-                return error;
+                throw error;
             };
         },
     }
