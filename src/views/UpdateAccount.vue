@@ -97,14 +97,11 @@
         variant="outlined"
         rounded="xl"
         class="w-100"
-        v-model="password"
-        :type="visible ? 'text' : 'password'"
+        v-model="oldPassword"
+        :type="visible ? 'text' : 'oldPassword'"
         @click:append-inner="visible = !visible"
         :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
-        :rules="[
-          () => !!password || 'Eski şifre boş bırakılamaz!',
-          () => password === cacheUser.password || 'Eski şifre hatalı.',
-        ]"
+        :rules="[() => !!oldPassword || 'Eski şifre boş bırakılamaz!']"
         @keyup.enter="updatePasswordClick"
       />
       <v-text-field
@@ -165,7 +162,7 @@ export default {
     cacheUser: {},
     newPassword: "",
     newPasswordRepeat: "",
-    password: "",
+    oldPassword: "",
     visible: false,
   }),
 
@@ -198,7 +195,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("user", ["getUser", "updateUser"]),
+    ...mapActions("user", ["getUser", "updateUser", "updatePassword"]),
 
     updateUserClick() {
       const toast = useToast();
@@ -239,29 +236,36 @@ export default {
       if (
         !!this.newPassword &&
         !!this.newPasswordRepeat &&
-        !!this.password &&
+        !!this.oldPassword &&
         this.newPassword === this.newPasswordRepeat &&
         !/[ğĞçÇüÜöÖıİşŞ]/g.test(this.newPassword) &&
-        !!/^.{6,18}$/.test(this.newPassword) &&
-        this.password === this.cacheUser.password
+        !!/^.{6,18}$/.test(this.newPassword)
       ) {
-        this.updateUser({
-          password: this.newPassword,
-        }).then(async () => {
-          this.cacheUser.password = this.newPassword;
+        this.updatePassword({
+          oldPassword: this.oldPassword,
+          newPassword: this.newPassword,
+        })
+          .then(async () => {
+            this.cacheUser.password = this.newPassword;
 
-          toast.success("Şifre güncellendi", {
-            position: "bottom",
-            duration: 2000,
+            toast.success("Şifre güncellendi", {
+              position: "bottom",
+              duration: 2000,
+            });
+            await new Promise(() =>
+              setTimeout(() => {
+                this.newPassword = "";
+                this.newPasswordRepeat = "";
+                this.oldPassword = "";
+              }, 2000)
+            );
+          })
+          .catch(() => {
+            toast.error("Eski şifrenizi yanlış girdiniz.", {
+              position: "bottom",
+              duration: 2000,
+            });
           });
-          await new Promise(() =>
-            setTimeout(() => {
-              this.newPassword = "";
-              this.newPasswordRepeat = "";
-              this.password = "";
-            }, 2000)
-          );
-        });
       } else {
         toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz.", {
           position: "bottom",

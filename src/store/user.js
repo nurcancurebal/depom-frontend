@@ -37,6 +37,25 @@ export default {
             };
         },
 
+        async updatePassword(context, payload) {
+
+            try {
+
+                const result = await instance.put(`/user/update/password`, payload);
+
+                console.log("updatePassword", result.data);
+
+                context.dispatch("getUser");
+
+                return result;
+
+            } catch (error) {
+
+                console.error("updatePassword", error);
+                throw error;
+            };
+        },
+
         async getUser(context) {
 
             const token = localStorage.getItem('token');
