@@ -3,15 +3,15 @@ import Stock from "@/views/Stock"
 import Entry from "@/views/Entry"
 import Checkout from "@/views/Checkout"
 import Current from "@/views/Current"
-import Home from "@/views/Home"
+import UserAuth from "@/views/UserAuth"
 import UpdateAccount from "@/views/UpdateAccount"
 import Settings from "@/views/Settings"
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
+    name: 'UserAuth',
+    component: UserAuth,
     meta: {
       title: 'Giriş Yap',
     },
