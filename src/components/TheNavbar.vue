@@ -3,7 +3,7 @@
     v-if="$route.name !== 'UserAuth'"
     floating
     style="background-color: #ededed"
-    v-model="drawer"
+    :modelValue="drawer"
   >
     <router-link to="/stock" class="router-link">
       <v-icon size="21">mdi-warehouse</v-icon>
@@ -66,12 +66,12 @@
 import { useToast } from "vue-toast-notification";
 
 export default {
-  data() {
-    return {
-      drawer: true,
-    };
+  props: {
+    drawer: {
+      type: Boolean,
+      required: true,
+    },
   },
-
   methods: {
     exitToast() {
       const toast = useToast();

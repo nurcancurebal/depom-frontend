@@ -66,7 +66,7 @@
       />
     </v-app-bar>
 
-    <TheNavbar />
+    <TheNavbar :drawer="drawer" />
 
     <v-main>
       <router-view />
@@ -80,6 +80,12 @@ import { useToast } from "vue-toast-notification";
 import TheNavbar from "./components/TheNavbar.vue";
 
 export default {
+  data() {
+    return {
+      drawer: true,
+    };
+  },
+
   components: {
     TheNavbar,
   },
@@ -90,6 +96,8 @@ export default {
 
   created() {
     this.getUser();
+    this.handleResize();
+    window.addEventListener("resize", this.handleResize);
   },
 
   methods: {
@@ -105,6 +113,13 @@ export default {
     formattedName(name) {
       if (!name) return "";
       return name.charAt(0).toUpperCase() + name.slice(1);
+    },
+    handleResize() {
+      if (window.innerWidth > 1280) {
+        this.drawer = true;
+      } else {
+        this.drawer = false;
+      }
     },
   },
 };
