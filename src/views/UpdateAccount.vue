@@ -80,7 +80,7 @@
 
       <v-btn
         class="font-weight-bold w-100 text-white"
-        style="background-color: #00c853"
+        color="#00c853"
         rounded="xl"
         @click="updateUserClick"
       >
@@ -192,13 +192,14 @@ export default {
         }
       });
     });
+
+    this.toast = useToast();
   },
 
   methods: {
     ...mapActions("user", ["getUser", "updateUser", "updatePassword"]),
 
     updateUserClick() {
-      const toast = useToast();
       if (
         !!/^.{6,18}$/.test(this.cacheUser.username) &&
         !/[ğĞçÇüÜöÖıİşŞ]/g.test(this.cacheUser.username) &&
@@ -219,20 +220,19 @@ export default {
           username: this.cacheUser.username,
           birthdate,
         }).then(async () => {
-          toast.success("Kullanıcı bilgileri güncellendi", {
+          this.toast.success("Kullanıcı bilgileri güncellendi", {
             position: "bottom",
             duration: 2000,
           });
         });
       } else {
-        toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz.", {
+        this.toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz.", {
           position: "bottom",
           duration: 2000,
         });
       }
     },
     updatePasswordClick() {
-      const toast = useToast();
       if (
         !!this.newPassword &&
         !!this.newPasswordRepeat &&
@@ -248,7 +248,7 @@ export default {
           .then(async () => {
             this.cacheUser.password = this.newPassword;
 
-            toast.success("Şifre güncellendi", {
+            this.toast.success("Şifre güncellendi", {
               position: "bottom",
               duration: 2000,
             });
@@ -261,13 +261,13 @@ export default {
             );
           })
           .catch(() => {
-            toast.error("Eski şifrenizi yanlış girdiniz.", {
+            this.toast.error("Eski şifrenizi yanlış girdiniz.", {
               position: "bottom",
               duration: 2000,
             });
           });
       } else {
-        toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz.", {
+        this.toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz.", {
           position: "bottom",
           duration: 2000,
         });

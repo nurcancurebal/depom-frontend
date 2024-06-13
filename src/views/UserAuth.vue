@@ -14,7 +14,7 @@
           aspect-ratio="16/9"
           cover
           src="@/assets/logo.png"
-          alt="logo"
+          alt="Depom Stok Takip ve Yönetim Uygulaması Logo"
         />
         <h2 class="text-h3 font-weight-bold" style="color: #ededed">Depom</h2>
         <p
@@ -23,7 +23,7 @@
         >
           Stok Takip ve Yönetim Uygulaması
         </p>
-        <ul style="list-style-type: disc; color: #ededed">
+        <ul style="color: #ededed">
           <li>Depo - Stok</li>
           <li>Stok Giriş</li>
           <li>Stok Çıkış</li>
@@ -31,322 +31,44 @@
         </ul>
       </v-sheet>
     </v-col>
+
     <v-col cols="12" md="5" lg="4" class="pa-0">
-      <v-sheet
-        :elevation="13"
-        :height="400"
-        style="border-radius: 0px 25px 25px 0px"
+      <SignInForm
         v-show="!signInUp"
-      >
-        <form class="d-flex align-center flex-column justify-center">
-          <h2 class="mt-7">Giriş Yap</h2>
-          <v-divider class="ma-5 w-50" />
-          <v-text-field
-            prepend-inner-icon="mdi-account"
-            label="Kullanıcı Adı"
-            variant="outlined"
-            rounded="xl"
-            class="w-50"
-            :rules="[() => !!username || 'Kullanıcı adı boş bırakılamaz!']"
-            v-model="username"
-            @keyup.enter="logIn"
-          />
-          <v-text-field
-            prepend-inner-icon="mdi-lock"
-            label="Şifre"
-            variant="outlined"
-            class="w-50"
-            rounded="xl"
-            :type="visible ? 'text' : 'password'"
-            @click:append-inner="visible = !visible"
-            :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
-            :rules="[() => !!password || 'Şifre boş bırakılamaz!']"
-            v-model="password"
-            @keyup.enter="logIn"
-          />
-          <v-btn
-            class="font-weight-bold w-50 text-white"
-            style="background-color: #00c853"
-            rounded="xl"
-            @click="logIn"
-          >
-            Giriş Yap
-          </v-btn>
-          <v-divider class="ma-5 w-50" />
-          <v-btn
-            style="background-color: #ffd600"
-            rounded="xl"
-            @click="changeSignInUp"
-            class="font-weight-bold w-50 text-white"
-          >
-            Kayıt Ol!
-          </v-btn>
-        </form>
-      </v-sheet>
-
-      <v-sheet
-        :elevation="13"
-        :height="650"
-        style="border-radius: 0px 25px 25px 0px"
+        @update:signInFormUpdate="handleSignUpFormUpdate"
+      />
+      <SignUpForm
         v-show="signInUp"
-      >
-        <form class="d-flex align-center flex-column justify-center">
-          <h2 class="mt-6">Kayıt Ol</h2>
-          <v-divider class="ma-5 w-50" />
-          <v-text-field
-            prepend-inner-icon="mdi-account"
-            rounded="xl"
-            class="w-50"
-            label="Ad"
-            variant="outlined"
-            v-model="firstname"
-            :rules="[() => !!firstname || 'Ad boş bırakılamaz!']"
-            @keyup.enter="signUpClick"
-          />
-          <v-text-field
-            prepend-inner-icon="mdi-account"
-            label="Soyad"
-            variant="outlined"
-            rounded="xl"
-            class="w-50"
-            v-model="lastname"
-            :rules="[() => !!lastname || 'Soyad boş bırakılamaz!']"
-            @keyup.enter="signUpClick"
-          />
-          <v-text-field
-            prepend-inner-icon="mdi-account"
-            label="Kullanıcı Adı"
-            variant="outlined"
-            rounded="xl"
-            class="w-50"
-            v-model="signupusername"
-            :rules="[
-              () => !!signupusername || 'Kullanıcı adı boş bırakılamaz.',
-              () =>
-                !/[ğĞçÇüÜöÖıİşŞ]/g.test(signupusername) ||
-                'Kullanıcı adında Türkçe karakterler kullanılamaz.',
-              () =>
-                !!/^.{6,18}$/.test(signupusername) ||
-                'Kullanıcı adı 6 ile 18 karakter arasında olmak zorundadır.',
-            ]"
-            @keyup.enter="signUpClick"
-          />
-
-          <v-text-field
-            v-model="formatDate"
-            readonly
-            @click="menu = !menu"
-            prepend-inner-icon="mdi-calendar"
-            label="Doğum Tarihi"
-            variant="outlined"
-            rounded="xl"
-            class="w-50"
-            :rules="[() => !!formatDate || 'Doğum Tarihi boş bırakılamaz!']"
-            @keyup.enter="signUpClick"
-          >
-            <v-menu
-              activator="parent"
-              v-model="menu"
-              :close-on-content-click="false"
-              transition="scale-transition"
-              min-width="auto"
-            >
-              <v-date-picker
-                v-model="birthdate"
-                no-title
-                scrollable
-                style="height: 476px"
-              >
-                <v-btn text color="#208ec6" class="mt-3" @click="menu = false">
-                  İptal
-                </v-btn>
-                <v-btn
-                  text
-                  color="#208ec6"
-                  class="mt-3"
-                  @click="formatDateClick"
-                >
-                  Tamam
-                </v-btn>
-              </v-date-picker>
-            </v-menu>
-          </v-text-field>
-
-          <v-text-field
-            prepend-inner-icon="mdi-lock"
-            label="Şifre"
-            variant="outlined"
-            class="w-50"
-            rounded="xl"
-            :type="visible ? 'text' : 'password'"
-            @click:append-inner="visible = !visible"
-            :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
-            v-model="signuppassword"
-            :rules="[
-              () => !!signuppassword || 'Şifre boş bırakılamaz.',
-              () =>
-                !/[ğĞçÇüÜöÖıİşŞ]/g.test(signuppassword) ||
-                'Şifrede Türkçe karakterler kullanılamaz.',
-              () =>
-                !!/^.{6,18}$/.test(signuppassword) ||
-                'Şifre 6 ile 18 karakter arasında olmak zorundadır.',
-            ]"
-            @keyup.enter="signUpClick"
-          />
-          <v-btn
-            class="font-weight-bold w-50 text-white"
-            style="background-color: #ffd600"
-            rounded="xl"
-            @click="signUpClick"
-          >
-            Kayıt Ol
-          </v-btn>
-          <v-divider class="ma-5 w-50" />
-          <v-btn
-            class="font-weight-bold w-50 text-white"
-            style="background-color: #00c853"
-            rounded="xl"
-            @click="changeSignUpIn"
-          >
-            Giriş Yap!
-          </v-btn>
-        </form>
-      </v-sheet>
+        :signInUp="signInUp"
+        @change-signInUp="handleSignInUpChange"
+      />
     </v-col>
     <v-col md="1" lg="2" class="pa-0" />
   </v-row>
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import { useToast } from "vue-toast-notification";
+import SignUpForm from "../components/Login/SignUpForm.vue";
+import SignInForm from "../components/Login/SignInForm.vue";
 
 export default {
+  components: {
+    SignInForm,
+    SignUpForm,
+  },
+
   data() {
     return {
       signInUp: false,
-      visible: false,
-      birthdate: null,
-      menu: false,
-      formatDate: null,
-      username: "",
-      password: "",
-      firstname: "",
-      lastname: "",
-      signuppassword: "",
-      signupusername: "",
     };
   },
+
   methods: {
-    ...mapActions("auth", ["signUp", "signIn"]),
-
-    formatDateClick() {
-      this.menu = false;
-      const d = new Date(this.birthdate);
-      const day = ("0" + d.getDate()).slice(-2);
-      const month = ("0" + (d.getMonth() + 1)).slice(-2);
-      const year = d.getFullYear();
-      this.formatDate = day + "." + month + "." + year;
+    handleSignUpFormUpdate(newSignInUp) {
+      this.signInUp = newSignInUp;
     },
-    changeSignInUp() {
-      this.username = "";
-      this.password = "";
-      this.signInUp = !this.signInUp;
-    },
-    changeSignUpIn() {
-      this.firstname = "";
-      this.lastname = "";
-      this.signupusername = "";
-      this.birthdate = null;
-      this.signuppassword = "";
-      this.formatDate = null;
-      this.menu = false;
-      this.signInUp = !this.signInUp;
-    },
-    logIn() {
-      const toast = useToast();
-      if (this.username && this.password) {
-        const username = this.username;
-        const password = this.password;
-
-        this.signIn({ username, password })
-          .then(async () => {
-            toast.success("Giriş başarılı ana sayfaya yönlendiriliyorsunuz.", {
-              position: "bottom",
-              duration: 2000,
-            });
-            await new Promise(() =>
-              setTimeout(() => {
-                this.$router.push("/stock");
-              }, 2000)
-            );
-          })
-          .catch(() => {
-            toast.error("Kullanıcı bilgileri bulunamadı.", {
-              position: "bottom",
-              duration: 2000,
-            });
-          });
-      } else {
-        toast.error("Lütfen tüm alanları doldurunuz.", {
-          position: "bottom",
-          duration: 2000,
-        });
-      }
-    },
-    signUpClick() {
-      const toast = useToast();
-      if (
-        !!/^.{6,18}$/.test(this.signupusername) &&
-        !/[ğĞçÇüÜöÖıİşŞ]/g.test(this.signupusername) &&
-        !!/^.{6,18}$/.test(this.signuppassword) &&
-        !/[ğĞçÇüÜöÖıİşŞ]/g.test(this.signuppassword) &&
-        !!this.signuppassword &&
-        !!this.signupusername &&
-        !!this.firstname &&
-        !!this.lastname &&
-        !!this.formatDate
-      ) {
-        this.signUp({
-          firstname: this.firstname,
-          lastname: this.lastname,
-          username: this.signupusername,
-          birthdate: this.birthdate,
-          password: this.signuppassword,
-        }).then(async () => {
-          toast.success("Kayıt işlemi başarılı. Giriş yapabilirsiniz.", {
-            position: "bottom",
-            duration: 2000,
-          });
-
-          await new Promise(() =>
-            setTimeout(() => {
-              this.firstname = "";
-              this.lastname = "";
-              this.signupusername = "";
-              this.birthdate = new Date();
-              this.signuppassword = "";
-              this.formatDate = null;
-              this.menu = false;
-              this.signInUp = !this.signInUp;
-            }, 2000)
-          );
-
-          this.firstname = "";
-          this.lastname = "";
-          this.signupusername = "";
-          this.birthdate = new Date();
-          this.signuppassword = "";
-          this.formatDate = null;
-          this.menu = false;
-          this.signInUp = !this.signInUp;
-        });
-      } else {
-        toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz.", {
-          position: "bottom",
-          duration: 2000,
-        });
-      }
+    handleSignInUpChange(newValue) {
+      this.signInUp = newValue;
     },
   },
 };

@@ -2960,6 +2960,10 @@ export default {
     },
   },
 
+  created() {
+    this.toast = useToast();
+  },
+
   methods: {
     ...mapActions("inventory", ["getListBarcode", "checkoutOne"]),
     findProduct() {
@@ -2980,8 +2984,7 @@ export default {
             ),
           ];
         } else {
-          const toast = useToast();
-          toast.error("Bu barkoda ait ürün bulunamadı.", {
+          this.toast.error("Bu barkoda ait ürün bulunamadı.", {
             position: "bottom",
             duration: 2000,
           });
@@ -2990,7 +2993,6 @@ export default {
       });
     },
     checkout() {
-      const toast = useToast();
       this.checkoutOne({
         barcode: this.barcode,
         productname: this.productname,
@@ -3003,7 +3005,7 @@ export default {
         unitprice: this.checkoutUnitprice,
       })
         .then(() => {
-          toast.success("Ürün çıkışı başarıyla gerçekleştirildi.", {
+          this.toast.success("Ürün çıkışı başarıyla gerçekleştirildi.", {
             position: "bottom",
             duration: 2000,
           });
@@ -3050,7 +3052,7 @@ export default {
           ];
         })
         .catch(() => {
-          toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz", {
+          this.toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz", {
             position: "bottom",
             duration: 2000,
           });
@@ -3067,8 +3069,7 @@ export default {
       ) {
         this.checkout();
       } else {
-        const toast = useToast();
-        toast.error("Ürün çıkışı gerçekleştirilemedi.", {
+        this.toast.error("Ürün çıkışı gerçekleştirilemedi.", {
           position: "bottom",
           duration: 2000,
         });

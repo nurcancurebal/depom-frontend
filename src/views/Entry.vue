@@ -2811,11 +2811,14 @@ export default {
     },
   },
 
+  created() {
+    this.toast = useToast();
+  },
+
   methods: {
     ...mapActions("inventory", ["entryOne", "getListBarcode"]),
     findProduct() {
       this.getListBarcode({ barcode: this.barcode }).then((result) => {
-        const toast = useToast();
         if (result.data.length > 0) {
           this.allDisabled = true;
           this.productname = result.data[0].productname;
@@ -2823,16 +2826,19 @@ export default {
           this.selectedSubCategory = result.data[0].subcategory;
           this.selectedBrand = result.data[0].brand;
           this.supplier = result.data[0].supplier;
-          toast.info("Ürün bulundu: Barkod ile eşleşen bir stok var.", {
+          this.toast.info("Ürün bulundu: Barkod ile eşleşen bir stok var.", {
             position: "bottom",
             duration: 2000,
           });
           return;
         }
-        toast.info("Ürün bulunamadı: Barkod ile eşleşen bir stok bulunamadı.", {
-          position: "bottom",
-          duration: 2000,
-        });
+        this.toast.info(
+          "Ürün bulunamadı: Barkod ile eşleşen bir stok bulunamadı.",
+          {
+            position: "bottom",
+            duration: 2000,
+          }
+        );
         this.allDisabled = false;
         return;
       });
@@ -2844,7 +2850,6 @@ export default {
         .join(" ");
     },
     entry() {
-      const toast = useToast();
       this.entryOne({
         barcode: this.barcode,
         productname: this.capitalizeWords(this.productname),
@@ -2857,7 +2862,7 @@ export default {
         unitprice: this.unitprice,
       })
         .then(() => {
-          toast.success("Stok girişi başarıyla gerçekleştirildi.", {
+          this.toast.success("Stok girişi başarıyla gerçekleştirildi.", {
             position: "bottom",
             duration: 2000,
           });
@@ -2874,10 +2879,13 @@ export default {
           this.allDisabled = false;
         })
         .catch(() => {
-          toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz.", {
-            position: "bottom",
-            duration: 2000,
-          });
+          this.toast.error(
+            "Lütfen tüm alanları doğru bir şekilde doldurunuz.",
+            {
+              position: "bottom",
+              duration: 2000,
+            }
+          );
         });
     },
     entryKeyupEnter() {
@@ -2891,8 +2899,7 @@ export default {
       ) {
         this.entry();
       } else {
-        const toast = useToast();
-        toast.error("Stok girişi sırasında bir hata oluştu.", {
+        this.toast.error("Stok girişi sırasında bir hata oluştu.", {
           position: "bottom",
           duration: 2000,
         });
