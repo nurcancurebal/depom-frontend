@@ -75,8 +75,7 @@ export default {
     changeSignInUp() {
       this.username = "";
       this.password = "";
-      this.signInUp = !this.signInUp;
-      this.$emit("update:signInFormUpdate", this.signInUp);
+      this.$emit("update:signInFormUpdate", true);
     },
 
     logIn() {
