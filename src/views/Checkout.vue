@@ -2,7 +2,7 @@
   <div class="my-8 main-div ma-auto w-75">
     <h3>Stok Çıkış</h3>
     <v-divider class="my-5 w-100" />
-    <v-card class="w-100 my-5 pa-11" v-show="!showCheckoutInventory">
+    <v-card class="w-100 my-5 pa-11" v-if="!showCheckoutInventory">
       <v-row align="center">
         <v-col cols="12" md="3" class="col-padding">
           <v-list-subheader style="padding-inline-end: 0">
@@ -48,18 +48,31 @@
 
     <CheckoutForm
       :showCheckoutInventory="showCheckoutInventory"
-      :barcode_data="barcode"
-      :productname_data="productname"
-      :category_data="category"
-      :subCategory_data="subCategory"
-      :supplier_data="supplier"
-      :brand_data="brand"
-      :unitItems_data="unitItems"
+      :barcodeData="barcode"
+      :productnameData="productname"
+      :categoryData="category"
+      :subCategoryData="subCategory"
+      :supplierData="supplier"
+      :brandData="brand"
+      :unitItemsData="unitItems"
       @update:openOverlayData="handleOpenEvent"
       @update:quantityData="handleQuantityData"
+      @update:unitData="handleUnitData"
+      :successCheckoutProps="handleSuccessCheckoutProps"
     />
 
-    <ExitForm :openOverlayData="openOverlay" :quantityData="quantity" />
+    <ExitForm
+      :openOverlayData="openOverlay"
+      :quantityData="Number(quantityData)"
+      :barcodeData="barcode"
+      :productnameData="productname"
+      :categoryData="category"
+      :subCategoryData="subCategory"
+      :supplierData="supplier"
+      :brandData="brand"
+      :unitData="unit"
+      @successCheckout="handleSuccessCheckout"
+    />
   </div>
 </template>
 
@@ -88,6 +101,8 @@ export default {
       unitItems: [],
       openOverlay: false,
       quantityData: "",
+      unit: "",
+      handleSuccessCheckoutProps: false,
     };
   },
 
@@ -140,6 +155,22 @@ export default {
     },
     handleQuantityData(val) {
       this.quantityData = val;
+    },
+    handleUnitData(val) {
+      this.unit = val;
+    },
+    handleSuccessCheckout(val) {
+      this.handleSuccessCheckoutProps = val;
+      if (val) {
+        this.showCheckoutInventory = false;
+        this.barcode = "";
+        this.productname = "";
+        this.category = "";
+        this.subCategory = "";
+        this.supplier = "";
+        this.brand = "";
+        this.unitItems = [];
+      }
     },
   },
 };

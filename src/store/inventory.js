@@ -157,12 +157,11 @@ export default {
             try {
 
                 const result = await instance.post(`/inventory/${payload.barcode}`, {
-                    "barcode": payload.barcode,
                     "productname": payload.productname,
-                    "category": payload.selectedCategory,
-                    "subcategory": payload.selectedSubCategory,
+                    "category": payload.category,
+                    "subcategory": payload.subCategory,
                     "supplier": payload.supplier,
-                    "brand": payload.selectedBrand,
+                    "brand": payload.brand,
                     "unit": payload.unit,
                     "quantity": payload.quantity,
                     "unitprice": payload.unitprice,

@@ -1,5 +1,5 @@
 <template>
-  <v-card class="w-100 my-5 pa-11" v-show="showCheckoutInventory">
+  <v-card class="w-100 my-5 pa-11" v-if="showCheckoutInventory">
     <v-row align="center">
       <v-col cols="12" md="2" class="col-padding">
         <v-list-subheader style="padding-inline-end: 0">
@@ -9,7 +9,7 @@
 
       <v-col cols="12" md="10" class="pa-0">
         <v-text-field variant="outlined" required disabled>
-          {{ barcode_data }}
+          {{ barcodeData }}
         </v-text-field>
       </v-col>
     </v-row>
@@ -23,7 +23,7 @@
 
       <v-col cols="12" md="10" class="pa-0">
         <v-text-field variant="outlined" required disabled>
-          {{ productname_data }}
+          {{ productnameData }}
         </v-text-field>
       </v-col>
     </v-row>
@@ -37,7 +37,7 @@
 
       <v-col cols="12" md="10" class="pa-0">
         <v-text-field variant="outlined" required disabled>
-          {{ category_data }}
+          {{ categoryData }}
         </v-text-field>
       </v-col>
     </v-row>
@@ -51,7 +51,7 @@
 
       <v-col cols="12" md="10" class="pa-0">
         <v-text-field variant="outlined" required disabled>
-          {{ subCategory_data }}
+          {{ subCategoryData }}
         </v-text-field>
       </v-col>
     </v-row>
@@ -65,7 +65,7 @@
 
       <v-col cols="12" md="10" class="pa-0">
         <v-text-field variant="outlined" required disabled>
-          {{ supplier_data }}
+          {{ supplierData }}
         </v-text-field>
       </v-col>
     </v-row>
@@ -79,7 +79,7 @@
 
       <v-col cols="12" md="4" class="pa-0">
         <v-text-field variant="outlined" required disabled>
-          {{ brand_data }}
+          {{ brandData }}
         </v-text-field>
       </v-col>
       <v-col cols="12" md="2" class="col-padding">
@@ -95,7 +95,7 @@
           clearable
           variant="outlined"
           v-model="unit"
-          :items="unitItems_data"
+          :items="unitItemsData"
           required
           :rules="[() => !!unit || 'Birim boş bırakılamaz.']"
           :disabled="unitDisabled"
@@ -168,13 +168,14 @@ import { mapActions } from "vuex";
 export default {
   props: {
     showCheckoutInventory: Boolean,
-    barcode_data: String,
-    productname_data: String,
-    category_data: String,
-    subCategory_data: String,
-    supplier_data: String,
-    brand_data: String,
-    unitItems_data: Array,
+    barcodeData: String,
+    productnameData: String,
+    categoryData: String,
+    subCategoryData: String,
+    supplierData: String,
+    brandData: String,
+    unitItemsData: Array,
+    successCheckoutProps: Boolean,
   },
 
   data() {
@@ -192,12 +193,12 @@ export default {
   computed: {
     allTrueDisabled() {
       return (
-        this.barcode_data !== "" &&
-        this.productname_data !== "" &&
-        this.category_data !== "" &&
-        this.subCategory_data !== "" &&
-        this.brand_data !== "" &&
-        this.supplier_data !== "" &&
+        this.barcodeData !== "" &&
+        this.productnameData !== "" &&
+        this.categoryData !== "" &&
+        this.subCategoryData !== "" &&
+        this.brandData !== "" &&
+        this.supplierData !== "" &&
         this.unit !== "" &&
         this.quantity !== "" &&
         this.unitprice !== ""
@@ -209,7 +210,7 @@ export default {
     unit(value) {
       if (value !== "") {
         this.unitDisabled = !this.unitDisabled;
-        this.getListBarcode({ barcode: this.barcode_data }).then((result) => {
+        this.getListBarcode({ barcode: this.barcodeData }).then((result) => {
           const unitFilter = result.data.filter(
             (currentValue) => currentValue.unit === value
           );
@@ -244,16 +245,25 @@ export default {
       }
       return;
     },
+    successCheckoutProps(value) {
+      if (value) {
+        this.unit = "";
+        this.unitDisabled = false;
+        this.quantityDisabled = false;
+        this.unitpriceDisabled = false;
+        this.unitprice = "";
+        this.quantity = "";
+      }
+    },
   },
+
   methods: {
     ...mapActions("inventory", ["getListBarcode"]),
     emitOpen() {
       this.overlayOpen = !this.overlayOpen;
       this.$emit("update:openOverlayData", this.overlayOpen);
+      this.$emit("update:unitData", this.unit);
     },
   },
 };
 </script>
-
-<style>
-</style>

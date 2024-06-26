@@ -30,10 +30,10 @@
                 !!(checkoutQuantity > 0) ||
                 'Çıkış yapılan miktar sıfırdan büyük olmak zorundadır.',
               () =>
-                !!(checkoutQuantity <= quantity) ||
+                !!(checkoutQuantity <= quantityData) ||
                 'Çıkış yapılan miktar toplam miktardan küçük olmak zorundadır.',
             ]"
-            @keyup.enter="checkoutKeyupEnter"
+            @keyup.enter="checkoutClick"
           />
         </v-col>
       </v-row>
@@ -58,7 +58,7 @@
                 /^\d+(\.\d+)?$/.test(checkoutUnitprice) ||
                 'Lütfen yalnızca sayısal bir değer giriniz.',
             ]"
-            @keyup.enter="checkoutKeyupEnter"
+            @keyup.enter="checkoutClick"
           />
         </v-col>
       </v-row>
@@ -72,7 +72,7 @@
               width: '100%',
             }"
             :disabled="!checkoutClickDisabled"
-            @click="checkout"
+            @click="checkoutClick"
           >
             Çıkış Yap
           </v-btn>
@@ -89,7 +89,14 @@ import { useToast } from "vue-toast-notification";
 export default {
   props: {
     openOverlayData: Boolean,
-    quantity: Number,
+    quantityData: Number,
+    barcodeData: String,
+    productnameData: String,
+    categoryData: String,
+    subCategoryData: String,
+    supplierData: String,
+    brandData: String,
+    unitData: String,
   },
   data() {
     return {
@@ -105,7 +112,7 @@ export default {
         this.checkoutQuantity !== "" &&
         this.checkoutQuantity > 0 &&
         /^\d+(\.\d+)?$/.test(this.checkoutQuantity) !== false &&
-        this.checkoutQuantity <= this.quantity &&
+        this.checkoutQuantity <= this.quantityData &&
         this.checkoutUnitprice !== "" &&
         /^\d+(\.\d+)?$/.test(this.checkoutUnitprice) !== false
       );
@@ -113,9 +120,6 @@ export default {
   },
 
   watch: {
-    overlay(val) {
-      this.overlay = val;
-    },
     openOverlayData() {
       this.overlay = true;
     },
@@ -127,79 +131,38 @@ export default {
 
   methods: {
     ...mapActions("inventory", ["checkoutOne"]),
-    checkout() {
-      this.checkoutOne({
-        barcode: this.barcode,
-        productname: this.productname,
-        category: this.category,
-        subCategory: this.subCategory,
-        supplier: this.supplier,
-        brand: this.brand,
-        unit: this.unit,
-        quantity: this.checkoutQuantity,
-        unitprice: this.checkoutUnitprice,
-      })
-        .then(() => {
-          this.toast.success("Ürün çıkışı başarıyla gerçekleştirildi.", {
-            position: "bottom",
-            duration: 2000,
-          });
-
-          this.showCheckoutInventory = false;
-          this.overlay = false;
-          this.barcode = "";
-          this.productname = "";
-          this.category = "";
-          this.subCategory = "";
-          this.supplier = "";
-          this.brand = "";
-          this.unit = "";
-          this.checkoutQuantity = "";
-          this.checkoutUnitprice = "";
-          this.unitDisabled = false;
-          this.quantityDisabled = false;
-          this.unitpriceDisabled = false;
-          this.unitprice = "";
-          this.unitItems = [
-            "adet",
-            "bağ",
-            "boy",
-            "cm",
-            "çuval",
-            "gr",
-            "grup",
-            "kg",
-            "koli",
-            "kutu",
-            "lt",
-            "m²",
-            "m³",
-            "m",
-            "mm",
-            "ml",
-            "paket",
-            "saat",
-            "ton",
-            "top",
-          ];
+    checkoutClick() {
+      if (this.checkoutClickDisabled) {
+        this.checkoutOne({
+          barcode: this.barcodeData,
+          productname: this.productnameData,
+          category: this.categoryData,
+          subCategory: this.subCategoryData,
+          supplier: this.supplierData,
+          brand: this.brandData,
+          unit: this.unitData,
+          quantity: this.checkoutQuantity,
+          unitprice: this.checkoutUnitprice,
         })
-        .catch(() => {
-          this.toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz", {
-            position: "bottom",
-            duration: 2000,
+          .then(() => {
+            this.toast.success("Ürün çıkışı başarıyla gerçekleştirildi.", {
+              position: "bottom",
+              duration: 2000,
+            });
+            this.checkoutQuantity = "";
+            this.checkoutUnitprice = "";
+            this.overlay = false;
+            this.$emit("successCheckout", true);
+          })
+          .catch(() => {
+            this.toast.error(
+              "Lütfen tüm alanları doğru bir şekilde doldurunuz",
+              {
+                position: "bottom",
+                duration: 2000,
+              }
+            );
           });
-        });
-    },
-    checkoutKeyupEnter() {
-      if (
-        !!this.checkoutQuantity &&
-        /^\d+(\.\d+)?$/.test(this.checkoutQuantity) &&
-        !!(this.checkoutQuantity > 0) &&
-        !!(this.checkoutQuantity <= this.quantity) &&
-        !!this.checkoutUnitprice &&
-        /^\d+(\.\d+)?$/.test(this.checkoutUnitprice)
-      ) {
-        this.checkout();
       } else {
         this.toast.error("Ürün çıkışı gerçekleştirilemedi.", {
           position: "bottom",
