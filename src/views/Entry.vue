@@ -124,6 +124,11 @@ export default {
     },
 
     resetFields() {
+      this.entryProductname = "";
+      this.entrySelectedCategory = "";
+      this.entrySelectedSubCategory = "";
+      this.entrySelectedBrand = "";
+      this.entrySupplier = "";
       this.barcode = "";
       this.allDisabled = false;
     },

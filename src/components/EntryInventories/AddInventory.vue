@@ -2825,11 +2825,6 @@ export default {
             duration: 2000,
           });
 
-          this.productname = "";
-          this.selectedCategory = "";
-          this.selectedSubCategory = "";
-          this.supplier = "";
-          this.selectedBrand = "";
           this.unit = "";
           this.quantity = "";
           this.unitprice = "";

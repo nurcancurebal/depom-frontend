@@ -61,7 +61,7 @@
     <v-btn
       v-if="$vuetify.display.mdAndDown"
       icon="mdi-dots-vertical"
-      @click.stop="emitDraver"
+      @click.stop="$emit('toggleDrawer')"
     />
   </v-app-bar>
 </template>
@@ -71,27 +71,14 @@ import { mapGetters, mapActions } from "vuex";
 import { useToast } from "vue-toast-notification";
 
 export default {
-  data() {
-    return {
-      drawer: false,
-    };
-  },
-
   computed: {
     ...mapGetters("user", { userData: "user" }),
   },
-
   created() {
     this.getUser();
   },
-
   methods: {
     ...mapActions("user", ["getUser"]),
-
-    emitDraver() {
-      this.drawer = !this.drawer;
-      this.$emit("update:drawer", this.drawer);
-    },
 
     formattedName(name) {
       if (!name) return "";

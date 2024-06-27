@@ -4,6 +4,7 @@
     floating
     style="background-color: #ededed"
     :modelValue="drawer"
+    @update:modelValue="$emit('toggleDrawer')"
   >
     <router-link to="/stock" class="router-link">
       <v-icon size="21">mdi-warehouse</v-icon>

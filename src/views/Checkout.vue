@@ -55,10 +55,10 @@
       :supplierData="supplier"
       :brandData="brand"
       :unitItemsData="unitItems"
+      :successCheckoutProps="handleSuccessCheckoutProps"
       @update:openOverlayData="handleOpenEvent"
       @update:quantityData="handleQuantityData"
       @update:unitData="handleUnitData"
-      :successCheckoutProps="handleSuccessCheckoutProps"
     />
 
     <ExitForm
@@ -159,18 +159,16 @@ export default {
     handleUnitData(val) {
       this.unit = val;
     },
-    handleSuccessCheckout(val) {
-      this.handleSuccessCheckoutProps = val;
-      if (val) {
-        this.showCheckoutInventory = false;
-        this.barcode = "";
-        this.productname = "";
-        this.category = "";
-        this.subCategory = "";
-        this.supplier = "";
-        this.brand = "";
-        this.unitItems = [];
-      }
+    handleSuccessCheckout() {
+      this.handleSuccessCheckoutProps = !this.handleSuccessCheckoutProps;
+      this.showCheckoutInventory = false;
+      this.barcode = "";
+      this.productname = "";
+      this.category = "";
+      this.subCategory = "";
+      this.supplier = "";
+      this.brand = "";
+      this.unitItems = [];
     },
   },
 };

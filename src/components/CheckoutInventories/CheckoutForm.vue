@@ -245,15 +245,13 @@ export default {
       }
       return;
     },
-    successCheckoutProps(value) {
-      if (value) {
-        this.unit = "";
-        this.unitDisabled = false;
-        this.quantityDisabled = false;
-        this.unitpriceDisabled = false;
-        this.unitprice = "";
-        this.quantity = "";
-      }
+    successCheckoutProps() {
+      this.unit = "";
+      this.unitDisabled = false;
+      this.quantityDisabled = false;
+      this.unitpriceDisabled = false;
+      this.unitprice = "";
+      this.quantity = "";
     },
   },
 

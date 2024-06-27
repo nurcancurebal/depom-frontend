@@ -1,8 +1,8 @@
 <template>
   <v-app>
-    <TheAppbar @update:drawer="handleDrawerUpdate" />
+    <TheAppbar @toggle-drawer="drawer = !drawer" />
 
-    <TheNavbar :drawer="drawer" />
+    <TheNavbar :drawer="drawer" @toggle-drawer="drawer = !drawer" />
 
     <v-main>
       <router-view />
@@ -32,10 +32,6 @@ export default {
   },
 
   methods: {
-    handleDrawerUpdate(newDrawerValue) {
-      this.drawer = newDrawerValue;
-    },
-
     handleResize() {
       if (window.innerWidth > 1280) {
         this.drawer = true;
