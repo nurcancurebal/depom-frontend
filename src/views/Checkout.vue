@@ -56,7 +56,6 @@
       :brandData="brand"
       :unitItemsData="unitItems"
       :successCheckoutProps="handleSuccessCheckoutProps"
-      @update:openOverlayData="handleOpenEvent"
       @update:quantityData="handleQuantityData"
       @update:unitData="handleUnitData"
     />
@@ -64,14 +63,8 @@
     <ExitForm
       :openOverlayData="openOverlay"
       :quantityData="Number(quantityData)"
-      :barcodeData="barcode"
-      :productnameData="productname"
-      :categoryData="category"
-      :subCategoryData="subCategory"
-      :supplierData="supplier"
-      :brandData="brand"
-      :unitData="unit"
-      @successCheckout="handleSuccessCheckout"
+      :checkoutSuccessful="checkoutSuccessful"
+      @onCheckout="handleSuccessCheckout"
     />
   </div>
 </template>
@@ -103,6 +96,7 @@ export default {
       quantityData: "",
       unit: "",
       handleSuccessCheckoutProps: false,
+      checkoutSuccessful: false,
     };
   },
 
@@ -117,23 +111,20 @@ export default {
   },
 
   methods: {
-    ...mapActions("inventory", ["getListBarcode"]),
+    ...mapActions("inventory", ["getListBarcode", "checkoutOne"]),
     findProduct() {
       this.getListBarcode({ barcode: this.barcode })
         .then((result) => {
           if (result.data.length > 0) {
-            this.showCheckoutInventory = !this.showCheckoutInventory;
-            this.productname = result.data[0].productname;
-            this.category = result.data[0].category;
-            this.subCategory = result.data[0].subcategory;
-            this.brand = result.data[0].brand;
-            this.supplier = result.data[0].supplier;
+            this.showCheckoutInventory = true;
+            const products = result.data;
+            this.productname = products[0].productname;
+            this.category = products[0].category;
+            this.subCategory = products[0].subcategory;
+            this.brand = products[0].brand;
+            this.supplier = products[0].supplier;
             this.unitItems = [
-              ...new Set(
-                result.data.map((element) => {
-                  return element.unit;
-                })
-              ),
+              ...new Set(products.map((product) => product.unit)),
             ];
           } else {
             this.toast.error("Bu barkoda ait ürün bulunamadı.", {
@@ -150,25 +141,48 @@ export default {
           });
         });
     },
-    handleOpenEvent(val) {
-      this.openOverlay = val;
-    },
     handleQuantityData(val) {
       this.quantityData = val;
     },
     handleUnitData(val) {
       this.unit = val;
+      this.openOverlay = !this.openOverlay;
     },
-    handleSuccessCheckout() {
-      this.handleSuccessCheckoutProps = !this.handleSuccessCheckoutProps;
-      this.showCheckoutInventory = false;
-      this.barcode = "";
-      this.productname = "";
-      this.category = "";
-      this.subCategory = "";
-      this.supplier = "";
-      this.brand = "";
-      this.unitItems = [];
+    handleSuccessCheckout(data) {
+      this.checkoutOne({
+        barcode: this.barcode,
+        productname: this.productname,
+        category: this.category,
+        subCategory: this.subCategory,
+        supplier: this.supplier,
+        brand: this.brand,
+        unit: this.unit,
+        quantity: data.quantity,
+        unitprice: data.unitprice,
+      })
+        .then(() => {
+          this.toast.success("Ürün çıkışı başarıyla gerçekleştirildi.", {
+            position: "bottom",
+            duration: 2000,
+          });
+
+          this.handleSuccessCheckoutProps = !this.handleSuccessCheckoutProps;
+          this.showCheckoutInventory = false;
+          this.barcode = "";
+          this.productname = "";
+          this.category = "";
+          this.subCategory = "";
+          this.supplier = "";
+          this.brand = "";
+          this.unitItems = [];
+          this.checkoutSuccessful = !this.checkoutSuccessful;
+        })
+        .catch(() => {
+          this.toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz", {
+            position: "bottom",
+            duration: 2000,
+          });
+        });
     },
   },
 };

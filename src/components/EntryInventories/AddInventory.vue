@@ -2733,17 +2733,17 @@ export default {
   computed: {
     allTrue() {
       return (
-        this.barcode !== "" &&
-        this.productname !== "" &&
-        this.selectedCategory !== "" &&
-        this.selectedSubCategory !== "" &&
-        this.selectedBrand !== "" &&
-        this.supplier !== "" &&
-        this.unit !== "" &&
-        this.quantity !== "" &&
-        /^\d+(\.\d+)?$/.test(this.quantity) !== false &&
-        this.unitprice !== "" &&
-        /^\d+(\.\d+)?$/.test(this.unitprice) !== false
+        this.barcode &&
+        this.productname &&
+        this.selectedCategory &&
+        this.selectedSubCategory &&
+        this.selectedBrand &&
+        this.supplier &&
+        this.unit &&
+        this.quantity &&
+        /^\d+(\.\d+)?$/.test(this.quantity) &&
+        this.unitprice &&
+        /^\d+(\.\d+)?$/.test(this.unitprice)
       );
     },
     getCategories() {

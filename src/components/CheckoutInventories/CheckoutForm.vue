@@ -8,9 +8,12 @@
       </v-col>
 
       <v-col cols="12" md="10" class="pa-0">
-        <v-text-field variant="outlined" required disabled>
-          {{ barcodeData }}
-        </v-text-field>
+        <v-text-field
+          variant="outlined"
+          :value="barcodeData"
+          required
+          disabled
+        />
       </v-col>
     </v-row>
 
@@ -22,9 +25,12 @@
       </v-col>
 
       <v-col cols="12" md="10" class="pa-0">
-        <v-text-field variant="outlined" required disabled>
-          {{ productnameData }}
-        </v-text-field>
+        <v-text-field
+          variant="outlined"
+          :value="productnameData"
+          required
+          disabled
+        />
       </v-col>
     </v-row>
 
@@ -36,9 +42,12 @@
       </v-col>
 
       <v-col cols="12" md="10" class="pa-0">
-        <v-text-field variant="outlined" required disabled>
-          {{ categoryData }}
-        </v-text-field>
+        <v-text-field
+          variant="outlined"
+          :value="categoryData"
+          required
+          disabled
+        />
       </v-col>
     </v-row>
 
@@ -50,9 +59,12 @@
       </v-col>
 
       <v-col cols="12" md="10" class="pa-0">
-        <v-text-field variant="outlined" required disabled>
-          {{ subCategoryData }}
-        </v-text-field>
+        <v-text-field
+          variant="outlined"
+          :value="subCategoryData"
+          required
+          disabled
+        />
       </v-col>
     </v-row>
 
@@ -64,9 +76,12 @@
       </v-col>
 
       <v-col cols="12" md="10" class="pa-0">
-        <v-text-field variant="outlined" required disabled>
-          {{ supplierData }}
-        </v-text-field>
+        <v-text-field
+          variant="outlined"
+          :value="supplierData"
+          required
+          disabled
+        />
       </v-col>
     </v-row>
 
@@ -78,9 +93,7 @@
       </v-col>
 
       <v-col cols="12" md="4" class="pa-0">
-        <v-text-field variant="outlined" required disabled>
-          {{ brandData }}
-        </v-text-field>
+        <v-text-field variant="outlined" :value="brandData" required disabled />
       </v-col>
       <v-col cols="12" md="2" class="col-padding">
         <v-list-subheader
@@ -148,12 +161,12 @@
       >
         <v-btn
           :style="{
-            'background-color': allTrueDisabled ? '#00c853' : '#ededed',
+            'background-color': allFieldsFilled ? '#00c853' : '#ededed',
             'font-family': 'auto',
             width: '100%',
           }"
-          :disabled="!allTrueDisabled"
-          @click="emitOpen"
+          :disabled="!allFieldsFilled"
+          @click="$emit('update:unitData', this.unit)"
         >
           Çıkış Yap
         </v-btn>
@@ -186,29 +199,28 @@ export default {
       unitprice: "",
       quantity: "",
       quantityDisabled: false,
-      overlayOpen: false,
     };
   },
 
   computed: {
-    allTrueDisabled() {
+    allFieldsFilled() {
       return (
-        this.barcodeData !== "" &&
-        this.productnameData !== "" &&
-        this.categoryData !== "" &&
-        this.subCategoryData !== "" &&
-        this.brandData !== "" &&
-        this.supplierData !== "" &&
-        this.unit !== "" &&
-        this.quantity !== "" &&
-        this.unitprice !== ""
+        this.barcodeData &&
+        this.productnameData &&
+        this.categoryData &&
+        this.subCategoryData &&
+        this.brandData &&
+        this.supplierData &&
+        this.unit &&
+        this.quantity &&
+        this.unitprice
       );
     },
   },
 
   watch: {
     unit(value) {
-      if (value !== "") {
+      if (value) {
         this.unitDisabled = !this.unitDisabled;
         this.getListBarcode({ barcode: this.barcodeData }).then((result) => {
           const unitFilter = result.data.filter(
@@ -257,11 +269,6 @@ export default {
 
   methods: {
     ...mapActions("inventory", ["getListBarcode"]),
-    emitOpen() {
-      this.overlayOpen = !this.overlayOpen;
-      this.$emit("update:openOverlayData", this.overlayOpen);
-      this.$emit("update:unitData", this.unit);
-    },
   },
 };
 </script>

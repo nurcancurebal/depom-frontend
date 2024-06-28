@@ -49,7 +49,6 @@
           <v-text-field
             variant="outlined"
             v-model="checkoutUnitprice"
-            required
             :rules="[
               () =>
                 !!checkoutUnitprice ||
@@ -67,11 +66,11 @@
         <v-col cols="5" offset="7" md="4" offset-md="8" class="pa-0">
           <v-btn
             :style="{
-              'background-color': checkoutClickDisabled ? '#00c853' : '#ededed',
+              'background-color': checkoutClickEnabled ? '#00c853' : '#ededed',
               'font-family': 'auto',
               width: '100%',
             }"
-            :disabled="!checkoutClickDisabled"
+            :disabled="!checkoutClickEnabled"
             @click="checkoutClick"
           >
             Çıkış Yap
@@ -83,20 +82,12 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
 import { useToast } from "vue-toast-notification";
 
 export default {
   props: {
     openOverlayData: Boolean,
     quantityData: Number,
-    barcodeData: String,
-    productnameData: String,
-    categoryData: String,
-    subCategoryData: String,
-    supplierData: String,
-    brandData: String,
-    unitData: String,
   },
   data() {
     return {
@@ -107,14 +98,14 @@ export default {
   },
 
   computed: {
-    checkoutClickDisabled() {
+    checkoutClickEnabled() {
       return (
-        this.checkoutQuantity !== "" &&
+        this.checkoutQuantity &&
         this.checkoutQuantity > 0 &&
-        /^\d+(\.\d+)?$/.test(this.checkoutQuantity) !== false &&
+        /^\d+(\.\d+)?$/.test(this.checkoutQuantity) &&
         this.checkoutQuantity <= this.quantityData &&
-        this.checkoutUnitprice !== "" &&
-        /^\d+(\.\d+)?$/.test(this.checkoutUnitprice) !== false
+        this.checkoutUnitprice &&
+        /^\d+(\.\d+)?$/.test(this.checkoutUnitprice)
       );
     },
   },
@@ -130,39 +121,15 @@ export default {
   },
 
   methods: {
-    ...mapActions("inventory", ["checkoutOne"]),
     checkoutClick() {
-      if (this.checkoutClickDisabled) {
-        this.checkoutOne({
-          barcode: this.barcodeData,
-          productname: this.productnameData,
-          category: this.categoryData,
-          subCategory: this.subCategoryData,
-          supplier: this.supplierData,
-          brand: this.brandData,
-          unit: this.unitData,
+      if (this.checkoutClickEnabled) {
+        this.$emit("onCheckout", {
           quantity: this.checkoutQuantity,
           unitprice: this.checkoutUnitprice,
-        })
-          .then(() => {
-            this.toast.success("Ürün çıkışı başarıyla gerçekleştirildi.", {
-              position: "bottom",
-              duration: 2000,
-            });
-            this.checkoutQuantity = "";
-            this.checkoutUnitprice = "";
-            this.overlay = false;
-            this.$emit("successCheckout", true);
-          })
-          .catch(() => {
-            this.toast.error(
-              "Lütfen tüm alanları doğru bir şekilde doldurunuz",
-              {
-                position: "bottom",
-                duration: 2000,
-              }
-            );
-          });
+        });
+        this.checkoutQuantity = "";
+        this.checkoutUnitprice = "";
+        this.overlay = false;
       } else {
         this.toast.error("Ürün çıkışı gerçekleştirilemedi.", {
           position: "bottom",
