@@ -16,7 +16,7 @@
     />
     <v-toolbar-title class="text-h4">
       <router-link
-        to="/stock"
+        to="/dashboard"
         id="title"
         class="text-white text-decoration-none"
       >

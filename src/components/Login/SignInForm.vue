@@ -93,7 +93,7 @@ export default {
             );
             await new Promise(() =>
               setTimeout(() => {
-                this.$router.push("/stock");
+                this.$router.push("/dashboard");
               }, 2000)
             );
           })

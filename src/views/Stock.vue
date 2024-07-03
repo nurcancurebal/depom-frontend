@@ -115,7 +115,19 @@ export default {
         const day = date.getDate().toString().padStart(2, "0");
         const month = (date.getMonth() + 1).toString().padStart(2, "0");
         const year = date.getFullYear();
-        return { ...item, date: `${day}.${month}.${year}` };
+
+        let processTranslated = item.process;
+        if (item.process === "entry") {
+          processTranslated = "Giriş";
+        } else if (item.process === "checkout") {
+          processTranslated = "Çıkış";
+        }
+
+        return {
+          ...item,
+          date: `${day}.${month}.${year}`,
+          process: processTranslated,
+        };
       });
     },
   },

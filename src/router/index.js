@@ -6,8 +6,17 @@ import Current from "@/views/Current"
 import UserAuth from "@/views/UserAuth"
 import UpdateAccount from "@/views/UpdateAccount"
 import Settings from "@/views/Settings"
+import Dashboard from "@/views/Dashboard"
 
 const routes = [
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard,
+    meta: {
+      title: 'Ön İzleme',
+    },
+  },
   {
     path: '/',
     name: 'UserAuth',

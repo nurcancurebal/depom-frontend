@@ -2,7 +2,7 @@
   <v-app>
     <TheAppbar @toggle-drawer="drawer = !drawer" />
 
-    <TheNavbar :drawer="drawer" @toggle-drawer="drawer = !drawer" />
+    <TheSidebar :drawer="drawer" @toggle-drawer="drawer = !drawer" />
 
     <v-main>
       <router-view />
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import TheNavbar from "./components/TheNavbar.vue";
+import TheSidebar from "./components/TheSidebar.vue";
 import TheAppbar from "./components/TheAppbar.vue";
 
 export default {
@@ -22,7 +22,7 @@ export default {
   },
 
   components: {
-    TheNavbar,
+    TheSidebar,
     TheAppbar,
   },
 

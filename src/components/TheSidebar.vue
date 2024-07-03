@@ -6,6 +6,13 @@
     :modelValue="drawer"
     @update:modelValue="$emit('toggleDrawer')"
   >
+    <router-link to="/dashboard" class="router-link">
+      <v-icon size="21">mdi-chart-line</v-icon>
+      <v-list-item-title value="dashboard" class="a-list-item-title">
+        Ön İzleme
+      </v-list-item-title>
+    </router-link>
+
     <router-link to="/stock" class="router-link">
       <v-icon size="21">mdi-warehouse</v-icon>
       <v-list-item-title value="depostok" class="a-list-item-title">
