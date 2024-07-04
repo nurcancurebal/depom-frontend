@@ -208,7 +208,7 @@
             width: '100%',
           }"
           :disabled="!allTrue"
-          @click="entry"
+          @click="entryClick"
         >
           Ekle
         </v-btn>
@@ -1230,6 +1230,82 @@ export default {
             "Dankek",
             "Çizmeci Time",
             "Probis",
+          ],
+          Kek: [
+            "Eti",
+            "Dankek",
+            "O'Lala",
+            "Kekstra",
+            "7 Days",
+            "Biscolata",
+            "Ozmo",
+            "8 Kek",
+            "Torku",
+            "Alpella",
+            "Albeni",
+          ],
+          Kraker: [
+            "Eti",
+            "Ülker",
+            "Çizi",
+            "Hanımeller",
+            "Krispi",
+            "Greta",
+            "Torku",
+            "Seedn",
+            "Patiswiss",
+          ],
+          Şekerleme: [
+            "Reyondan",
+            "Haribo",
+            "Lokum Atölyesi",
+            "Olips",
+            "Uzungil",
+            "Açıkel",
+            "Yupo",
+            "Jelibon",
+            "Sultan ",
+            "Anadolu Lezzetleri",
+            "Koska",
+            "Lokum Akademisi",
+            "Chupa Chups",
+            "Kent",
+            "Rocco",
+            "Kremini",
+            "Tofita",
+            "Skittles",
+            "Divan",
+            "Polo",
+            "Topitop",
+            "Missbon",
+            "Jox",
+            "Durukan Şekerleme",
+            "Mentos",
+            "Lolliboni",
+            "Burak",
+            "Toybox",
+            "Bonbon",
+            "Pez",
+            "Jelly Bean",
+            "Mom",
+            "U Pops",
+          ],
+          Sakız: [
+            "Vivident",
+            "Oneo",
+            "First",
+            "Falım",
+            "Tipitip",
+            "Big Babol",
+            "Bubblicious",
+            "Mentos",
+            "Orbit",
+            "Toybox",
+            "Yıldız",
+            "Ülker",
+            "Nazar",
+            "Wrigley's",
+            "Şıpsevdi",
           ],
         },
         "Fırın ve Pastane": {
@@ -2798,7 +2874,7 @@ export default {
         !!this.unitprice &&
         /^\d+(\.\d+)?$/.test(this.unitprice)
       ) {
-        this.entry();
+        this.entryClick();
       } else {
         this.toast.error("Stok girişi sırasında bir hata oluştu.", {
           position: "bottom",
@@ -2807,7 +2883,7 @@ export default {
       }
     },
 
-    entry() {
+    entryClick() {
       this.entryOne({
         barcode: this.barcode,
         productname: this.capitalizeWords(this.productname),
@@ -2828,6 +2904,11 @@ export default {
           this.unit = "";
           this.quantity = "";
           this.unitprice = "";
+          this.productname = "";
+          this.selectedCategory = "";
+          this.selectedSubCategory = "";
+          this.selectedBrand = "";
+          this.supplier = "";
           this.$emit("resetFields");
         })
         .catch(() => {

@@ -2,10 +2,12 @@ import instance from '../services/axios'
 
 export default {
     namespaced: true,
+
     state: {
         inventory: [],
         current: [],
     },
+
     getters: {
         inventory(state) {
 
@@ -17,6 +19,7 @@ export default {
             return state.current;
         },
     },
+
     mutations: {
         INVENTORY(state, context) {
 
@@ -174,6 +177,40 @@ export default {
             } catch (error) {
 
                 console.error("checkoutOne", error);
+                throw error;
+            };
+        },
+
+        async totalStock(_context, _payload) {
+
+            try {
+
+                const result = await instance.get("/inventory/total/stock");
+
+                console.log("totalStock", result.data);
+
+                return result.data;
+
+            } catch (error) {
+
+                console.error("totalStock", error);
+                throw error;
+            };
+        },
+
+        async dailyTransaction(_context, _payload) {
+
+            try {
+
+                const result = await instance.get("/inventory/daily/transaction");
+
+                console.log("dailyTransaction", result.data);
+
+                return result.data;
+
+            } catch (error) {
+
+                console.error("dailyTransaction", error);
                 throw error;
             };
         },
