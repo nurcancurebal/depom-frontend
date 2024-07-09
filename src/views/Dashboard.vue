@@ -3,21 +3,25 @@
     <h3 class="text-center">Ön İzleme</h3>
     <v-divider class="my-5 w-100" />
     <div class="d-flex flex-wrap justify-space-between display-align-column">
-      <v-card class="pa-5 my-5" style="width: 200px">
+      <v-card class="box-style">
         <div>Toplam Kar / Zarar</div>
-        <h2 class="text-center">750</h2>
-        <h2 class="text-center">
-          
-          %50
-          </h2>
+        <h2>{{ totalProfitLossValue }}</h2>
+        <h3 v-if="percentageProfitlossValue < 0" style="color: red">
+          <v-icon size="21">mdi-arrow-down</v-icon>
+          {{ percentageProfitlossValue }}
+        </h3>
+        <h3 v-else style="color: green">
+          <v-icon size="21">mdi-arrow-up</v-icon>
+          {{ percentageProfitlossValue }}
+        </h3>
       </v-card>
-      <v-card class="pa-5 my-5" style="width: 200px">
+      <v-card class="box-style">
         <div>Toplam Stok Miktarı</div>
-        <h2 class="text-center">{{ totalStockValue }}</h2>
+        <h2>{{ totalStockValue }}</h2>
       </v-card>
-      <v-card class="pa-5 my-5" style="width: 200px">
+      <v-card class="box-style">
         <div>Bugünkü İşlem Sayısı</div>
-        <h2 class="text-center">{{ totalDailyValue }}</h2>
+        <h2>{{ totalDailyValue }}</h2>
       </v-card>
     </div>
   </div>
@@ -31,6 +35,8 @@ export default {
     return {
       totalStockValue: 0,
       totalDailyValue: 0,
+      totalProfitLossValue: 0,
+      percentageProfitlossValue: 0,
     };
   },
   created() {
@@ -40,15 +46,34 @@ export default {
     this.dailyTransaction().then((val) => {
       this.totalDailyValue = val.total;
     });
+    this.totalProfitloss().then((val) => {
+      this.totalProfitLossValue = Number(val.totalProfitLoss.toFixed(2));
+      this.percentageProfitlossValue = Number(
+        val.percentageProfitloss.toFixed(2)
+      );
+    });
   },
 
   methods: {
-    ...mapActions("inventory", ["totalStock", "dailyTransaction"]),
+    ...mapActions("inventory", [
+      "totalStock",
+      "dailyTransaction",
+      "totalProfitloss",
+    ]),
   },
 };
 </script>
 
 <style>
+.box-style {
+  width: 200px;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px !important;
+  margin: 20px 0;
+}
 @media (max-width: 575px) {
   .display-align-column {
     align-items: center !important;
