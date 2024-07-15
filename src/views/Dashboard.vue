@@ -41,7 +41,7 @@ export default {
   },
   created() {
     this.totalStock().then((val) => {
-      this.totalStockValue = val[0].totalStockQuantity;
+      this.totalStockValue = val.totalStockQuantity;
     });
     this.dailyTransaction().then((val) => {
       this.totalDailyValue = val.total;
