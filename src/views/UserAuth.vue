@@ -32,7 +32,7 @@
       </v-sheet>
     </v-col>
 
-    <v-col cols="12" md="5" lg="4" class="pa-0">
+    <v-col cols="12" md="4" lg="3" class="pa-0">
       <SignInForm
         v-show="!signInUp"
         @update:signInFormUpdate="handleSignUpFormUpdate"
@@ -43,7 +43,7 @@
         @change-signInUp="handleSignInUpChange"
       />
     </v-col>
-    <v-col md="1" lg="2" class="pa-0" />
+    <v-col md="2" lg="3" class="pa-0" />
   </v-row>
 </template>
 
