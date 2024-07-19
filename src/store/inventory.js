@@ -146,44 +146,5 @@ export default {
         throw error;
       }
     },
-
-    async totalStock(_context, _payload) {
-      try {
-        const result = await instance.get("/inventory/total/stock");
-
-        console.log("totalStock", result.data);
-
-        return result.data;
-      } catch (error) {
-        console.error("totalStock", error);
-        throw error;
-      }
-    },
-
-    async dailyTransaction(_context, _payload) {
-      try {
-        const result = await instance.get("/inventory/daily/transaction");
-
-        console.log("dailyTransaction", result.data);
-
-        return result.data;
-      } catch (error) {
-        console.error("dailyTransaction", error);
-        throw error;
-      }
-    },
-
-    async totalProfitloss(_context, _payload) {
-      try {
-        const result = await instance.get("/inventory/total/profitloss");
-
-        console.log("totalProfitloss", result.data);
-
-        return result.data;
-      } catch (error) {
-        console.error("totalProfitloss", error);
-        throw error;
-      }
-    },
   },
 };

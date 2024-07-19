@@ -111,13 +111,10 @@ export default {
             duration: 2000,
           });
         } else {
-          this.toast.info(
-            "Ürün bulunamadı: Barkod ile eşleşen bir stok bulunamadı.",
-            {
-              position: "bottom",
-              duration: 2000,
-            }
-          );
+          this.toast.info("Ürün bulunamadı: Lütfen ekleyiniz.", {
+            position: "bottom",
+            duration: 2000,
+          });
           this.allDisabled = false;
         }
       });

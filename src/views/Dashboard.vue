@@ -55,7 +55,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("inventory", [
+    ...mapActions("dashboard", [
       "totalStock",
       "dailyTransaction",
       "totalProfitloss",
