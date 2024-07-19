@@ -182,25 +182,32 @@ export default {
           username: this.signupusername,
           birthdate: this.birthdate,
           password: this.signuppassword,
-        }).then(async () => {
-          this.toast.success("Kayıt işlemi başarılı. Giriş yapabilirsiniz.", {
-            position: "bottom",
-            duration: 2000,
-          });
+        })
+          .then(async () => {
+            this.toast.success("Kayıt işlemi başarılı. Giriş yapabilirsiniz.", {
+              position: "bottom",
+              duration: 2000,
+            });
 
-          await new Promise(() =>
-            setTimeout(() => {
-              this.firstname = "";
-              this.lastname = "";
-              this.signupusername = "";
-              this.birthdate = new Date();
-              this.signuppassword = "";
-              this.formatDate = null;
-              this.menu = false;
-              this.$emit("change-signInUp", !this.signInUp);
-            }, 2000)
-          );
-        });
+            await new Promise(() =>
+              setTimeout(() => {
+                this.firstname = "";
+                this.lastname = "";
+                this.signupusername = "";
+                this.birthdate = new Date();
+                this.signuppassword = "";
+                this.formatDate = null;
+                this.menu = false;
+                this.$emit("change-signInUp", !this.signInUp);
+              }, 2000)
+            );
+          })
+          .catch(() => {
+            this.toast.error("Kayıt işlemi gerçekleştirilemedi.", {
+              position: "bottom",
+              duration: 2000,
+            });
+          });
       } else {
         this.toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz.", {
           position: "bottom",

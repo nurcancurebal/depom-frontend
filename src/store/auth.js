@@ -1,45 +1,35 @@
-import instance from '../services/axios'
+import instance from "../services/axios";
 
 export default {
-    namespaced: true,
-    actions: {
+  namespaced: true,
+  actions: {
+    async signUp(_context, payload) {
+      try {
+        const result = await instance.post("/auth/signup", payload);
 
-        async signUp(_context, payload) {
+        console.log("signUp", result);
 
-            try {
+        return result;
+      } catch (error) {
+        console.error("signUp", error);
+        throw error;
+      }
+    },
 
-                const result = await instance.post("/auth/signup", payload);
+    async signIn(context, payload) {
+      try {
+        const result = await instance.post("/auth/signin", payload);
 
-                console.log("signUp", result);
+        console.log("signIn", result);
 
-                return result;
+        localStorage.setItem("token", result.data.token);
 
-            } catch (error) {
+        context.dispatch("user/getUser", null, { root: true });
 
-                console.error("signUp", error);
-                return error;
-            };
-        },
-
-        async signIn(context, payload) {
-
-            try {
-
-                const result = await instance.post("/auth/signin", payload);
-
-                console.log("signIn", result);
-
-                localStorage.setItem("token", result.data.token);
-
-                context.dispatch("user/getUser", null, { root: true });
-
-                return result;
-
-            } catch (error) {
-
-                console.error("signIn", error);
-                throw error;
-            };
-        },
-    }
-}
+        return result;
+      } catch (error) {
+        throw error;
+      }
+    },
+  },
+};

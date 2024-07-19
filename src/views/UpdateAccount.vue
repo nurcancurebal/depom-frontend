@@ -161,12 +161,22 @@ export default {
           lastname: this.cacheUser.lastname,
           username: this.cacheUser.username,
           birthdate,
-        }).then(async () => {
-          this.toast.success("Kullanıcı bilgileri güncellendi", {
-            position: "bottom",
-            duration: 2000,
+        })
+          .then(async () => {
+            this.toast.success("Kullanıcı bilgileri güncellendi", {
+              position: "bottom",
+              duration: 2000,
+            });
+          })
+          .catch(() => {
+            this.toast.error(
+              "Kullanıcı bilgileri güncellenirken bir hata oluştu.",
+              {
+                position: "bottom",
+                duration: 2000,
+              }
+            );
           });
-        });
       } else {
         this.toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz.", {
           position: "bottom",
