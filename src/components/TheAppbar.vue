@@ -5,15 +5,21 @@
     class="text-white"
     prominent
   >
-    <img
-      width="50"
-      height="50"
-      aspect-ratio="16/9"
-      cover
-      src="@/assets/logo.png"
-      alt="logo"
-      class="ml-4"
-    />
+    <router-link
+      to="/dashboard"
+      id="title"
+      class="text-white text-decoration-none"
+    >
+      <img
+        width="50"
+        height="50"
+        aspect-ratio="16/9"
+        cover
+        src="@/assets/logo.png"
+        alt="logo"
+        class="ml-4"
+      />
+    </router-link>
     <v-toolbar-title class="text-h4">
       <router-link
         to="/dashboard"
