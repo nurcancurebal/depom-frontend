@@ -24,11 +24,30 @@
         <h2>{{ totalDailyValue }}</h2>
       </v-card>
     </div>
+    <div>
+      <v-card class="chart-style">
+        <div>Yapılan işlem Ürün Miktarı</div>
+        <div id="chart" class="mt-3"></div>
+
+        <div>
+          <div class="chart-cointainer">
+            <div class="chart-box" style="background-color: #f05a4f" />
+            <div>Stok Giriş</div>
+          </div>
+          <div class="chart-cointainer">
+            <div class="chart-box" style="background-color: #d60206" />
+            <div>Stok Çıkış</div>
+          </div>
+        </div>
+      </v-card>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapActions } from "vuex";
+import "chartist/dist/index.css";
+import { PieChart } from "chartist";
 
 export default {
   data() {
@@ -52,6 +71,22 @@ export default {
         val.percentageProfitloss.toFixed(2)
       );
     });
+    this.enteredProductQuantity().then(
+      ({ entryTotalQuantity, checkoutTotalQuantity }) => {
+        const chartData = {
+          series: [checkoutTotalQuantity, entryTotalQuantity],
+        };
+
+        const options = {
+          labelInterpolationFnc: (value) =>
+            Math.round(
+              (+value / chartData.series.reduce((a, b) => a + b)) * 100
+            ) + "%",
+        };
+
+        new PieChart("#chart", chartData, options);
+      }
+    );
   },
 
   methods: {
@@ -59,6 +94,7 @@ export default {
       "totalStock",
       "dailyTransaction",
       "totalProfitloss",
+      "enteredProductQuantity",
     ]),
   },
 };
@@ -74,10 +110,27 @@ export default {
   padding: 20px !important;
   margin: 20px 0;
 }
+.chart-style {
+  display: inline-flex !important;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px !important;
+  margin: 20px 0;
+}
 @media (max-width: 575px) {
   .display-align-column {
     align-items: center !important;
     flex-direction: column !important;
   }
+}
+.chart-box {
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+}
+.chart-cointainer {
+  display: flex;
+  align-items: center;
 }
 </style>

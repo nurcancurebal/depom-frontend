@@ -42,5 +42,20 @@ export default {
         return error;
       }
     },
+
+    async enteredProductQuantity(_context, _payload) {
+      try {
+        const result = await instance.get(
+          "/dashboard/entered/product/quantity"
+        );
+
+        console.log("enteredProductQuantity", result.data);
+
+        return result.data;
+      } catch (error) {
+        console.error("enteredProductQuantity", error);
+        return error;
+      }
+    },
   },
 };
