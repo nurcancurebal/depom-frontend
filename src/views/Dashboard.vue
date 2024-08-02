@@ -47,7 +47,7 @@
 <script>
 import { mapActions } from "vuex";
 import "chartist/dist/index.css";
-import { PieChart } from "chartist";
+import { PieChart, LineChart } from "chartist";
 
 export default {
   data() {
@@ -73,15 +73,28 @@ export default {
     });
     this.enteredProductQuantity().then(
       ({ entryTotalQuantity, checkoutTotalQuantity }) => {
-        const chartData = {
-          series: [checkoutTotalQuantity, entryTotalQuantity],
-        };
+        let chartData;
 
+        if (entryTotalQuantity === 0 && checkoutTotalQuantity === 0) {
+          chartData = {
+            series: [1],
+          };
+        } else {
+          chartData = {
+            series: [checkoutTotalQuantity, entryTotalQuantity],
+          };
+        }
         const options = {
-          labelInterpolationFnc: (value) =>
-            Math.round(
-              (+value / chartData.series.reduce((a, b) => a + b)) * 100
-            ) + "%",
+          labelInterpolationFnc: (value) => {
+            if (entryTotalQuantity === 0 && checkoutTotalQuantity === 0) {
+              return "0%";
+            }
+            return (
+              Math.round(
+                (+value / chartData.series.reduce((a, b) => a + b)) * 100
+              ) + "%"
+            );
+          },
         };
 
         new PieChart("#chart", chartData, options);
