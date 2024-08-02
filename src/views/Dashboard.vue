@@ -48,6 +48,7 @@
 import { mapActions } from "vuex";
 import "chartist/dist/index.css";
 import { PieChart, LineChart } from "chartist";
+import { useToast } from "vue-toast-notification";
 
 export default {
   data() {
@@ -59,20 +60,64 @@ export default {
     };
   },
   created() {
-    this.totalStock().then((val) => {
-      this.totalStockValue = val.totalStockQuantity;
-    });
-    this.dailyTransaction().then((val) => {
-      this.totalDailyValue = val.total;
-    });
-    this.totalProfitloss().then((val) => {
-      this.totalProfitLossValue = Number(val.totalProfitLoss.toFixed(2));
-      this.percentageProfitlossValue = Number(
-        val.percentageProfitloss.toFixed(2)
-      );
-    });
-    this.enteredProductQuantity().then(
-      ({ entryTotalQuantity, checkoutTotalQuantity }) => {
+    this.toast = useToast();
+    this.totalStokData();
+    this.dailyTransactionData();
+    this.totalProfitLossData();
+    this.enteredProductQuantityData();
+  },
+
+  methods: {
+    ...mapActions("dashboard", [
+      "totalStock",
+      "dailyTransaction",
+      "totalProfitloss",
+      "enteredProductQuantity",
+    ]),
+
+    async totalStokData() {
+      try {
+        const result = await this.totalStock();
+        this.totalStockValue = result.totalStockQuantity;
+      } catch (error) {
+        this.toast.error("Stok miktarı getirilirken bir hata oluştu!", {
+          position: "bottom",
+          duration: 2000,
+        });
+      }
+    },
+
+    async dailyTransactionData() {
+      try {
+        const result = await this.dailyTransaction();
+        this.totalDailyValue = result.total;
+      } catch (error) {
+        this.toast.error("Günlük işlem sayısı getirilirken bir hata oluştu!", {
+          position: "bottom",
+          duration: 2000,
+        });
+      }
+    },
+
+    async totalProfitLossData() {
+      try {
+        const result = await this.totalProfitloss();
+        this.totalProfitLossValue = Number(result.totalProfitLoss.toFixed(2));
+        this.percentageProfitlossValue = Number(
+          result.percentageProfitloss.toFixed(2)
+        );
+      } catch (error) {
+        this.toast.error("Kar / Zarar getirilirken bir hata oluştu!", {
+          position: "bottom",
+          duration: 2000,
+        });
+      }
+    },
+
+    async enteredProductQuantityData() {
+      try {
+        const { entryTotalQuantity, checkoutTotalQuantity } =
+          await this.enteredProductQuantity();
         let chartData;
 
         if (entryTotalQuantity === 0 && checkoutTotalQuantity === 0) {
@@ -98,17 +143,13 @@ export default {
         };
 
         new PieChart("#chart", chartData, options);
+      } catch (error) {
+        this.toast.error("Ürün miktarı getirilirken bir hata oluştu!", {
+          position: "bottom",
+          duration: 2000,
+        });
       }
-    );
-  },
-
-  methods: {
-    ...mapActions("dashboard", [
-      "totalStock",
-      "dailyTransaction",
-      "totalProfitloss",
-      "enteredProductQuantity",
-    ]),
+    },
   },
 };
 </script>

@@ -112,34 +112,34 @@ export default {
 
   methods: {
     ...mapActions("inventory", ["getListBarcode", "checkoutOne"]),
-    findProduct() {
-      this.getListBarcode({ barcode: this.barcode })
-        .then((result) => {
-          if (result.data.length > 0) {
-            this.showCheckoutInventory = true;
-            const products = result.data;
-            this.productname = products[0].productname;
-            this.category = products[0].category;
-            this.subCategory = products[0].subcategory;
-            this.brand = products[0].brand;
-            this.supplier = products[0].supplier;
-            this.unitItems = [
-              ...new Set(products.map((product) => product.unit)),
-            ];
-          } else {
-            this.toast.error("Bu barkoda ait ürün bulunamadı.", {
-              position: "bottom",
-              duration: 2000,
-            });
-            return;
-          }
-        })
-        .catch(() => {
-          this.toast.error("Bir hata oluştu. Lütfen tekrar deneyin.", {
+    async findProduct() {
+      try {
+        const result = await this.getListBarcode({ barcode: this.barcode });
+
+        if (result.data.length > 0) {
+          this.showCheckoutInventory = true;
+          const products = result.data;
+          this.productname = products[0].productname;
+          this.category = products[0].category;
+          this.subCategory = products[0].subcategory;
+          this.brand = products[0].brand;
+          this.supplier = products[0].supplier;
+          this.unitItems = [
+            ...new Set(products.map((product) => product.unit)),
+          ];
+        } else {
+          this.toast.error("Bu barkoda ait ürün bulunamadı!", {
             position: "bottom",
             duration: 2000,
           });
+          return;
+        }
+      } catch (error) {
+        this.toast.error("Barkoda ait ürün getirilirken bir hata oluştu!", {
+          position: "bottom",
+          duration: 2000,
         });
+      }
     },
     handleQuantityData(val) {
       this.quantityData = val;
@@ -148,41 +148,41 @@ export default {
       this.unit = val;
       this.openOverlay = !this.openOverlay;
     },
-    handleSuccessCheckout(data) {
-      this.checkoutOne({
-        barcode: this.barcode,
-        productname: this.productname,
-        category: this.category,
-        subCategory: this.subCategory,
-        supplier: this.supplier,
-        brand: this.brand,
-        unit: this.unit,
-        quantity: data.quantity,
-        unitprice: data.unitprice,
-      })
-        .then(() => {
-          this.toast.success("Ürün çıkışı başarıyla gerçekleştirildi.", {
-            position: "bottom",
-            duration: 2000,
-          });
-
-          this.handleSuccessCheckoutProps = !this.handleSuccessCheckoutProps;
-          this.showCheckoutInventory = false;
-          this.barcode = "";
-          this.productname = "";
-          this.category = "";
-          this.subCategory = "";
-          this.supplier = "";
-          this.brand = "";
-          this.unitItems = [];
-          this.checkoutSuccessful = !this.checkoutSuccessful;
-        })
-        .catch(() => {
-          this.toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz", {
-            position: "bottom",
-            duration: 2000,
-          });
+    async handleSuccessCheckout(data) {
+      try {
+        await this.checkoutOne({
+          barcode: this.barcode,
+          productname: this.productname,
+          category: this.category,
+          subCategory: this.subCategory,
+          supplier: this.supplier,
+          brand: this.brand,
+          unit: this.unit,
+          quantity: data.quantity,
+          unitprice: data.unitprice,
         });
+
+        this.toast.success("Ürün çıkışı başarıyla gerçekleştirildi.", {
+          position: "bottom",
+          duration: 2000,
+        });
+
+        this.handleSuccessCheckoutProps = !this.handleSuccessCheckoutProps;
+        this.showCheckoutInventory = false;
+        this.barcode = "";
+        this.productname = "";
+        this.category = "";
+        this.subCategory = "";
+        this.supplier = "";
+        this.brand = "";
+        this.unitItems = [];
+        this.checkoutSuccessful = !this.checkoutSuccessful;
+      } catch (error) {
+        this.toast.error("Ürün çıkışı gerçekleştirilemedi!", {
+          position: "bottom",
+          duration: 2000,
+        });
+      }
     },
   },
 };

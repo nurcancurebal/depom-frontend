@@ -81,10 +81,22 @@ export default {
     ...mapGetters("user", { userData: "user" }),
   },
   created() {
-    this.getUser();
+    this.userDetails();
+    this.toast = useToast();
   },
   methods: {
     ...mapActions("user", ["getUser"]),
+
+    async userDetails() {
+      try {
+        await this.getUser();
+      } catch (error) {
+        this.toast.error("Kullanıcı bilgileri getirilirken oluştu!", {
+          position: "bottom",
+          duration: 2000,
+        });
+      }
+    },
 
     formattedName(name) {
       if (!name) return "";
@@ -92,9 +104,7 @@ export default {
     },
 
     exitToast() {
-      const toast = useToast();
-
-      toast.success("Başarıyla çıkış yaptınız.", {
+      this.toast.success("Başarıyla çıkış yaptınız.", {
         position: "bottom",
         duration: 2000,
       });

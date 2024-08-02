@@ -23,6 +23,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { useToast } from "vue-toast-notification";
 
 export default {
   data() {
@@ -124,29 +125,45 @@ export default {
 
   created() {
     this.loading = true;
-    this.getCurrentCount().then((count) => {
-      this.currentCount = count;
-    });
+    this.currentLength();
+    this.toast = useToast();
   },
 
   methods: {
     ...mapActions("inventory", ["getCurrent", "getCurrentCount"]),
-    updateOptions(options) {
-      this.currentPage = options.page;
-      this.itemsPerPage = options.itemsPerPage;
-
-      if (options.sortBy && options.sortBy.length > 0) {
-        this.sort = options.sortBy[0].key;
-        this.desc = options.sortBy[0].order === "desc" ? "-" : "";
+    async currentLength() {
+      try {
+        const count = await this.getCurrentCount();
+        this.currentCount = count;
+      } catch (error) {
+        this.toast.error("Cari verileri alınırken bir hata oluştu!", {
+          position: "bottom",
+          duration: 2000,
+        });
       }
+    },
+    async updateOptions(options) {
+      try {
+        this.currentPage = options.page;
+        this.itemsPerPage = options.itemsPerPage;
 
-      this.getCurrent({
-        page: this.currentPage,
-        sort: this.desc + this.sort,
-        limit: this.itemsPerPage,
-      }).then(() => {
+        if (options.sortBy && options.sortBy.length > 0) {
+          this.sort = options.sortBy[0].key;
+          this.desc = options.sortBy[0].order === "desc" ? "-" : "";
+        }
+
+        await this.getCurrent({
+          page: this.currentPage,
+          sort: this.desc + this.sort,
+          limit: this.itemsPerPage,
+        });
         this.loading = false;
-      });
+      } catch (error) {
+        this.toast.error("Cari bilgileri getirilirken bir hata oluştu!", {
+          position: "bottom",
+          duration: 2000,
+        });
+      }
     },
   },
 };

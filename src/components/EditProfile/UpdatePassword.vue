@@ -81,40 +81,43 @@ export default {
   methods: {
     ...mapActions("user", ["updatePassword"]),
 
-    updatePasswordClick() {
-      if (
-        !!this.newPassword &&
-        !!this.newPasswordRepeat &&
-        !!this.oldPassword &&
-        this.newPassword === this.newPasswordRepeat &&
-        !/[ğĞçÇüÜöÖıİşŞ]/g.test(this.newPassword) &&
-        !!/^.{6,18}$/.test(this.newPassword)
-      ) {
-        this.updatePassword({
-          oldPassword: this.oldPassword,
-          newPassword: this.newPassword,
-        })
-          .then(async () => {
-            this.toast.success("Şifre güncellendi", {
-              position: "bottom",
-              duration: 2000,
-            });
-            await new Promise(() =>
-              setTimeout(() => {
-                this.newPassword = "";
-                this.newPasswordRepeat = "";
-                this.oldPassword = "";
-              }, 2000)
-            );
-          })
-          .catch(() => {
-            this.toast.error("Eski şifrenizi yanlış girdiniz.", {
-              position: "bottom",
-              duration: 2000,
-            });
+    async updatePasswordClick() {
+      try {
+        if (
+          !!this.newPassword &&
+          !!this.newPasswordRepeat &&
+          !!this.oldPassword &&
+          this.newPassword === this.newPasswordRepeat &&
+          !/[ğĞçÇüÜöÖıİşŞ]/g.test(this.newPassword) &&
+          !!/^.{6,18}$/.test(this.newPassword)
+        ) {
+          await this.updatePassword({
+            oldPassword: this.oldPassword,
+            newPassword: this.newPassword,
           });
-      } else {
-        this.toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz.", {
+
+          this.toast.success("Şifre güncellendi", {
+            position: "bottom",
+            duration: 2000,
+          });
+          await new Promise(() =>
+            setTimeout(() => {
+              this.newPassword = "";
+              this.newPasswordRepeat = "";
+              this.oldPassword = "";
+            }, 2000)
+          );
+        } else {
+          this.toast.error(
+            "Lütfen tüm alanları doğru bir şekilde doldurunuz!",
+            {
+              position: "bottom",
+              duration: 2000,
+            }
+          );
+        }
+      } catch (error) {
+        this.toast.error("Eski şifrenizi yanlış girdiniz!", {
           position: "bottom",
           duration: 2000,
         });

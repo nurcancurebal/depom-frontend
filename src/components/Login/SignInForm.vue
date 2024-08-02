@@ -78,33 +78,33 @@ export default {
       this.$emit("update:signInFormUpdate", true);
     },
 
-    logIn() {
-      if (this.username && this.password) {
-        const { username, password } = this;
+    async logIn() {
+      try {
+        if (this.username && this.password) {
+          const { username, password } = this;
 
-        this.signIn({ username, password })
-          .then(async () => {
-            this.toast.success(
-              "Giriş başarılı ana sayfaya yönlendiriliyorsunuz.",
-              {
-                position: "bottom",
-                duration: 2000,
-              }
-            );
-            await new Promise(() =>
-              setTimeout(() => {
-                this.$router.push("/dashboard");
-              }, 2000)
-            );
-          })
-          .catch(() => {
-            this.toast.error("Kullanıcı bilgileri bulunamadı.", {
+          await this.signIn({ username, password });
+
+          this.toast.success(
+            "Giriş başarılı ana sayfaya yönlendiriliyorsunuz.",
+            {
               position: "bottom",
               duration: 2000,
-            });
+            }
+          );
+          await new Promise(() =>
+            setTimeout(() => {
+              this.$router.push("/dashboard");
+            }, 2000)
+          );
+        } else {
+          this.toast.error("Lütfen tüm alanları doldurunuz!", {
+            position: "bottom",
+            duration: 2000,
           });
-      } else {
-        this.toast.error("Lütfen tüm alanları doldurunuz.", {
+        }
+      } catch (error) {
+        this.toast.error("Kullanıcı bilgileri bulunamadı!", {
           position: "bottom",
           duration: 2000,
         });

@@ -5,57 +5,35 @@ export default {
 
   actions: {
     async totalStock(_context, _payload) {
-      try {
-        const result = await instance.get("/dashboard/total/stock");
+      const result = await instance.get("/dashboard/total/stock");
 
-        console.log("totalStock", result.data);
+      console.log("totalStock", result.data);
 
-        return result.data;
-      } catch (error) {
-        console.error("totalStock", error);
-        return error;
-      }
+      return result.data;
     },
 
     async dailyTransaction(_context, _payload) {
-      try {
-        const result = await instance.get("/dashboard/daily/transaction");
+      const result = await instance.get("/dashboard/daily/transaction");
 
-        console.log("dailyTransaction", result.data);
+      console.log("dailyTransaction", result.data);
 
-        return result.data;
-      } catch (error) {
-        console.error("dailyTransaction", error);
-        return error;
-      }
+      return result.data;
     },
 
     async totalProfitloss(_context, _payload) {
-      try {
-        const result = await instance.get("/dashboard/total/profitloss");
+      const result = await instance.get("/dashboard/total/profitloss");
 
-        console.log("totalProfitloss", result.data);
+      console.log("totalProfitloss", result.data);
 
-        return result.data;
-      } catch (error) {
-        console.error("totalProfitloss", error);
-        return error;
-      }
+      return result.data;
     },
 
     async enteredProductQuantity(_context, _payload) {
-      try {
-        const result = await instance.get(
-          "/dashboard/entered/product/quantity"
-        );
+      const result = await instance.get("/dashboard/entered/product/quantity");
 
-        console.log("enteredProductQuantity", result.data);
+      console.log("enteredProductQuantity", result.data);
 
-        return result.data;
-      } catch (error) {
-        console.error("enteredProductQuantity", error);
-        return error;
-      }
+      return result.data;
     },
   },
 };

@@ -30,121 +30,86 @@ export default {
 
   actions: {
     async getInventory(context, payload) {
-      try {
-        const result = await instance.get(
-          `/inventory?page=${payload.page}&limit=${payload.limit}&sort=${payload.sort}`
-        );
+      const result = await instance.get(
+        `/inventory?page=${payload.page}&limit=${payload.limit}&sort=${payload.sort}`
+      );
 
-        console.log("getInventory", result.data);
+      console.log("getInventory", result.data);
 
-        context.commit("INVENTORY", result.data);
+      context.commit("INVENTORY", result.data);
 
-        return result;
-      } catch (error) {
-        console.error("getInventory", error);
-        return error;
-      }
+      return result;
     },
 
     async getInventoryCount(_context, _payload) {
-      try {
-        const result = await instance.get("/inventory/list/count");
+      const result = await instance.get("/inventory/list/count");
 
-        console.log("getInventoryCount", result.data.count);
+      console.log("getInventoryCount", result.data.count);
 
-        return result.data.count;
-      } catch (error) {
-        console.error("getInventoryCount", error);
-        return error;
-      }
+      return result.data.count;
     },
 
     async getCurrentCount(_context, _payload) {
-      try {
-        const result = await instance.get("/inventory/current/count");
+      const result = await instance.get("/inventory/current/count");
 
-        console.log("getCurrentCount", result.data.count);
+      console.log("getCurrentCount", result.data.count);
 
-        return result.data.count;
-      } catch (error) {
-        console.error("getCurrentCount", error);
-        return error;
-      }
+      return result.data.count;
     },
 
     async getListBarcode(_context, payload) {
-      try {
-        const result = await instance.get(`/inventory/${payload.barcode}`);
+      const result = await instance.get(`/inventory/${payload.barcode}`);
 
-        console.log("getListBarcode", result.data);
+      console.log("getListBarcode", result);
 
-        return result;
-      } catch (error) {
-        console.error("getListBarcode", error);
-        return error;
-      }
+      return result;
     },
 
     async getCurrent(context, payload) {
-      try {
-        const result = await instance.get(
-          `/inventory/current?page=${payload.page}&limit=${payload.limit}&sort=${payload.sort}`
-        );
+      const result = await instance.get(
+        `/inventory/current?page=${payload.page}&limit=${payload.limit}&sort=${payload.sort}`
+      );
 
-        console.log("getCurrent", result.data);
+      console.log("getCurrent", result.data);
 
-        context.commit("CURRENT", result.data);
+      context.commit("CURRENT", result.data);
 
-        return result.data;
-      } catch (error) {
-        console.error("getCurrent", error);
-        return error;
-      }
+      return result.data;
     },
 
     async entryOne(_context, payload) {
-      try {
-        const result = await instance.post("/Inventory", {
-          barcode: payload.barcode,
-          productname: payload.productname,
-          category: payload.selectedCategory,
-          subcategory: payload.selectedSubCategory,
-          supplier: payload.supplier,
-          brand: payload.selectedBrand,
-          unit: payload.unit,
-          quantity: payload.quantity,
-          unitprice: payload.unitprice,
-        });
+      const result = await instance.post("/Inventory", {
+        barcode: payload.barcode,
+        productname: payload.productname,
+        category: payload.selectedCategory,
+        subcategory: payload.selectedSubCategory,
+        supplier: payload.supplier,
+        brand: payload.selectedBrand,
+        unit: payload.unit,
+        quantity: payload.quantity,
+        unitprice: payload.unitprice,
+      });
 
-        console.log("entryOne", result.data);
+      console.log("entryOne", result.data);
 
-        return result;
-      } catch (error) {
-        console.error("entryOne", error);
-        throw error;
-      }
+      return result;
     },
 
     async checkoutOne(_context, payload) {
-      try {
-        const result = await instance.post(`/inventory/${payload.barcode}`, {
-          productname: payload.productname,
-          category: payload.category,
-          subcategory: payload.subCategory,
-          supplier: payload.supplier,
-          brand: payload.brand,
-          unit: payload.unit,
-          quantity: payload.quantity,
-          unitprice: payload.unitprice,
-        });
+      const result = await instance.post(`/inventory/${payload.barcode}`, {
+        productname: payload.productname,
+        category: payload.category,
+        subcategory: payload.subCategory,
+        supplier: payload.supplier,
+        brand: payload.brand,
+        unit: payload.unit,
+        quantity: payload.quantity,
+        unitprice: payload.unitprice,
+      });
 
-        console.log("checkoutOne", result.data);
+      console.log("checkoutOne", result.data);
 
-        return result;
-      } catch (error) {
-        console.error("checkoutOne", error);
-        throw error;
-      }
+      return result;
     },
   },
 };

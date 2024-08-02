@@ -131,7 +131,7 @@ export default {
         this.checkoutUnitprice = "";
         this.overlay = false;
       } else {
-        this.toast.error("Ürün çıkışı gerçekleştirilemedi.", {
+        this.toast.error("Ürün çıkışı gerçekleştirilemedi!", {
           position: "bottom",
           duration: 2000,
         });

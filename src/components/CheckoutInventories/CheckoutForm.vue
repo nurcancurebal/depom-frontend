@@ -177,6 +177,7 @@
 
 <script>
 import { mapActions } from "vuex";
+import { useToast } from "vue-toast-notification";
 
 export default {
   props: {
@@ -220,42 +221,7 @@ export default {
 
   watch: {
     unit(value) {
-      if (value) {
-        this.unitDisabled = !this.unitDisabled;
-        this.getListBarcode({ barcode: this.barcodeData }).then((result) => {
-          const unitFilter = result.data.filter(
-            (currentValue) => currentValue.unit === value
-          );
-
-          if (unitFilter.length > 1) {
-            const entryFilterReduce = unitFilter
-              .filter(({ process }) => process === "entry")
-              .reduce((a, { quantity }) => a + quantity, 0);
-
-            const unitpriceFilter = unitFilter
-              .filter(({ process }) => process === "entry")
-              .map(({ unitprice }) => unitprice);
-            const reduce = unitpriceFilter.reduce((a, b) => a + b);
-            this.unitprice = reduce / unitpriceFilter.length;
-            this.unitpriceDisabled = !this.unitpriceDisabled;
-
-            const checkoutFilterReduce = unitFilter
-              .filter(({ process }) => process == "checkout")
-              .reduce((a, { quantity }) => a + quantity, 0);
-
-            this.quantity = entryFilterReduce - checkoutFilterReduce;
-            this.$emit("update:quantityData", this.quantity);
-            this.quantityDisabled = !this.quantityDisabled;
-          } else {
-            this.quantity = unitFilter[0].quantity;
-            this.$emit("update:quantityData", this.quantity);
-            this.quantityDisabled = !this.quantityDisabled;
-            this.unitprice = unitFilter[0].unitprice;
-            this.unitpriceDisabled = !this.unitpriceDisabled;
-          }
-        });
-      }
-      return;
+      if (value) this.getBarcode(value);
     },
     successCheckoutProps() {
       this.unit = "";
@@ -267,8 +233,54 @@ export default {
     },
   },
 
+  created() {
+    this.toast = useToast();
+  },
+
   methods: {
     ...mapActions("inventory", ["getListBarcode"]),
+    async getBarcode(value) {
+      try {
+        this.unitDisabled = !this.unitDisabled;
+        let result = await this.getListBarcode({ barcode: this.barcodeData });
+
+        const unitFilter = result.data.filter(
+          (currentValue) => currentValue.unit === value
+        );
+
+        if (unitFilter.length > 1) {
+          const entryFilterReduce = unitFilter
+            .filter(({ process }) => process === "entry")
+            .reduce((a, { quantity }) => a + quantity, 0);
+
+          const unitpriceFilter = unitFilter
+            .filter(({ process }) => process === "entry")
+            .map(({ unitprice }) => unitprice);
+          const reduce = unitpriceFilter.reduce((a, b) => a + b);
+          this.unitprice = reduce / unitpriceFilter.length;
+          this.unitpriceDisabled = !this.unitpriceDisabled;
+
+          const checkoutFilterReduce = unitFilter
+            .filter(({ process }) => process == "checkout")
+            .reduce((a, { quantity }) => a + quantity, 0);
+
+          this.quantity = entryFilterReduce - checkoutFilterReduce;
+          this.$emit("update:quantityData", this.quantity);
+          this.quantityDisabled = !this.quantityDisabled;
+        } else {
+          this.quantity = unitFilter[0].quantity;
+          this.$emit("update:quantityData", this.quantity);
+          this.quantityDisabled = !this.quantityDisabled;
+          this.unitprice = unitFilter[0].unitprice;
+          this.unitpriceDisabled = !this.unitpriceDisabled;
+        }
+      } catch (error) {
+        this.toast.error("Barkod bulunamadı!", {
+          position: "bottom",
+          duration: 2000,
+        });
+      }
+    },
   },
 };
 </script>

@@ -102,11 +102,13 @@ export default {
     UpdatePassword,
   },
 
-  data: () => ({
-    menu: false,
-    formatDate: null,
-    cacheUser: {},
-  }),
+  data() {
+    return {
+      menu: false,
+      formatDate: null,
+      cacheUser: {},
+    };
+  },
 
   computed: {
     ...mapGetters("user", ["user"]),
@@ -125,60 +127,66 @@ export default {
   },
 
   created() {
-    this.getUser().then(() => {
-      Object.keys(this.user).forEach((key) => {
-        if (key === "birthdate") {
-          this.cacheUser[key] = new Date(this.user[key]);
-        } else {
-          this.cacheUser[key] = this.user[key];
-        }
-      });
-    });
-
+    this.userDetails();
     this.toast = useToast();
   },
 
   methods: {
     ...mapActions("user", ["getUser", "updateUser"]),
 
-    updateUserClick() {
-      if (
-        !!/^.{6,18}$/.test(this.cacheUser.username) &&
-        !/[ğĞçÇüÜöÖıİşŞ]/g.test(this.cacheUser.username) &&
-        !!this.cacheUser.username &&
-        !!this.cacheUser.firstname &&
-        !!this.cacheUser.lastname &&
-        !!this.formatDate
-      ) {
-        const birthdate = new Date(
-          this.cacheUser.birthdate.setHours(
-            this.cacheUser.birthdate.getHours() -
-              this.cacheUser.birthdate.getTimezoneOffset() / 60
-          )
-        );
-        this.updateUser({
-          firstname: this.cacheUser.firstname,
-          lastname: this.cacheUser.lastname,
-          username: this.cacheUser.username,
-          birthdate,
-        })
-          .then(async () => {
-            this.toast.success("Kullanıcı bilgileri güncellendi", {
-              position: "bottom",
-              duration: 2000,
-            });
-          })
-          .catch(() => {
-            this.toast.error(
-              "Kullanıcı bilgileri güncellenirken bir hata oluştu.",
-              {
-                position: "bottom",
-                duration: 2000,
-              }
-            );
+    async userDetails() {
+      try {
+        await this.getUser();
+        Object.keys(this.user).forEach((key) => {
+          if (key === "birthdate") {
+            this.cacheUser[key] = new Date(this.user[key]);
+          } else {
+            this.cacheUser[key] = this.user[key];
+          }
+        });
+      } catch (error) {
+        this.toast.error("Kullanıcı bilgileri getirilirken oluştu!", {
+          position: "bottom",
+          duration: 2000,
+        });
+      }
+    },
+
+    async updateUserClick() {
+      try {
+        if (
+          !!/^.{6,18}$/.test(this.cacheUser.username) &&
+          !/[ğĞçÇüÜöÖıİşŞ]/g.test(this.cacheUser.username) &&
+          !!this.cacheUser.username &&
+          !!this.cacheUser.firstname &&
+          !!this.cacheUser.lastname &&
+          !!this.formatDate
+        ) {
+          const birthdate = new Date(
+            this.cacheUser.birthdate.setHours(
+              this.cacheUser.birthdate.getHours() -
+                this.cacheUser.birthdate.getTimezoneOffset() / 60
+            )
+          );
+          await this.updateUser({
+            firstname: this.cacheUser.firstname,
+            lastname: this.cacheUser.lastname,
+            username: this.cacheUser.username,
+            birthdate,
           });
-      } else {
-        this.toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz.", {
+
+          this.toast.success("Kullanıcı bilgileri güncellendi", {
+            position: "bottom",
+            duration: 2000,
+          });
+        } else {
+          this.toast.error("Lütfen tüm alanları doldurunuz!", {
+            position: "bottom",
+            duration: 2000,
+          });
+        }
+      } catch (error) {
+        this.toast.error("Kullanıcı bilgileri güncellenemedi!", {
           position: "bottom",
           duration: 2000,
         });

@@ -23,6 +23,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { useToast } from "vue-toast-notification";
 
 export default {
   data() {
@@ -134,29 +135,45 @@ export default {
 
   created() {
     this.loading = true;
-    this.getInventoryCount().then((count) => {
-      this.inventoryCount = count;
-    });
+    this.inventoryLength();
+    this.toast = useToast();
   },
 
   methods: {
     ...mapActions("inventory", ["getInventory", "getInventoryCount"]),
-    updateOptions(options) {
-      this.currentPage = options.page;
-      this.itemsPerPage = options.itemsPerPage;
-
-      if (options.sortBy && options.sortBy.length > 0) {
-        this.sort = options.sortBy[0].key;
-        this.desc = options.sortBy[0].order === "desc" ? "-" : "";
+    async inventoryLength() {
+      try {
+        const count = await this.getInventoryCount();
+        this.inventoryCount = count;
+      } catch (error) {
+        this.toast.error("Stok verileri alınırken bir hata oluştu!", {
+          position: "bottom",
+          duration: 2000,
+        });
       }
+    },
+    async updateOptions(options) {
+      try {
+        this.currentPage = options.page;
+        this.itemsPerPage = options.itemsPerPage;
 
-      this.getInventory({
-        page: this.currentPage,
-        sort: this.desc + this.sort,
-        limit: this.itemsPerPage,
-      }).then(() => {
+        if (options.sortBy && options.sortBy.length > 0) {
+          this.sort = options.sortBy[0].key;
+          this.desc = options.sortBy[0].order === "desc" ? "-" : "";
+        }
+
+        await this.getInventory({
+          page: this.currentPage,
+          sort: this.desc + this.sort,
+          limit: this.itemsPerPage,
+        });
         this.loading = false;
-      });
+      } catch (error) {
+        this.toast.error("Stok ürünlerini getirirken bir hata oluştu!", {
+          position: "bottom",
+          duration: 2000,
+        });
+      }
     },
   },
 };

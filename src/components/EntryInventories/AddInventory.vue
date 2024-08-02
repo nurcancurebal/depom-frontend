@@ -2876,50 +2876,47 @@ export default {
       ) {
         this.entryClick();
       } else {
-        this.toast.error("Stok girişi sırasında bir hata oluştu.", {
+        this.toast.error("Stok girişi sırasında bir hata oluştu!", {
           position: "bottom",
           duration: 2000,
         });
       }
     },
 
-    entryClick() {
-      this.entryOne({
-        barcode: this.barcode,
-        productname: this.capitalizeWords(this.productname),
-        selectedCategory: this.selectedCategory,
-        selectedSubCategory: this.selectedSubCategory,
-        supplier: this.capitalizeWords(this.supplier),
-        selectedBrand: this.selectedBrand,
-        unit: this.unit,
-        quantity: this.quantity,
-        unitprice: this.unitprice,
-      })
-        .then(() => {
-          this.toast.success("Stok girişi başarıyla gerçekleştirildi.", {
-            position: "bottom",
-            duration: 2000,
-          });
-
-          this.unit = "";
-          this.quantity = "";
-          this.unitprice = "";
-          this.productname = "";
-          this.selectedCategory = "";
-          this.selectedSubCategory = "";
-          this.selectedBrand = "";
-          this.supplier = "";
-          this.$emit("resetFields");
-        })
-        .catch(() => {
-          this.toast.error(
-            "Lütfen tüm alanları doğru bir şekilde doldurunuz.",
-            {
-              position: "bottom",
-              duration: 2000,
-            }
-          );
+    async entryClick() {
+      try {
+        await this.entryOne({
+          barcode: this.barcode,
+          productname: this.capitalizeWords(this.productname),
+          selectedCategory: this.selectedCategory,
+          selectedSubCategory: this.selectedSubCategory,
+          supplier: this.capitalizeWords(this.supplier),
+          selectedBrand: this.selectedBrand,
+          unit: this.unit,
+          quantity: this.quantity,
+          unitprice: this.unitprice,
         });
+
+        this.toast.success("Stok girişi başarıyla gerçekleştirildi.", {
+          position: "bottom",
+          duration: 2000,
+        });
+
+        this.unit = "";
+        this.quantity = "";
+        this.unitprice = "";
+        this.productname = "";
+        this.selectedCategory = "";
+        this.selectedSubCategory = "";
+        this.selectedBrand = "";
+        this.supplier = "";
+        this.$emit("resetFields");
+      } catch (error) {
+        this.toast.error("Stok girişi sırasında bir hata oluştu!", {
+          position: "bottom",
+          duration: 2000,
+        });
+      }
     },
 
     capitalizeWords(str) {

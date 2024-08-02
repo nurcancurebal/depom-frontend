@@ -4,32 +4,23 @@ export default {
   namespaced: true,
   actions: {
     async signUp(_context, payload) {
-      try {
-        const result = await instance.post("/auth/signup", payload);
+      const result = await instance.post("/auth/signup", payload);
 
-        console.log("signUp", result);
+      console.log("signUp", result);
 
-        return result;
-      } catch (error) {
-        console.error("signUp", error);
-        throw error;
-      }
+      return result;
     },
 
     async signIn(context, payload) {
-      try {
-        const result = await instance.post("/auth/signin", payload);
+      const result = await instance.post("/auth/signin", payload);
 
-        console.log("signIn", result);
+      console.log("signIn", result);
 
-        localStorage.setItem("token", result.data.token);
+      localStorage.setItem("token", result.data.token);
 
-        context.dispatch("user/getUser", null, { root: true });
+      context.dispatch("user/getUser", null, { root: true });
 
-        return result;
-      } catch (error) {
-        throw error;
-      }
+      return result;
     },
   },
 };

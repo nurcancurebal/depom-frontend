@@ -164,52 +164,55 @@ export default {
       this.formatDate = day + "." + month + "." + year;
     },
 
-    signUpClick() {
-      if (
-        !!/^.{6,18}$/.test(this.signupusername) &&
-        !/[ğĞçÇüÜöÖıİşŞ]/g.test(this.signupusername) &&
-        !!/^.{6,18}$/.test(this.signuppassword) &&
-        !/[ğĞçÇüÜöÖıİşŞ]/g.test(this.signuppassword) &&
-        !!this.signuppassword &&
-        !!this.signupusername &&
-        !!this.firstname &&
-        !!this.lastname &&
-        !!this.formatDate
-      ) {
-        this.signUp({
-          firstname: this.firstname,
-          lastname: this.lastname,
-          username: this.signupusername,
-          birthdate: this.birthdate,
-          password: this.signuppassword,
-        })
-          .then(async () => {
-            this.toast.success("Kayıt işlemi başarılı. Giriş yapabilirsiniz.", {
-              position: "bottom",
-              duration: 2000,
-            });
-
-            await new Promise(() =>
-              setTimeout(() => {
-                this.firstname = "";
-                this.lastname = "";
-                this.signupusername = "";
-                this.birthdate = new Date();
-                this.signuppassword = "";
-                this.formatDate = null;
-                this.menu = false;
-                this.$emit("change-signInUp", !this.signInUp);
-              }, 2000)
-            );
-          })
-          .catch(() => {
-            this.toast.error("Kayıt işlemi gerçekleştirilemedi.", {
-              position: "bottom",
-              duration: 2000,
-            });
+    async signUpClick() {
+      try {
+        if (
+          !!/^.{6,18}$/.test(this.signupusername) &&
+          !/[ğĞçÇüÜöÖıİşŞ]/g.test(this.signupusername) &&
+          !!/^.{6,18}$/.test(this.signuppassword) &&
+          !/[ğĞçÇüÜöÖıİşŞ]/g.test(this.signuppassword) &&
+          !!this.signuppassword &&
+          !!this.signupusername &&
+          !!this.firstname &&
+          !!this.lastname &&
+          !!this.formatDate
+        ) {
+          await this.signUp({
+            firstname: this.firstname,
+            lastname: this.lastname,
+            username: this.signupusername,
+            birthdate: this.birthdate,
+            password: this.signuppassword,
           });
-      } else {
-        this.toast.error("Lütfen tüm alanları doğru bir şekilde doldurunuz.", {
+
+          this.toast.success("Kayıt işlemi başarılı. Giriş yapabilirsiniz.", {
+            position: "bottom",
+            duration: 2000,
+          });
+
+          await new Promise(() =>
+            setTimeout(() => {
+              this.firstname = "";
+              this.lastname = "";
+              this.signupusername = "";
+              this.birthdate = new Date();
+              this.signuppassword = "";
+              this.formatDate = null;
+              this.menu = false;
+              this.$emit("change-signInUp", !this.signInUp);
+            }, 2000)
+          );
+        } else {
+          this.toast.error(
+            "Lütfen tüm alanları doğru bir şekilde doldurunuz!",
+            {
+              position: "bottom",
+              duration: 2000,
+            }
+          );
+        }
+      } catch (error) {
+        this.toast.error("Kayıt işlemi gerçekleştirilemedi!", {
           position: "bottom",
           duration: 2000,
         });

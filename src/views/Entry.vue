@@ -95,11 +95,11 @@ export default {
 
   methods: {
     ...mapActions("inventory", ["getListBarcode"]),
-    findProduct() {
-      this.getListBarcode({ barcode: this.barcode }).then((result) => {
+    async findProduct() {
+      try {
+        const result = await this.getListBarcode({ barcode: this.barcode });
         if (result.data.length > 0) {
           this.allDisabled = true;
-
           this.entryProductname = result.data[0].productname;
           this.entrySelectedCategory = result.data[0].category;
           this.entrySelectedSubCategory = result.data[0].subcategory;
@@ -117,7 +117,12 @@ export default {
           });
           this.allDisabled = false;
         }
-      });
+      } catch (error) {
+        this.toast.error("Bir hata oluştu!", {
+          position: "bottom",
+          duration: 2000,
+        });
+      }
     },
 
     resetFields() {
