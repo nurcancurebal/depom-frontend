@@ -35,5 +35,13 @@ export default {
 
       return result.data;
     },
+
+    async mountlyProfitLoss(_context, _payload) {
+      const result = await instance.get("/dashboard/monthly/profitloss");
+
+      console.log("mountlyProfitLoss", result.data);
+
+      return result.data;
+    },
   },
 };

@@ -2,17 +2,17 @@
   <div class="my-8 ma-auto w-75">
     <h3 class="text-center">Ön İzleme</h3>
     <v-divider class="my-5 w-100" />
-    <div class="d-flex flex-wrap justify-space-between display-align-column">
+    <div class="container-div display-align-column">
       <v-card class="box-style">
         <div>Toplam Kar / Zarar</div>
         <h2>{{ totalProfitLossValue }}</h2>
-        <h3 v-if="percentageProfitlossValue < 0" style="color: red">
+        <h3 v-if="netProfitMarginValue < 0" style="color: red">
           <v-icon size="21">mdi-arrow-down</v-icon>
-          {{ percentageProfitlossValue }}
+          {{ netProfitMarginValue }}
         </h3>
         <h3 v-else style="color: green">
           <v-icon size="21">mdi-arrow-up</v-icon>
-          {{ percentageProfitlossValue }}
+          {{ netProfitMarginValue }}
         </h3>
       </v-card>
       <v-card class="box-style">
@@ -24,10 +24,10 @@
         <h2>{{ totalDailyValue }}</h2>
       </v-card>
     </div>
-    <div>
-      <v-card class="chart-style">
+    <div class="container-div display-align-column">
+      <v-card class="chart-style" style="width: 375px; height: 390px">
         <div>Yapılan işlem Ürün Miktarı</div>
-        <div id="chart" class="mt-3"></div>
+        <div id="chartPie" class="mt-3"></div>
 
         <div>
           <div class="chart-cointainer">
@@ -39,6 +39,10 @@
             <div>Stok Çıkış</div>
           </div>
         </div>
+      </v-card>
+      <v-card class="chart-style" style="width: 760px; height: 390px">
+        <div>Aylara göre Kar / Zarar</div>
+        <div id="chartLine" class="mt-3"></div>
       </v-card>
     </div>
   </div>
@@ -56,7 +60,7 @@ export default {
       totalStockValue: 0,
       totalDailyValue: 0,
       totalProfitLossValue: 0,
-      percentageProfitlossValue: 0,
+      netProfitMarginValue: 0,
     };
   },
   created() {
@@ -65,6 +69,7 @@ export default {
     this.dailyTransactionData();
     this.totalProfitLossData();
     this.enteredProductQuantityData();
+    this.mountlyProfitLossData();
   },
 
   methods: {
@@ -73,6 +78,7 @@ export default {
       "dailyTransaction",
       "totalProfitloss",
       "enteredProductQuantity",
+      "mountlyProfitLoss",
     ]),
 
     async totalStokData() {
@@ -103,9 +109,7 @@ export default {
       try {
         const result = await this.totalProfitloss();
         this.totalProfitLossValue = Number(result.totalProfitLoss.toFixed(2));
-        this.percentageProfitlossValue = Number(
-          result.percentageProfitloss.toFixed(2)
-        );
+        this.netProfitMarginValue = Number(result.netProfitMargin.toFixed(2));
       } catch (error) {
         this.toast.error("Kar / Zarar getirilirken bir hata oluştu!", {
           position: "bottom",
@@ -142,7 +146,51 @@ export default {
           },
         };
 
-        new PieChart("#chart", chartData, options);
+        new PieChart("#chartPie", chartData, options);
+      } catch (error) {
+        this.toast.error("Ürün miktarı getirilirken bir hata oluştu!", {
+          position: "bottom",
+          duration: 2000,
+        });
+      }
+    },
+
+    async mountlyProfitLossData() {
+      try {
+        const result = await this.mountlyProfitLoss();
+
+        const seriesData = result.map((profitLoss) => profitLoss.data);
+
+        new LineChart(
+          "#chartLine",
+          {
+            labels: [
+              "Ocak",
+              "Şubat",
+              "Mart",
+              "Nisan",
+              "Mayıs",
+              "Haziran",
+              "Temmuz",
+              "Ağustos",
+              "Eylül",
+              "Ekim",
+              "Kasım",
+              "Aralık",
+            ],
+            series: [seriesData],
+          },
+          {
+            low: -30,
+            high: 100,
+            showArea: true,
+            width: "740px",
+            height: "350px",
+            axisY: {
+              stepSize: 10,
+            },
+          }
+        );
       } catch (error) {
         this.toast.error("Ürün miktarı getirilirken bir hata oluştu!", {
           position: "bottom",
@@ -165,12 +213,19 @@ export default {
   margin: 20px 0;
 }
 .chart-style {
-  display: inline-flex !important;
+  display: flex !important;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   padding: 20px !important;
   margin: 20px 0;
+}
+
+.container-div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 52px;
 }
 @media (max-width: 575px) {
   .display-align-column {
