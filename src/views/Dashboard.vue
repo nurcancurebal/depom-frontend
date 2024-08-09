@@ -159,8 +159,6 @@ export default {
       try {
         const result = await this.mountlyProfitLoss();
 
-        const seriesData = result.map((profitLoss) => profitLoss.data);
-
         new LineChart(
           "#chartLine",
           {
@@ -178,7 +176,7 @@ export default {
               "Kasım",
               "Aralık",
             ],
-            series: [seriesData],
+            series: [result],
           },
           {
             low: -30,
