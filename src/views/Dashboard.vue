@@ -1,8 +1,8 @@
 <template>
   <div class="my-8 ma-auto w-75">
-    <h3 class="text-center">Ön İzleme</h3>
-    <v-divider class="my-5 w-100" />
-    <div class="container-div display-align-column">
+    <h3 class="text-center my-5">Ön İzleme</h3>
+    <v-divider class="w-100" />
+    <div class="container-div">
       <v-card class="box-style">
         <div>Toplam Kar / Zarar</div>
         <h2>{{ totalProfitLossValue }}</h2>
@@ -24,10 +24,10 @@
         <h2>{{ totalDailyValue }}</h2>
       </v-card>
     </div>
-    <div class="container-div display-align-column">
-      <v-card class="chart-style" style="width: 375px; height: 390px">
+    <div class="container-div">
+      <v-card class="chart-style">
         <div>Yapılan işlem Ürün Miktarı</div>
-        <div id="chartPie" class="mt-3"></div>
+        <div id="chartPie" class="mt-3 mx-10"></div>
 
         <div>
           <div class="chart-cointainer">
@@ -40,7 +40,7 @@
           </div>
         </div>
       </v-card>
-      <v-card class="chart-style" style="width: 760px; height: 390px">
+      <v-card class="chart-style">
         <div>Aylara göre Kar / Zarar</div>
         <div id="chartLine" class="mt-3"></div>
       </v-card>
@@ -144,6 +144,8 @@ export default {
               ) + "%"
             );
           },
+          width: "275px",
+          height: "275px",
         };
 
         new PieChart("#chartPie", chartData, options);
@@ -182,11 +184,8 @@ export default {
             low: -30,
             high: 100,
             showArea: true,
-            width: "740px",
+            width: "700px",
             height: "350px",
-            axisY: {
-              stepSize: 10,
-            },
           }
         );
       } catch (error) {
@@ -208,7 +207,7 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 20px !important;
-  margin: 20px 0;
+  margin: 24px auto;
 }
 .chart-style {
   display: flex !important;
@@ -216,14 +215,14 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 20px !important;
-  margin: 20px 0;
+  margin: 24px auto;
 }
 
 .container-div {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  margin-top: 52px;
+  justify-content: center;
+  margin-top: 44px;
 }
 @media (max-width: 575px) {
   .display-align-column {
