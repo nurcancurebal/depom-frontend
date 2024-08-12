@@ -6,7 +6,7 @@
   >
     <form class="d-flex align-center flex-column justify-center">
       <h2 class="mt-6">Kayıt Ol</h2>
-      <v-divider class="ma-5 w-50" />
+      <v-divider class="ma-5 w-50"></v-divider>
       <v-text-field
         prepend-inner-icon="mdi-account"
         rounded="xl"
@@ -110,7 +110,7 @@
       >
         Kayıt Ol
       </v-btn>
-      <v-divider class="ma-5 w-50" />
+      <v-divider class="ma-5 w-50"></v-divider>
       <v-btn
         class="font-weight-bold w-50 text-white"
         color="#00c853"

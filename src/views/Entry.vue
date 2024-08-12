@@ -1,7 +1,7 @@
 <template>
   <div class="my-8 main-div ma-auto w-75">
     <h3>Stok Giriş</h3>
-    <v-divider class="my-5 w-100" />
+    <v-divider class="my-5 w-100"></v-divider>
     <v-card class="w-100 mt-5 pa-11">
       <v-row align="center">
         <v-col cols="12" md="2" class="col-padding">

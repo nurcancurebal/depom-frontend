@@ -1,7 +1,7 @@
 <template>
   <div class="my-8 main-div ma-auto w-75">
     <h3>Stok Çıkış</h3>
-    <v-divider class="my-5 w-100" />
+    <v-divider class="my-5 w-100"></v-divider>
     <v-card class="w-100 my-5 pa-11" v-if="!showCheckoutInventory">
       <v-row align="center">
         <v-col cols="12" md="3" class="col-padding">

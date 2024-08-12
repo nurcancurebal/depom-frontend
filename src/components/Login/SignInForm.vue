@@ -6,7 +6,7 @@
   >
     <form class="d-flex align-center flex-column justify-center">
       <h2 class="mt-7">Giriş Yap</h2>
-      <v-divider class="ma-5 w-50" />
+      <v-divider class="ma-5 w-50"></v-divider>
       <v-text-field
         prepend-inner-icon="mdi-account"
         label="Kullanıcı Adı"
@@ -38,7 +38,7 @@
       >
         Giriş Yap
       </v-btn>
-      <v-divider class="ma-5 w-50" />
+      <v-divider class="ma-5 w-50"></v-divider>
       <v-btn
         color="#ffd600"
         rounded="xl"

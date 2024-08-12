@@ -1,7 +1,7 @@
 <template>
-  <div class="my-8 ma-auto w-75">
-    <h3 class="text-center my-5">Ön İzleme</h3>
-    <v-divider class="w-100" />
+  <div class="my-8">
+    <h3 class="text-center">Ön İzleme</h3>
+    <v-divider class="mx-auto my-6" style="width: 92%"></v-divider>
     <div class="container-div">
       <v-card class="box-style">
         <div>Toplam Kar / Zarar</div>
@@ -161,32 +161,44 @@ export default {
       try {
         const result = await this.mountlyProfitLoss();
 
+        const options = {
+          low: -30,
+          high: 100,
+          showArea: true,
+          width: "800px",
+          height: "350px",
+        };
+
+        const responsiveOptions = [
+          [
+            "screen and (max-width: 850px)",
+            {
+              width: "370px",
+            },
+          ],
+        ];
+
         new LineChart(
           "#chartLine",
           {
             labels: [
-              "Ocak",
-              "Şubat",
-              "Mart",
-              "Nisan",
-              "Mayıs",
-              "Haziran",
-              "Temmuz",
-              "Ağustos",
-              "Eylül",
-              "Ekim",
-              "Kasım",
-              "Aralık",
+              "01",
+              "02",
+              "03",
+              "04",
+              "05",
+              "06",
+              "07",
+              "08",
+              "09",
+              "10",
+              "11",
+              "12",
             ],
             series: [result],
           },
-          {
-            low: -30,
-            high: 100,
-            showArea: true,
-            width: "700px",
-            height: "350px",
-          }
+          options,
+          responsiveOptions
         );
       } catch (error) {
         this.toast.error("Ürün miktarı getirilirken bir hata oluştu!", {
@@ -207,7 +219,7 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 20px !important;
-  margin: 24px auto;
+  margin: 32px;
 }
 .chart-style {
   display: flex !important;
@@ -215,20 +227,14 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 20px !important;
-  margin: 24px auto;
+  margin: 32px;
 }
 
 .container-div {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 44px;
-}
-@media (max-width: 575px) {
-  .display-align-column {
-    align-items: center !important;
-    flex-direction: column !important;
-  }
+  justify-content: space-around;
+  margin: 24px auto;
 }
 .chart-box {
   width: 20px;

@@ -4,7 +4,7 @@
       <v-row>
         <v-col cols="12" class="pa-0 main-div">
           <h3>Stok Çıkış</h3>
-          <v-divider class="my-5 w-100" />
+          <v-divider class="my-5 w-100"></v-divider>
         </v-col>
       </v-row>
 
