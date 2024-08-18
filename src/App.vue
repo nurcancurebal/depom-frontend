@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import TheSidebar from "./components/TheSidebar.vue";
-import TheAppbar from "./components/TheAppbar.vue";
+import TheSidebar from "./components/AppLayout/TheSidebar.vue";
+import TheAppbar from "./components/AppLayout/TheAppbar.vue";
 
 export default {
   data() {

@@ -1,18 +1,20 @@
 <template>
   <div class="my-8">
     <h3 class="text-center">Ön İzleme</h3>
-    <v-divider class="mx-auto my-6" style="width: 92%"></v-divider>
+    <v-divider class="mx-auto my-5" style="width: 92%"></v-divider>
     <div class="container-div">
       <v-card class="box-style">
         <div>Toplam Kar / Zarar</div>
-        <h2>{{ totalProfitLossValue }}</h2>
+        <h2>
+          {{ totalProfitLossValue }}<v-icon size="21">mdi-currency-try</v-icon>
+        </h2>
         <h3 v-if="netProfitMarginValue < 0" style="color: red">
           <v-icon size="21">mdi-arrow-down</v-icon>
-          {{ netProfitMarginValue }}
+          {{ netProfitMarginValue }} %
         </h3>
         <h3 v-else style="color: green">
           <v-icon size="21">mdi-arrow-up</v-icon>
-          {{ netProfitMarginValue }}
+          {{ netProfitMarginValue }} %
         </h3>
       </v-card>
       <v-card class="box-style">
@@ -41,7 +43,7 @@
         </div>
       </v-card>
       <v-card class="chart-style">
-        <div>Aylara göre Kar / Zarar</div>
+        <div>Aylara göre Kar / Zarar %</div>
         <div id="chartLine" class="mt-3"></div>
       </v-card>
     </div>

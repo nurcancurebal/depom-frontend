@@ -1,7 +1,7 @@
 <template>
   <v-app-bar
     v-if="$route.name !== 'UserAuth'"
-    style="background-color: #208ec6"
+    style="background-color: #2b96cc"
     class="text-white"
     prominent
   >
@@ -41,22 +41,22 @@
         <v-menu activator="parent">
           <v-list>
             <router-link
-              style="color: #208ec6; font-family: 'Material Design Icons'"
+              style="color: #2b96cc; font-family: 'Material Design Icons'"
               to="/update-account"
               class="text-decoration-none"
             >
-              <v-list-item-title value="hesabimiduzenle" class="pa-1 mx-2">
+              <v-list-item-title value="update-account" class="pa-1 mx-2">
                 Hesabımı Düzenle
               </v-list-item-title>
             </router-link>
 
             <router-link
-              style="color: #208ec6; font-family: 'Material Design Icons'"
+              style="color: #2b96cc; font-family: 'Material Design Icons'"
               to="/"
               class="text-decoration-none"
               @click="exitToast"
             >
-              <v-list-item-title value="cikis" class="pa-1 mx-2">
+              <v-list-item-title value="exit" class="pa-1 mx-2">
                 Çıkış
               </v-list-item-title>
             </router-link>
@@ -115,6 +115,6 @@ export default {
 
 <style>
 #title:hover {
-  background-color: #208ec6;
+  background-color: #2b96cc;
 }
 </style>

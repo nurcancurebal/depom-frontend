@@ -71,10 +71,10 @@
             scrollable
             style="height: 476px"
           >
-            <v-btn text color="#208ec6" class="mt-3" @click="menu = false">
+            <v-btn text color="#2b96cc" class="mt-3" @click="menu = false">
               İptal
             </v-btn>
-            <v-btn text color="#208ec6" class="mt-3" @click="formatDateClick">
+            <v-btn text color="#2b96cc" class="mt-3" @click="formatDateClick">
               Tamam
             </v-btn>
           </v-date-picker>

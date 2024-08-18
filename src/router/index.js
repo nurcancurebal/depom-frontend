@@ -5,7 +5,7 @@ import Checkout from "@/views/Checkout";
 import Current from "@/views/Current";
 import UserAuth from "@/views/UserAuth";
 import UpdateAccount from "@/views/UpdateAccount";
-import Settings from "@/views/Settings";
+import AboutProject from "@/views/AboutProject";
 import Dashboard from "@/views/Dashboard";
 
 const routes = [
@@ -66,11 +66,11 @@ const routes = [
     },
   },
   {
-    path: "/settings",
-    name: "Settings",
-    component: Settings,
+    path: "/about-project",
+    name: "AboutProject",
+    component: AboutProject,
     meta: {
-      title: "Ayarlar",
+      title: "Proje Hakkında",
     },
   },
 ];

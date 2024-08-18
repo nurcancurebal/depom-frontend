@@ -23,7 +23,7 @@
       :class="{ 'active-link': $route.path === '/stock' }"
     >
       <v-icon size="21">mdi-warehouse</v-icon>
-      <v-list-item-title value="depostok" class="a-list-item-title">
+      <v-list-item-title value="stock" class="a-list-item-title">
         Depo - Stok
       </v-list-item-title>
     </router-link>
@@ -34,7 +34,7 @@
       :class="{ 'active-link': $route.path === '/entry' }"
     >
       <v-icon size="21">mdi-archive-plus</v-icon>
-      <v-list-item-title value="stokgiris" class="a-list-item-title">
+      <v-list-item-title value="entry" class="a-list-item-title">
         Stok Giriş
       </v-list-item-title>
     </router-link>
@@ -45,7 +45,7 @@
       :class="{ 'active-link': $route.path === '/checkout' }"
     >
       <v-icon size="21">mdi-archive-minus</v-icon>
-      <v-list-item-title value="stokcikis" class="a-list-item-title">
+      <v-list-item-title value="checkout" class="a-list-item-title">
         Stok Çıkış
       </v-list-item-title>
     </router-link>
@@ -56,8 +56,8 @@
       :class="{ 'active-link': $route.path === '/current' }"
     >
       <v-icon size="21">mdi-calculator-variant</v-icon>
-      <v-list-item-title value="cari" class="a-list-item-title">
-        Cari
+      <v-list-item-title value="current" class="a-list-item-title">
+        Cari Hesaplar
       </v-list-item-title>
     </router-link>
 
@@ -69,19 +69,19 @@
         :class="{ 'active-link': $route.path === '/update-account' }"
       >
         <v-icon size="21">mdi-account</v-icon>
-        <v-list-item-title value="hesabimiduzenle" class="a-list-item-title">
+        <v-list-item-title value="update-account" class="a-list-item-title">
           Hesabımı Düzenle
         </v-list-item-title>
       </router-link>
 
       <router-link
-        to="/settings"
+        to="/about-project"
         class="router-link"
-        :class="{ 'active-link': $route.path === '/settings' }"
+        :class="{ 'active-link': $route.path === '/about-project' }"
       >
         <v-icon size="21">mdi-cog</v-icon>
-        <v-list-item-title value="settings" class="a-list-item-title">
-          Ayarlar
+        <v-list-item-title value="about-project" class="a-list-item-title">
+          Proje Hakında
         </v-list-item-title>
       </router-link>
 
@@ -92,7 +92,7 @@
         :class="{ 'active-link': $route.path === '/' }"
       >
         <v-icon size="21">mdi-exit-to-app</v-icon>
-        <v-list-item-title value="cikis" class="a-list-item-title">
+        <v-list-item-title value="exit" class="a-list-item-title">
           Çıkış
         </v-list-item-title>
       </router-link>

@@ -2,7 +2,7 @@
   <div>
     <v-form class="my-8 main-div w-50 ma-auto">
       <h2>Hesabımı Düzenle</h2>
-      <v-divider class="mt-5 mb-7 w-100"></v-divider>
+      <v-divider class="my-5 mb-7 w-100"></v-divider>
       <v-text-field
         prepend-inner-icon="mdi-account"
         label="Ad"
@@ -68,10 +68,10 @@
             scrollable
             style="height: 476px"
           >
-            <v-btn text color="#208ec6" class="mt-3" @click="menu = false">
+            <v-btn text color="#2b96cc" class="mt-3" @click="menu = false">
               İptal
             </v-btn>
-            <v-btn text color="#208ec6" class="mt-3" @click="this.menu = false">
+            <v-btn text color="#2b96cc" class="mt-3" @click="this.menu = false">
               Tamam
             </v-btn>
           </v-date-picker>

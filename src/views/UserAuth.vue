@@ -4,7 +4,7 @@
       <v-sheet
         :elevation="13"
         :height="signInUp ? '650' : '400'"
-        style="border-radius: 25px 0px 0px 25px; background-color: #208ec6"
+        style="border-radius: 25px 0px 0px 25px; background-color: #2b96cc"
         class="d-flex align-center justify-center flex-column px-2"
         id="sheet-height"
       >
@@ -27,7 +27,7 @@
           <li>Depo - Stok</li>
           <li>Stok Giriş</li>
           <li>Stok Çıkış</li>
-          <li>Cari</li>
+          <li>Cari Hesaplar</li>
         </ul>
       </v-sheet>
     </v-col>

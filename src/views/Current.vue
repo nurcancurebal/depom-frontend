@@ -1,6 +1,6 @@
 <template>
   <div class="ma-8 main-div">
-    <h3>Cari</h3>
+    <h3>Cari Hesaplar</h3>
     <v-divider class="my-5 w-100"></v-divider>
     <v-card class="card-padding card-custom">
       <v-data-table-server
@@ -136,7 +136,7 @@ export default {
         const count = await this.getCurrentCount();
         this.currentCount = count;
       } catch (error) {
-        this.toast.error("Cari verileri alınırken bir hata oluştu!", {
+        this.toast.error("Cari hesap verileri alınırken bir hata oluştu!", {
           position: "bottom",
           duration: 2000,
         });
@@ -159,7 +159,7 @@ export default {
         });
         this.loading = false;
       } catch (error) {
-        this.toast.error("Cari bilgileri getirilirken bir hata oluştu!", {
+        this.toast.error("Cari hesap bilgileri getirilirken bir hata oluştu!", {
           position: "bottom",
           duration: 2000,
         });
