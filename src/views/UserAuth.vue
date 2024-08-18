@@ -16,7 +16,7 @@
           src="@/assets/logo.png"
           alt="Depom Stok Takip ve Yönetim Uygulaması Logo"
         />
-        <h2 class="text-h3 font-weight-bold" style="color: #ededed">Depom</h2>
+        <div class="text-h3 font-weight-bold" style="color: #ededed">Depom</div>
         <p
           class="my-4 text-body-1 text-center text-decoration-underline"
           style="color: #ededed"

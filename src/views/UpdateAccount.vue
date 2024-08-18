@@ -2,7 +2,7 @@
   <div>
     <v-form class="my-8 main-div w-50 ma-auto">
       <h2>Hesabımı Düzenle</h2>
-      <v-divider class="my-5 mb-7 w-100"></v-divider>
+      <v-divider class="my-5 mb-8 w-100"></v-divider>
       <v-text-field
         prepend-inner-icon="mdi-account"
         label="Ad"

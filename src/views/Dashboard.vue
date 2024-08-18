@@ -1,8 +1,8 @@
 <template>
-  <div class="my-8">
-    <h3 class="text-center">Ön İzleme</h3>
-    <v-divider class="mx-auto my-5" style="width: 92%"></v-divider>
-    <div class="container-div">
+  <div class="ma-8 main-div">
+    <h2>Ön İzleme</h2>
+    <v-divider class="my-5 mb-8 w-100"></v-divider>
+    <div class="container-div w-100">
       <v-card class="box-style">
         <div>Toplam Kar / Zarar</div>
         <h2>
@@ -236,7 +236,6 @@ export default {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  margin: 24px auto;
 }
 .chart-box {
   width: 20px;

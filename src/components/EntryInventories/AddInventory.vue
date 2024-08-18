@@ -2,7 +2,7 @@
   <v-card class="w-100 my-5 pa-11">
     <v-row align="center">
       <v-col cols="12" md="2" class="col-padding">
-        <v-list-subheader style="padding-inline-end: 0">
+        <v-list-subheader class="padding-end-zero">
           Ürün Adı:
         </v-list-subheader>
       </v-col>
@@ -21,7 +21,7 @@
 
     <v-row align="center">
       <v-col cols="12" md="2" class="col-padding">
-        <v-list-subheader style="padding-inline-end: 0">
+        <v-list-subheader class="padding-end-zero">
           Kategori:
         </v-list-subheader>
       </v-col>
@@ -47,7 +47,7 @@
 
     <v-row align="center">
       <v-col cols="12" md="2" class="col-padding">
-        <v-list-subheader style="padding-inline-end: 0">
+        <v-list-subheader class="padding-end-zero">
           Alt Kategori:
         </v-list-subheader>
       </v-col>
@@ -70,7 +70,7 @@
 
     <v-row align="center">
       <v-col cols="12" md="2" class="col-padding">
-        <v-list-subheader style="padding-inline-end: 0">
+        <v-list-subheader class="padding-end-zero">
           Tedarikçi:
         </v-list-subheader>
       </v-col>
@@ -89,9 +89,7 @@
 
     <v-row align="center">
       <v-col cols="12" md="2" class="col-padding">
-        <v-list-subheader style="padding-inline-end: 0">
-          Marka:
-        </v-list-subheader>
+        <v-list-subheader class="padding-end-zero"> Marka: </v-list-subheader>
       </v-col>
 
       <v-col cols="12" md="4" class="pa-0">
@@ -106,10 +104,7 @@
         />
       </v-col>
       <v-col cols="12" md="2" class="col-padding">
-        <v-list-subheader
-          style="padding-inline-end: 0"
-          class="subheader-margin"
-        >
+        <v-list-subheader class="subheader-margin padding-end-zero">
           Birim:
         </v-list-subheader>
       </v-col>
@@ -148,9 +143,7 @@
 
     <v-row align="center">
       <v-col cols="12" md="2" class="col-padding">
-        <v-list-subheader style="padding-inline-end: 0">
-          Miktar:
-        </v-list-subheader>
+        <v-list-subheader class="padding-end-zero"> Miktar: </v-list-subheader>
       </v-col>
 
       <v-col cols="12" md="4" class="pa-0">
@@ -168,10 +161,7 @@
         />
       </v-col>
       <v-col cols="12" md="2" class="col-padding">
-        <v-list-subheader
-          style="padding-inline-end: 0"
-          class="subheader-margin"
-        >
+        <v-list-subheader class="subheader-margin padding-end-zero">
           Birim Fiyat:
         </v-list-subheader>
       </v-col>
@@ -2928,6 +2918,3 @@ export default {
   },
 };
 </script>
-
-<style>
-</style>

@@ -1,7 +1,7 @@
 <template>
   <v-form class="my-8 main-div w-50 ma-auto mt-16">
     <h2>Şifremi Düzenle</h2>
-    <v-divider class="my-5 mb-7 w-100"></v-divider>
+    <v-divider class="my-5 mb-8 w-100"></v-divider>
     <v-text-field
       prepend-inner-icon="mdi-lock"
       label="Eski Şifre"
@@ -51,7 +51,7 @@
 
     <v-btn
       class="font-weight-bold w-100 text-white"
-      style="background-color: #00c853"
+      color="#00c853"
       rounded="xl"
       @click="updatePasswordClick"
     >

@@ -1,7 +1,7 @@
 <template>
   <div class="ma-8 main-div">
-    <h3>Cari Hesaplar</h3>
-    <v-divider class="my-5 w-100"></v-divider>
+    <h2>Cari Hesaplar</h2>
+    <v-divider class="my-5 mb-8 w-100"></v-divider>
     <v-card class="card-padding card-custom">
       <v-data-table-server
         class="elevation-1"

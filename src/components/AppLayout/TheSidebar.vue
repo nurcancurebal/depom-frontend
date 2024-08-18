@@ -79,7 +79,7 @@
         class="router-link"
         :class="{ 'active-link': $route.path === '/about-project' }"
       >
-        <v-icon size="21">mdi-cog</v-icon>
+        <v-icon size="21">mdi-comment</v-icon>
         <v-list-item-title value="about-project" class="a-list-item-title">
           Proje Hakında
         </v-list-item-title>

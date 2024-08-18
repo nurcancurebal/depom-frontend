@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="my-8 ma-auto w-75 about-counteiner">
-      <h3 style="text-align: center">Proje Hakkında</h3>
-      <v-divider class="my-5 w-100"></v-divider>
-      <h3 style="color: #2b96cc; text-indent: 40px">- Depom Nedir?</h3>
+    <div class="my-8 ma-auto w-75" style="line-height: 2em">
+      <h2 style="text-align: center">Proje Hakkında</h2>
+      <v-divider class="my-5 mb-8 w-100"></v-divider>
+      <h3 class="about-title">- Depom Nedir?</h3>
       <p>
         Depom bir stok takip programıdır. Bu program, şirketlerin sahip
         oldukları ve satışını yaptıkları ürünlerin stok miktarlarını , kar /
@@ -17,8 +17,8 @@
         yapıldığını görmenize olanak sağlar. Ön izleme sayfasındaki tablolar ve
         grafikler sayesinde stok yönetiminizin daha verimli olmasını sağlar.
       </p>
-      <br />
-      <v-expansion-panels v-model="panel" multiple>
+
+      <v-expansion-panels v-model="panel" class="my-15" multiple>
         <v-expansion-panel
           text="Toplam Kar / Zarar: Stoğunuzdaki ürünlerin toplam kar /
         zarar fiyatını görürsünüz. Hemen altında ise net kar marjınızı ve bu
@@ -74,8 +74,8 @@
           value="update-account"
         />
       </v-expansion-panels>
-      <br />
-      <h3 style="color: #2b96cc; text-indent: 40px">- Geliştirici Hakkında</h3>
+
+      <h3 class="about-title">- Geliştirici</h3>
       <div class="author-info">
         <p><strong>Adı: </strong>Nurcan Cürebal</p>
         <p><strong>Rolü: </strong>Full Stack Developer</p>
@@ -141,15 +141,15 @@ export default {
 };
 </script>
 <style>
-.about-counteiner {
-  font-family: cursive;
-  line-height: 2em;
-}
 .v-expansion-panel-title {
   color: #2b96cc !important;
 }
 a {
   color: #2b96cc;
   text-decoration: none;
+}
+.about-title {
+  color: #2b96cc;
+  text-indent: 40px;
 }
 </style>

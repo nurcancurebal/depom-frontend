@@ -3,14 +3,14 @@
     <v-card class="overlay-checkout ma-10 pa-10">
       <v-row>
         <v-col cols="12" class="pa-0 main-div">
-          <h3>Stok Çıkış</h3>
-          <v-divider class="my-5 w-100"></v-divider>
+          <h2>Stok Çıkış</h2>
+          <v-divider class="my-5 mb-8 w-100"></v-divider>
         </v-col>
       </v-row>
 
       <v-row align="center">
-        <v-col cols="6" style="padding: 0 0 25px 0">
-          <v-list-subheader style="padding-inline-end: 0">
+        <v-col cols="6" class="pb-6">
+          <v-list-subheader class="padding-end-zero">
             Çıkış Yapılan Miktar:
           </v-list-subheader>
         </v-col>
@@ -39,8 +39,8 @@
       </v-row>
 
       <v-row align="center">
-        <v-col cols="6" style="padding: 0 0 25px 0">
-          <v-list-subheader style="padding-inline-end: 0">
+        <v-col cols="6" class="pb-6">
+          <v-list-subheader class="padding-end-zero">
             Çıkış Yapılan Birim Fiyat:
           </v-list-subheader>
         </v-col>

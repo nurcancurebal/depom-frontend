@@ -1,11 +1,11 @@
 <template>
   <div class="my-8 main-div ma-auto w-75">
-    <h3>Stok Giriş</h3>
-    <v-divider class="my-5 w-100"></v-divider>
+    <h2>Stok Giriş</h2>
+    <v-divider class="my-5 mb-8 w-100"></v-divider>
     <v-card class="w-100 mt-5 pa-11">
       <v-row align="center">
         <v-col cols="12" md="2" class="col-padding">
-          <v-list-subheader style="padding-inline-end: 0">
+          <v-list-subheader class="padding-end-zero">
             Stok Kodu / Barkod:
           </v-list-subheader>
         </v-col>
@@ -135,3 +135,8 @@ export default {
   },
 };
 </script>
+<style>
+.padding-end-zero {
+  padding-inline-end: 0 !important;
+}
+</style>
