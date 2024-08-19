@@ -1,8 +1,9 @@
 <template>
   <v-sheet
-    :elevation="13"
+    :elevation="computedElevation"
     :height="400"
     style="border-radius: 0px 25px 25px 0px"
+    class="sheet-border"
   >
     <form class="d-flex align-center flex-column justify-center">
       <h2 class="mt-7">Giriş Yap</h2>
@@ -62,11 +63,23 @@ export default {
       password: "",
       visible: false,
       signInUp: false,
+      windowWidth: window.innerWidth,
     };
   },
 
   created() {
     this.toast = useToast();
+    window.addEventListener("resize", this.handleResize);
+  },
+
+  beforeDestroy() {
+    window.removeEventListener("resize", this.handleResize);
+  },
+
+  computed: {
+    computedElevation() {
+      return this.windowWidth < 960 ? 0 : 13;
+    },
   },
 
   methods: {
@@ -113,3 +126,11 @@ export default {
   },
 };
 </script>
+
+<style>
+@media (max-width: 960px) {
+  .sheet-border {
+    border-radius: 0 !important;
+  }
+}
+</style>

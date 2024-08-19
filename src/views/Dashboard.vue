@@ -2,7 +2,7 @@
   <div class="ma-8 main-div">
     <h2>Ön İzleme</h2>
     <v-divider class="my-5 mb-8 w-100"></v-divider>
-    <div class="container-div w-100">
+    <div class="container-div">
       <v-card class="box-style">
         <div>Toplam Kar / Zarar</div>
         <h2>
@@ -150,7 +150,17 @@ export default {
           height: "275px",
         };
 
-        new PieChart("#chartPie", chartData, options);
+        const responsiveOptions = [
+          [
+            "screen and (max-width: 480px)",
+            {
+              width: "200px",
+              height: "200px",
+            },
+          ],
+        ];
+
+        new PieChart("#chartPie", chartData, options, responsiveOptions);
       } catch (error) {
         this.toast.error("Ürün miktarı getirilirken bir hata oluştu!", {
           position: "bottom",
@@ -176,6 +186,13 @@ export default {
             "screen and (max-width: 850px)",
             {
               width: "370px",
+            },
+          ],
+
+          [
+            "screen and (max-width: 480px)",
+            {
+              width: "300px",
             },
           ],
         ];
@@ -221,7 +238,7 @@ export default {
   justify-content: center;
   width: 200px;
   height: 150px;
-  margin: 32px;
+  margin: 32px 0;
 }
 .chart-style {
   display: flex !important;
@@ -229,13 +246,14 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 20px !important;
-  margin: 32px;
+  margin: 32px 0;
 }
 
 .container-div {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  width: 100%;
 }
 .chart-box {
   width: 20px;
@@ -245,5 +263,11 @@ export default {
 .chart-cointainer {
   display: flex;
   align-items: center;
+}
+
+@media (max-width: 485px) {
+  .box-style {
+    width: 100% !important;
+  }
 }
 </style>

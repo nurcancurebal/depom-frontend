@@ -3,6 +3,7 @@
     :elevation="13"
     :height="650"
     style="border-radius: 0px 25px 25px 0px"
+    class="sheet-border"
   >
     <form class="d-flex align-center flex-column justify-center">
       <h2 class="mt-6">Kayıt Ol</h2>
