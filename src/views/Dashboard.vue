@@ -265,7 +265,7 @@ export default {
   align-items: center;
 }
 
-@media (max-width: 485px) {
+@media (max-width: 490px) {
   .box-style {
     width: 100% !important;
   }

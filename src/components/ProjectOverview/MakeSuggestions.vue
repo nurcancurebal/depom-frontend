@@ -1,5 +1,5 @@
 <template>
-  <v-form class="main-div my-8 w-50 ma-auto mt-16">
+  <v-form class="main-div my-8 response-width ma-auto mt-16">
     <h2>Öneride Bulun</h2>
     <v-divider class="my-5 mb-8 w-100"></v-divider>
     <v-text-field
@@ -116,3 +116,15 @@ export default {
   },
 };
 </script>
+
+<style>
+.response-width {
+  width: 50%;
+}
+
+@media (max-width: 490px) {
+  .response-width {
+    width: 75% !important;
+  }
+}
+</style>

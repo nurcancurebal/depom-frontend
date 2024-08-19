@@ -1,5 +1,5 @@
 <template>
-  <v-form class="my-8 main-div w-50 ma-auto mt-16">
+  <v-form class="my-8 main-div response-width ma-auto mt-16">
     <h2>Şifremi Düzenle</h2>
     <v-divider class="my-5 mb-8 w-100"></v-divider>
     <v-text-field
