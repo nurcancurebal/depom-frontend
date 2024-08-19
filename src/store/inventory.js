@@ -78,7 +78,7 @@ export default {
     },
 
     async entryOne(_context, payload) {
-      const result = await instance.post("/Inventory", {
+      const result = await instance.post("/inventory", {
         barcode: payload.barcode,
         productname: payload.productname,
         category: payload.selectedCategory,

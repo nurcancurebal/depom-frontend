@@ -2,7 +2,7 @@
   <div class="ma-8 main-div">
     <h2>Depo - Stok</h2>
     <v-divider class="my-5 mb-8 w-100"></v-divider>
-    <v-card class="card-padding card-custom">
+    <v-card class="card-custom">
       <v-data-table-server
         class="elevation-1"
         style="font-size: 14px"
@@ -180,18 +180,16 @@ export default {
 </script>
 
 <style>
-.card-padding {
-  padding: 44px !important;
-}
 .card-custom {
   width: 100%;
   display: flex;
   justify-content: center;
   margin: 20px 0;
+  padding: 44px !important;
 }
 
 @media (max-width: 960px) {
-  .card-padding {
+  .card-custom {
     padding: 0 !important;
   }
 }

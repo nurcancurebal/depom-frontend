@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="my-8 ma-auto w-75" style="line-height: 2em">
+    <div class="my-8 ma-auto w-75 pb-16" style="line-height: 2em">
       <h2 style="text-align: center">Proje Hakkında</h2>
       <v-divider class="my-5 mb-8 w-100"></v-divider>
       <h3 class="about-title">- Depom Nedir?</h3>

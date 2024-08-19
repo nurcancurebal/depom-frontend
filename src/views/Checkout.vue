@@ -205,9 +205,9 @@ export default {
   white-space: normal !important;
 }
 .main-div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
 }
 
 @media (min-width: 960px) {

@@ -2,7 +2,7 @@
   <div class="ma-8 main-div">
     <h2>Cari Hesaplar</h2>
     <v-divider class="my-5 mb-8 w-100"></v-divider>
-    <v-card class="card-padding card-custom">
+    <v-card class="card-custom">
       <v-data-table-server
         class="elevation-1"
         style="font-size: 14px"
