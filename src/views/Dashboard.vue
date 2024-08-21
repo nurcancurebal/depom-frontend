@@ -28,7 +28,7 @@
     </div>
     <div class="container-div">
       <v-card class="chart-style">
-        <div>Yapılan işlem Ürün Miktarı</div>
+        <div>Yapılan İşlem Ürün Miktarı</div>
         <div id="chartPie" class="mt-3 mx-10"></div>
 
         <div>
@@ -43,7 +43,7 @@
         </div>
       </v-card>
       <v-card class="chart-style">
-        <div>Aylara göre Kar / Zarar %</div>
+        <div>Aylara Göre Toplam Kar Marjı %</div>
         <div id="chartLine" class="mt-3"></div>
       </v-card>
     </div>
@@ -174,7 +174,7 @@ export default {
         const result = await this.mountlyProfitLoss();
 
         const options = {
-          low: -30,
+          low: -100,
           high: 100,
           showArea: true,
           width: "800px",

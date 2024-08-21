@@ -21,7 +21,7 @@
       <v-expansion-panels v-model="panel" class="my-15" multiple>
         <v-expansion-panel
           text="Toplam Kar / Zarar: Stoğunuzdaki ürünlerin toplam kar /
-        zarar fiyatını görürsünüz. Hemen altında ise net kar marjınızı ve bu
+        zarar fiyatını görürsünüz. Hemen altında ise 'net kar marjınızı' her üründen elde edilen kar / zarar' ların toplamını ve bu
         marjın artış mı yoksa azalış mı olduğunu görebilirsiniz.
         Toplam Stok Miktarı: Stoğunuzdaki toplam ürün miktarını
         görürsünüz.
@@ -31,8 +31,7 @@
         işlemlerin giriş işlemi mi yoksa çıkış işlemimi olduğunu pasta grafiği
         olarak görmenizi sağlar ve bu işlemlerin yüzdelik olarak oranını
         gösterir.
-        Aylara Göre Kar / Zarar %: Bulunulan yıl için aylara
-        göre yapılan işlemler bazında kar / zarar oranını yüzdelik olarak çizgi
+        Aylara Göre Toplam Kar Marjı %: Bulunulan yıl için her ayın toplam kar / zarar oranını yüzdelik olarak çizgi
         grafiği şeklinde gösterir."
           title="Ön İzleme"
           value="dashboard"
