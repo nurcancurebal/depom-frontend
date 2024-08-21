@@ -5,8 +5,8 @@
     style="border-radius: 0px 25px 25px 0px"
     class="sheet-border"
   >
-    <form class="d-flex align-center flex-column justify-center">
-      <h2 class="mt-6">Kayıt Ol</h2>
+    <form class="d-flex align-center flex-column py-8">
+      <h2>Kayıt Ol</h2>
       <v-divider class="ma-5 w-50"></v-divider>
       <v-text-field
         prepend-inner-icon="mdi-account"

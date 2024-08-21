@@ -3,7 +3,7 @@
     <v-col cols="12" md="4" lg="3" offset-md="2" offset-lg="3" class="pa-0">
       <v-sheet
         :elevation="13"
-        :height="signInUp ? '650' : '400'"
+        :height="signInUp ? '650' : '410'"
         style="border-radius: 25px 0px 0px 25px; background-color: #2b96cc"
         class="d-flex align-center justify-center flex-column px-2"
         id="sheet-height"
@@ -86,7 +86,7 @@ export default {
 }
 @media (max-width: 960px) {
   #sheet-height {
-    height: 400px !important;
+    height: 410px !important;
   }
 }
 </style>

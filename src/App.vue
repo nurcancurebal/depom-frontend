@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app style="font-size: 1.13rem">
     <TheAppbar @toggle-drawer="drawer = !drawer" />
 
     <TheSidebar :drawer="drawer" @toggle-drawer="drawer = !drawer" />
