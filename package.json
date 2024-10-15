@@ -2,6 +2,7 @@
   "name": "depom-frontend",
   "version": "1.0.0",
   "description": "A Vue.js project",
+  "private": true,
   "keywords": [
     "vue",
     "vuejs",
