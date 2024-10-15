@@ -1,6 +1,15 @@
 {
   "name": "depom-frontend",
   "version": "1.0.0",
+  "description": "A Vue.js project",
+  "keywords": [
+    "vue",
+    "vuejs",
+    "depom",
+    "depom-frontend",
+    "depom-frontend-vue",
+    "depom-frontend-vuejs"    
+  ],
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
