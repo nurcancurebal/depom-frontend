@@ -2,7 +2,15 @@
   "name": "depom-frontend",
   "version": "1.0.0",
   "description": "A Vue.js project",
-  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nurcancurebal/depom-frontend"
+  },
   "keywords": [
     "vue",
     "vuejs",
@@ -11,10 +19,8 @@
     "depom-frontend-vue",
     "depom-frontend-vuejs"    
   ],
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
-  },
+  "author": "Nurcan Cürebal",
+  "license": "MIT",
   "dependencies": {
     "@mdi/font": "^7.3.67",
     "axios": "^1.6.2",
@@ -31,5 +37,6 @@
     "@vue/cli-plugin-router": "~5.0.0",
     "@vue/cli-plugin-vuex": "~5.0.0",
     "@vue/cli-service": "~5.0.0"
-  }
+  },
+  "private": true
 }
