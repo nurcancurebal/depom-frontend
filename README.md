@@ -13,5 +13,3 @@ Vuetify, Vue Router ve Vuex gibi modern teknolojilerle geliştirilmiştir.
 - Axios → API istekleri için HTTP istemcisi
 - Vue Toast Notification → Bildirim yönetimi
 - Chartist → Grafik gösterimleri
-
-Demo frontend adres: https://depom.trial.town
